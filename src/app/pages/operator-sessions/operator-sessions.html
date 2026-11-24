@@ -1,0 +1,283 @@
+
+<main class="phone-page sessions-page">
+
+  <!-- HEADER -->
+  <header class="sessions-header">
+
+    <a routerLink="/operator" class="back-link">
+      ← Quay lại
+    </a>
+
+    <span class="eyebrow">
+      ỨNG DỤNG NGƯỜI ĐIỀU HÀNH
+    </span>
+
+    <h1>Lịch sử xe vào/ra</h1>
+
+
+    <button
+      type="button"
+      class="sensor-entry-button"
+      [disabled]="loading()"
+      (click)="loadSessions()"
+    >
+      {{ loading() ? 'Đang tải...' : '↻ Làm mới dữ liệu' }}
+    </button>
+
+  </header>
+
+  <!-- THÔNG BÁO -->
+  @if (feedback()) {
+
+    <div
+      class="sensor-feedback"
+      [class.error]="feedbackError()"
+      role="status"
+    >
+      {{ feedback() }}
+    </div>
+
+  }
+
+  <!-- THỐNG KÊ SESSION -->
+  <section class="session-stats">
+
+    <div class="stat-card">
+
+      <span>Tổng phiên</span>
+
+      <strong>{{ sessions().length }}</strong>
+
+    </div>
+
+    <div class="stat-card active">
+
+      <span>Đang gửi</span>
+
+      <strong>{{ activeCount() }}</strong>
+
+    </div>
+
+    <div class="stat-card">
+
+      <span>Chờ thanh toán</span>
+
+      <strong>{{ awaitingPaymentCount() }}</strong>
+
+    </div>
+
+    <div class="stat-card completed">
+
+      <span>Đã kết thúc</span>
+
+      <strong>{{ completedCount() }}</strong>
+
+    </div>
+
+  </section>
+
+  <!-- DANH SÁCH SESSION -->
+  <section class="session-list">
+
+    <div class="section-heading">
+
+      <h2>Danh sách phiên gửi xe</h2>
+
+      <span>
+        {{ filteredSessions().length }} kết quả
+      </span>
+
+    </div>
+
+    <!-- TÌM KIẾM -->
+    <div class="search-box">
+
+      <span>⌕</span>
+
+      <input
+        type="search"
+        placeholder="Tìm theo biển số hoặc mã phiên..."
+        [value]="search()"
+        (input)="search.set($any($event.target).value)"
+      />
+
+    </div>
+
+    <!-- BỘ LỌC -->
+    <div class="filter-tabs">
+
+      <button
+        type="button"
+        [class.selected]="filter() === 'all'"
+        (click)="filter.set('all')"
+      >
+        Tất cả
+      </button>
+
+      <button
+        type="button"
+        [class.selected]="filter() === 'active'"
+        (click)="filter.set('active')"
+      >
+        Đang gửi
+      </button>
+
+      <button
+        type="button"
+        [class.selected]="filter() === 'awaiting-payment'"
+        (click)="filter.set('awaiting-payment')"
+      >
+        Chờ thanh toán
+      </button>
+
+      <button
+        type="button"
+        [class.selected]="filter() === 'completed'"
+        (click)="filter.set('completed')"
+      >
+        Đã kết thúc
+      </button>
+
+    </div>
+
+    <!-- TRẠNG THÁI TẢI -->
+    @if (loading() && sessions().length === 0) {
+
+      <div class="empty-state">
+
+        <div>⏳</div>
+
+        <strong>Đang tải dữ liệu...</strong>
+
+        <p>
+          Đang lấy danh sách phiên gửi xe từ Backend.
+        </p>
+
+      </div>
+
+    } @else if (filteredSessions().length === 0) {
+
+      <div class="empty-state">
+
+        <div>🚘</div>
+
+        <strong>Không tìm thấy phiên gửi xe</strong>
+
+        <p>
+          Chưa có phiên gửi xe phù hợp với
+          bộ lọc hoặc từ khóa tìm kiếm.
+        </p>
+
+      </div>
+
+    } @else {
+
+      <!-- DANH SÁCH SESSION -->
+      @for (
+        session of filteredSessions();
+        track session.id
+      ) {
+
+        <article class="session-card">
+
+          <!-- BIỂN SỐ VÀ TRẠNG THÁI -->
+          <div class="session-top">
+
+            <div class="vehicle-info">
+
+              <div class="vehicle-icon">
+                🚗
+              </div>
+
+              <div>
+
+                <span>Biển số xe</span>
+
+                <strong>
+                  {{ session.plate }}
+                </strong>
+
+                <small>
+                  {{ session.sessionCode }}
+                </small>
+
+                <small>
+                  {{ sessionTypeText(session.sessionType) }}
+                </small>
+
+              </div>
+
+            </div>
+
+            <span
+              class="status-badge"
+              [class.active]="session.status === 'ACTIVE'"
+              [class.waiting]="session.status === 'AWAITING_PAYMENT'"
+              [class.completed]="session.status === 'COMPLETED'"
+              [class.cancelled]="session.status === 'CANCELLED'"
+            >
+              {{ sessionStatusText(session.status) }}
+            </span>
+
+          </div>
+
+          <!-- VỊ TRÍ ĐỖ -->
+          <div class="parking-position">
+
+            <span>Vị trí đỗ</span>
+
+            <strong>
+              {{ session.floor }} - {{ session.spot }}
+            </strong>
+
+          </div>
+
+          <!-- THỜI GIAN -->
+          <div class="session-timeline">
+
+            <div class="timeline-item">
+
+              <div class="timeline-dot entry"></div>
+
+              <div class="timeline-content">
+
+                <span>Check-in</span>
+
+                <strong>
+                  {{ formatTime(session.checkInAt) }}
+                </strong>
+
+              </div>
+
+            </div>
+
+            <div class="timeline-item">
+
+              <div
+                class="timeline-dot exit"
+                [class.waiting]="session.checkOutAt === null"
+              ></div>
+
+              <div class="timeline-content">
+
+                <span>Check-out</span>
+
+                <strong>
+                  {{ formatTime(session.checkOutAt) }}
+                </strong>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </article>
+
+      }
+
+    }
+
+  </section>
+
+</main>

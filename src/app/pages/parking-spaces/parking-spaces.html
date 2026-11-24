@@ -1,0 +1,68 @@
+<main class="phone-page spaces-page">
+  <header class="spaces-header">
+    <a routerLink="/customer" class="back-link">← Quay lại</a>
+    <span class="eyebrow">SƠ ĐỒ CHỖ ĐỖ</span>
+    <h1>Chỗ trống trong bãi</h1>
+    <p>⌖ Bãi đỗ xe Trung tâm A</p>
+  </header>
+
+  <section class="stats" aria-label="Trạng thái khu vực đang xem">
+    <div class="stat available-stat"><span>● Trống</span><strong>{{ availableCount() }}</strong></div>
+
+<div class="occupied-stat-card">
+
+  <span class="occupied-stat-label">
+    ● Đã đỗ
+  </span>
+
+  <strong class="occupied-stat-number">
+    {{ lot.occupiedCount() }}
+  </strong>
+
+</div>
+
+    <div class="stat reserved-stat"><span>● Đã đặt</span><strong>{{ reservedCount() }}</strong></div>
+    <div class="stat maintenance-stat"><span>● Bảo trì</span><strong>{{ maintenanceCount() }}</strong></div>
+  </section>
+
+  <section class="floor-section" aria-label="Chọn tầng">
+    <h2>Chọn tầng gửi xe</h2>
+    <div class="floor-tabs" role="group" aria-label="Tầng bãi xe">
+      @for (floor of floors; track floor) {
+        <button type="button" [class.active]="activeFloor() === floor" [attr.aria-pressed]="activeFloor() === floor" (click)="changeFloor(floor)">Tầng {{ floor }}</button>
+      }
+    </div>
+  </section>
+
+  <section class="map-card" aria-label="Sơ đồ vị trí đỗ xe">
+    <div class="map-head"><h2>Khu A · Tầng {{ activeFloor() }}</h2><span>{{ availableCount() }}/2 còn trống</span></div>
+    <div class="legend" aria-label="Chú thích trạng thái">
+      <span><i class="available-dot"></i>Trống</span>
+      <span><i class="occupied-dot"></i>Đã đỗ</span>
+      <span><i class="reserved-dot"></i>Đã đặt</span>
+      <span><i class="maintenance-dot"></i>Bảo trì</span>
+    </div>
+    <div class="parking-grid">
+      @for (row of spotRows(); track row.label) {
+        <div class="parking-row">
+          <span class="row-label">{{ row.label }}</span>
+          @for (spot of row.spots; track spot.id) {
+            <button type="button" class="parking-spot" [class.available]="spot.status === 'available'" [class.occupied]="spot.status === 'occupied'" [class.reserved]="spot.status === 'reserved'" [class.maintenance]="spot.status === 'maintenance'" [class.selected]="selectedSpot() === spot.id" [disabled]="spot.status !== 'available'" [attr.aria-label]="'Ô ' + spot.id + ', ' + (spot.status === 'available' ? 'còn trống' : spot.status === 'reserved' ? 'đã đặt' : spot.status === 'maintenance' ? 'đang bảo trì' : 'đã đỗ')" [attr.aria-pressed]="spot.status === 'available' ? selectedSpot() === spot.id : null" (click)="selectSpot(spot)">
+              <span class="car-icon" aria-hidden="true">▣</span><small>{{ spot.id }}</small>
+            </button>
+          }
+        </div>
+      }
+    </div>
+    <p class="map-caption">Chỉ có thể chọn ô màu xanh lá. Ô đang bảo trì sẽ không thể chọn.</p>
+  </section>
+
+  @if (confirmedSpot()) {
+    <div class="confirmation" role="status">✓ Đã ghi nhận lựa chọn <strong>{{ confirmedSpot() }}</strong> trên giao diện demo.</div>
+  }
+
+  <section class="selection-panel" aria-label="Xác nhận lựa chọn">
+    <button type="button" class="select-button" [disabled]="!selectedSpot()" (click)="confirmSelection()">{{selectedSpot()? 'Tạo yêu cầu cho chỗ ' + selectedSpot(): 'Chọn một chỗ trống'}}</button>
+    <p>Demo có 2 tầng, mỗi tầng 2 vị trí. Sơ đồ lấy trạng thái từ cùng nguồn dữ liệu với giao diện điều hành; chưa có đặt chỗ thật.</p>
+  </section>
+</main>

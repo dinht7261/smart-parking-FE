@@ -1,0 +1,222 @@
+<main class="phone-page clock-page">
+
+  <!-- HEADER -->
+  <header class="clock-header">
+
+    <a routerLink="/operator" class="back-link">
+      ← Quay lại
+    </a>
+
+    <span class="eyebrow">
+      ỨNG DỤNG NGƯỜI ĐIỀU HÀNH
+    </span>
+
+    <h1>Đồng hồ mô phỏng</h1>
+
+    <p>
+      Điều chỉnh thời gian để kiểm thử nghiệp vụ
+    </p>
+
+  </header>
+
+
+  <!-- CHẾ ĐỘ HIỆN TẠI -->
+  <section class="mode-card">
+
+    <div class="mode-top">
+
+      <span>CHẾ ĐỘ HIỆN TẠI</span>
+
+      <span
+        class="mode-badge"
+        [class.demo-active]="clock.isDemo()"
+      >
+
+        @if (clock.isDemo()) {
+          ● DEMO
+        } @else {
+          ● THỜI GIAN THỰC
+        }
+
+      </span>
+
+    </div>
+
+
+    <div class="time-icon">🕒</div>
+
+    <strong class="current-time">
+      {{ formatTime(clock.now()) }}
+    </strong>
+
+    <p>
+      @if (clock.isDemo()) {
+        Thời gian đang được mô phỏng
+      } @else {
+        Đang sử dụng thời gian hệ thống
+      }
+    </p>
+
+  </section>
+
+
+  <!-- CHỌN THỜI GIAN -->
+  <section class="settings-card">
+
+    <h2>Thiết lập thời gian</h2>
+
+    <p>
+      Chọn ngày giờ muốn sử dụng trong quá trình demo.
+    </p>
+
+
+    <label for="demoDateTime">
+      Ngày và giờ mô phỏng
+    </label>
+
+    <input
+      id="demoDateTime"
+      type="datetime-local"
+      [value]="selectedDateTime()"
+      (input)="selectedDateTime.set($any($event.target).value)"
+    />
+
+
+    <button
+      type="button"
+      class="apply-button"
+      (click)="applyTime()"
+    >
+      ✓ Áp dụng thời gian
+    </button>
+
+  </section>
+
+
+  <!-- CHỌN NHANH -->
+  <section class="preset-section">
+
+    <div class="section-heading">
+
+      <h2>Tình huống demo nhanh</h2>
+
+      <span>3 mốc thời gian</span>
+
+    </div>
+
+
+    <button
+      type="button"
+      class="preset-card"
+      (click)="choosePreset(21, 45)"
+    >
+
+      <span class="preset-icon green">✓</span>
+
+      <span class="preset-text">
+
+        <strong>21:45</strong>
+
+        <small>Ví dụ trước hạn 22:00</small>
+
+      </span>
+
+      <span class="preset-arrow">→</span>
+
+    </button>
+
+
+    <button
+      type="button"
+      class="preset-card"
+      (click)="choosePreset(22, 20)"
+    >
+
+      <span class="preset-icon orange">⏱</span>
+
+      <span class="preset-text">
+
+        <strong>22:20</strong>
+
+        <small>Ví dụ quá hạn 20 phút</small>
+
+      </span>
+
+      <span class="preset-arrow">→</span>
+
+    </button>
+
+
+    <button
+      type="button"
+      class="preset-card"
+      (click)="choosePreset(23, 30)"
+    >
+
+      <span class="preset-icon red">🌙</span>
+
+      <span class="preset-text">
+
+        <strong>23:30</strong>
+
+        <small>Ví dụ xe ở lại qua đêm</small>
+
+      </span>
+
+      <span class="preset-arrow">→</span>
+
+    </button>
+
+  </section>
+
+
+  <!-- THỜI GIAN THỰC -->
+  <section class="real-time-card">
+
+    <div>
+
+      <strong>Thời gian thực</strong>
+
+      <p>
+        {{ formatTime(clock.systemNow()) }}
+      </p>
+
+    </div>
+
+    <button
+      type="button"
+      (click)="useRealTime()"
+      [disabled]="!clock.isDemo()"
+    >
+      ↺ Đặt lại
+    </button>
+
+  </section>
+
+
+  <!-- THÔNG BÁO -->
+  @if (feedback()) {
+
+    <div class="feedback-note" role="status">
+      {{ feedback() }}
+    </div>
+
+  }
+
+
+  <!-- LƯU Ý -->
+  <div class="demo-note">
+
+    <strong>⚠️ Chỉ dành cho mô phỏng</strong>
+
+    <p>
+      Đồng hồ này không thay đổi thời gian của điện thoại,
+      không tác động đến cảm biến hoặc barrier thật.
+
+      Các nghiệp vụ xử lý vi phạm sẽ sử dụng thời gian
+      mô phỏng khi chế độ demo được bật.
+    </p>
+
+  </div>
+
+</main>

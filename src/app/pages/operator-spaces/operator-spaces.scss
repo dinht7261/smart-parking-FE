@@ -1,0 +1,39 @@
+.operator-spaces-page { padding: 18px 20px 30px; background: linear-gradient(#fbfaff, #f9fbff); }
+.op-spaces-header { margin-bottom: 21px; }
+.op-spaces-header .eyebrow { display: block; margin-top: 15px; font-size: .68rem; color: #8065c0; }
+.op-spaces-header h1 { font-size: 1.65rem; letter-spacing: -.04em; margin: 8px 0 6px; }
+.op-spaces-header p { color: #8490a6; font-size: .76rem; margin: 0; }
+.op-overview { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 25px; }
+.op-overview > div { display: grid; gap: 10px; padding: 14px 8px; border-radius: 15px; background: white; border: 1px solid #ece9f6; text-align: center; }
+.op-overview span { font-size: .68rem; color: #73809a; font-weight: 700; }
+.op-overview strong { font-size: 1.6rem; color: #34445c; }
+.op-overview .op-green { color: #159f65; }.op-overview .op-amber { color: #d88808; }
+.op-floor-panel h2 { margin: 0 0 11px; font-size: .95rem; }
+.op-floor-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; padding: 5px; border-radius: 13px; background: #eeebf7; }
+.op-floor-tabs button { border: none; background: transparent; border-radius: 9px; padding: 11px 8px; color: #7b7596; font-weight: 800; cursor: pointer; }
+.op-floor-tabs button.active { background: #8160d6; color: white; box-shadow: 0 5px 12px #7959d42f; }
+.op-floor-tabs button:focus-visible, .op-spot:focus-visible, .op-action-button:focus-visible { outline: 3px solid #b49aee; outline-offset: 2px; }
+.op-map { background: white; border: 1px solid #edeafa; box-shadow: 0 8px 25px #45327e0b; border-radius: 20px; padding: 17px 14px; margin-top: 20px; }
+.op-map-heading { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.op-map-heading h2 { font-size: 1rem; margin: 0; }.op-map-heading span { font-size: .75rem; color: #189963; font-weight: 800; }
+.op-legend { margin: 18px 0 21px; display: flex; flex-wrap: wrap; gap: 12px; }
+.op-legend span { display: inline-flex; align-items: center; gap: 5px; font-size: .68rem; color: #78849a; }
+.op-dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+.op-dot.is-free { background: #13b570; }.op-dot.is-occupied { background: #a2acbc; }.op-dot.is-reserved { background: #3485f7; }.op-dot.is-maintenance { background: #f2a522; }
+.op-spot-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.op-spot { min-height: 133px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; padding: 14px 8px; border-radius: 16px; border: 2px solid #e1e6ee; background: #f5f7fa; color: #657187; cursor: pointer; }
+.op-spot.is-free { border-color: #bdebd4; background: #eaf9f1; color: #159b62; }
+.op-spot.is-reserved { border-color: #ccddfc; background: #eef4ff; color: #277be6; }
+.op-spot.is-maintenance { border-color: #f5d18a; background: #fff5e2; color: #bc7605; }
+.op-spot.is-selected { outline: 3px solid #8563d7; outline-offset: 1px; }
+.op-spot .op-car { font-size: 1.65rem; }.op-spot strong { font-size: 1.12rem; }.op-spot small { font-size: .7rem; font-weight: 700; }
+.op-map-hint { font-size: .72rem; line-height: 1.5; color: #8290a7; margin: 16px 2px 0; }
+.op-actions { margin-top: 16px; border: 1px solid #ece6fb; background: #fff; border-radius: 16px; padding: 16px; }
+.op-actions-heading { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 15px; }
+.op-actions-heading h2 { font-size: .9rem; margin: 0; }.op-actions-heading span { font-size: .69rem; color: #8469c0; font-weight: 750; }
+.op-action-button { width: 100%; padding: 14px 10px; border-radius: 11px; background: #e8971b; color: #fff; border: 0; font-size: .88rem; font-weight: 850; cursor: pointer; }
+.op-action-button.reopen { background: #149763; }
+.op-disabled-note { font-size: .75rem; color: #8b6d45; background: #fff5e6; padding: 12px; border-radius: 10px; line-height: 1.5; margin: 0; }
+.op-empty-selection { margin-top: 16px; text-align: center; border: 1px dashed #d8d1ed; border-radius: 13px; padding: 20px 12px; font-size: .76rem; color: #9286ad; }
+.op-notice { background: #e8f7ee; color: #108651; font-size: .8rem; line-height: 1.5; padding: 12px 14px; border-radius: 12px; }
+.op-demo-note { color: #8893a8; font-size: .69rem; line-height: 1.55; margin-top: 14px; }

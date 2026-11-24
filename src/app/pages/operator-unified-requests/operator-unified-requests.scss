@@ -1,0 +1,477 @@
+
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.review-page {
+  box-sizing: border-box;
+  min-height: 100vh;
+  padding: 36px 20px 40px;
+  background: #f5f7fc;
+  color: #202d46;
+}
+
+.review-header {
+  margin-bottom: 28px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 48px;
+  color: #677c9f;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.eyebrow {
+  display: block;
+  margin-bottom: 12px;
+  color: #9675ea;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.review-header h1 {
+  margin: 0 0 12px;
+  font-size: 27px;
+  font-weight: 800;
+  letter-spacing: -0.6px;
+}
+
+.review-header p {
+  margin: 0;
+  color: #91a0b9;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* ==============================
+   THỐNG KÊ
+   ============================== */
+
+.review-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.stat-card {
+  padding: 19px 6px;
+  border: 1px solid #e4e9f3;
+  border-radius: 17px;
+  background: #ffffff;
+  text-align: center;
+}
+
+.stat-card span {
+  display: block;
+  margin-bottom: 10px;
+  color: #8998b1;
+  font-size: 11px;
+}
+
+.stat-card strong {
+  display: block;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.stat-card.pending strong {
+  color: #efa00b;
+}
+
+.stat-card.approved strong {
+  color: #17a35b;
+}
+
+.stat-card.rejected strong {
+  color: #ef4953;
+}
+
+/* ==============================
+   THỐNG KÊ QUA ĐÊM
+   ============================== */
+
+.overnight-overview {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  margin-bottom: 28px;
+  border: 1px solid #e9e0fc;
+  border-radius: 15px;
+  background: #f0ebff;
+}
+
+.moon-icon {
+  font-size: 26px;
+}
+
+.overnight-overview > div {
+  flex: 1;
+}
+
+.overnight-overview strong {
+  color: #8058d4;
+  font-size: 13px;
+}
+
+.overnight-overview p {
+  margin: 5px 0 0;
+  color: #9987bd;
+  font-size: 11px;
+}
+
+.overnight-overview .night-count {
+  font-size: 27px;
+  font-weight: 800;
+}
+
+/* ==============================
+   DANH SÁCH YÊU CẦU
+   ============================== */
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 17px;
+}
+
+.section-heading h2 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.section-heading > span {
+  flex-shrink: 0;
+  color: #97a5bd;
+  font-size: 12px;
+}
+
+.request-card {
+  padding: 17px;
+  margin-bottom: 17px;
+  border: 1px solid #e4e9f3;
+  border-radius: 21px;
+  background: #fff;
+  box-shadow: 0 6px 20px rgba(39, 58, 94, 0.035);
+}
+
+.request-header {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 18px;
+}
+
+.vehicle-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 45px;
+  height: 45px;
+  border-radius: 14px;
+  background: #eaf1ff;
+  font-size: 23px;
+}
+
+.vehicle-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.vehicle-info span {
+  display: block;
+  margin-bottom: 4px;
+  color: #92a1b9;
+  font-size: 11px;
+}
+
+.vehicle-info strong {
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+
+.status-chip {
+  flex-shrink: 0;
+  padding: 7px 9px;
+  border-radius: 30px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.status-chip.pending {
+  background: #fff2d9;
+  color: #d99213;
+}
+
+.status-chip.approved {
+  background: #e2f7ea;
+  color: #18a35c;
+}
+
+.status-chip.rejected {
+  background: #ffebed;
+  color: #df4d58;
+}
+
+.status-chip.cancelled {
+  background: #edf1f6;
+  color: #77859a;
+}
+
+/* ==============================
+   CHI TIẾT BOOKING
+   ============================== */
+
+.request-details {
+  padding: 14px;
+  border-radius: 14px;
+  background: #f4f6fa;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  font-size: 12px;
+}
+
+.detail-row:last-child {
+  margin-bottom: 0;
+}
+
+.detail-row span {
+  color: #8999b2;
+}
+
+.detail-row strong {
+  color: #35445f;
+  text-align: right;
+  font-size: 12px;
+}
+
+/* ==============================
+   YÊU CẦU QUA ĐÊM
+   ============================== */
+
+.night-section {
+  padding: 13px;
+  margin-top: 15px;
+  border: 1px solid #eae0fc;
+  border-radius: 15px;
+  background: #f8f4ff;
+}
+
+.night-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #8059ce;
+  font-size: 13px;
+}
+
+.night-heading > span {
+  padding: 5px 9px;
+  border-radius: 8px;
+  background: #e9dfff;
+  font-weight: 700;
+}
+
+.night-item {
+  margin-top: 13px;
+  padding-top: 13px;
+  border-top: 1px solid #e6dcf7;
+}
+
+.night-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.night-reason {
+  margin: 13px 0;
+}
+
+.night-reason span {
+  color: #8c98af;
+  font-size: 11px;
+}
+
+.night-reason p {
+  margin: 6px 0;
+  color: #495775;
+  font-size: 12px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+/* ==============================
+   NÚT XỬ LÝ
+   ============================== */
+
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.booking-actions {
+  margin-top: 14px;
+}
+
+.action-button {
+  min-height: 44px;
+  padding: 10px 6px;
+  border: 1px solid transparent;
+  border-radius: 11px;
+  font-family: inherit;
+  font-size: 11px;
+  line-height: 1.4;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.action-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.approve-outline {
+  background: #ecfaf2;
+  color: #159b54;
+  border-color: #bce7ce;
+}
+
+.reject-button {
+  background: #fff4f4;
+  color: #e64e58;
+  border-color: #ffc8cc;
+}
+
+.approve-all-button {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  padding: 13px;
+  margin-top: 15px;
+  border: 0;
+  border-radius: 13px;
+  background: #18a35d;
+  color: #fff;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* ==============================
+   THÔNG BÁO TRẠNG THÁI
+   ============================== */
+
+.booking-info {
+  padding: 12px;
+  margin-top: 13px;
+  border-radius: 11px;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.approved-info,
+.success-note {
+  background: #e9f8ee;
+  color: #19904f;
+}
+
+.rejected-info,
+.error-note {
+  background: #fff0f1;
+  color: #d94b55;
+}
+
+.cancelled-info {
+  background: #f0f3f7;
+  color: #758399;
+}
+
+.result-note {
+  padding: 14px;
+  margin-bottom: 20px;
+  border-radius: 13px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.warning-note {
+  padding: 12px;
+  margin-top: 13px;
+  border-radius: 12px;
+  background: #fff4df;
+  color: #bd841a;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* ==============================
+   DANH SÁCH TRỐNG
+   ============================== */
+
+.empty-state {
+  padding: 32px 16px;
+  border: 1px solid #e4e9f3;
+  border-radius: 20px;
+  background: #fff;
+  text-align: center;
+}
+
+.empty-icon {
+  margin-bottom: 15px;
+  font-size: 42px;
+}
+
+.empty-state strong {
+  font-size: 15px;
+}
+
+.empty-state p {
+  margin: 15px 0 0;
+  color: #98a7c1;
+  font-size: 12px;
+}
+
+.legacy-section {
+  margin-top: 30px;
+}
+
+@media (max-width: 360px) {
+  .review-page {
+    padding-left: 13px;
+    padding-right: 13px;
+  }
+
+  .request-card {
+    padding: 12px;
+  }
+
+  .action-button {
+    font-size: 10px;
+  }
+
+  .review-header h1 {
+    font-size: 24px;
+  }
+}

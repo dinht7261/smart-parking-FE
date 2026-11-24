@@ -1,0 +1,622 @@
+
+<main class="phone-page overnight-page">
+
+  <!-- HEADER -->
+
+  <header class="overnight-header">
+
+    <a routerLink="/customer" class="back-link">
+      ← Quay lại
+    </a>
+
+    <span class="eyebrow">
+      ỨNG DỤNG NGƯỜI DÙNG
+    </span>
+
+    <h1>Gửi xe qua đêm</h1>
+
+    <p>
+      Tạo yêu cầu để xe tại bãi qua đêm
+    </p>
+
+    <p class="overnight-account-note">
+      Tài khoản: {{ demoUsers.activeUser().name }}
+    </p>
+
+  </header>
+
+
+  <!-- QUY ĐỊNH QUA ĐÊM -->
+
+  <section class="info-card">
+
+    <div class="info-icon">
+      🌙
+    </div>
+
+    <div>
+
+      <strong>Quy định gửi xe qua đêm</strong>
+
+      <p>
+        Khung giờ qua đêm từ 22:00 đến
+        06:00 hôm sau.
+      </p>
+
+      <p>
+        Nếu không được cấp phép,
+        xe sẽ bị phạt 100.000đ/đêm.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- THỐNG KÊ RIÊNG TỪNG USER -->
+
+  <section
+    class="overnight-stats"
+    aria-label="Thống kê yêu cầu qua đêm"
+  >
+
+    <div class="overnight-stat pending">
+
+      <span>Chờ duyệt</span>
+
+      <strong>
+        {{ overnight.myPendingCount() }}
+      </strong>
+
+    </div>
+
+    <div class="overnight-stat approved">
+
+      <span>Đã duyệt</span>
+
+      <strong>
+        {{ overnight.myApprovedCount() }}
+      </strong>
+
+    </div>
+
+    <div class="overnight-stat rejected">
+
+      <span>Từ chối</span>
+
+      <strong>
+        {{ overnight.myRejectedCount() }}
+      </strong>
+
+    </div>
+
+    <div class="overnight-stat cancelled">
+
+      <span>Đã hủy</span>
+
+      <strong>
+        {{ overnight.myCancelledCount() }}
+      </strong>
+
+    </div>
+
+  </section>
+
+
+  <!-- FORM YÊU CẦU -->
+
+  <form
+    #requestForm="ngForm"
+    (ngSubmit)="submit()"
+    class="overnight-form"
+  >
+
+    <h2>Thông tin gửi xe</h2>
+
+
+    <!-- THÔNG TIN XE CỐ ĐỊNH -->
+
+    <div class="vehicle-information">
+
+      <div class="vehicle-detail">
+
+        <span>Tài khoản</span>
+
+        <strong>
+          {{ demoUsers.activeUser().name }}
+        </strong>
+
+      </div>
+
+      <div class="vehicle-detail">
+
+        <span>Biển số xe</span>
+
+        <strong class="fixed-vehicle-plate">
+          {{ plate }} 🔒
+        </strong>
+
+      </div>
+
+      <div class="vehicle-detail">
+
+        <span>Vị trí đỗ</span>
+
+        <strong>
+
+          @if (vehicleLocated) {
+
+            {{ floor }} - {{ spot }}
+
+          } @else {
+
+            Chưa có
+
+          }
+
+        </strong>
+
+      </div>
+
+      <div class="vehicle-detail">
+
+        <span>Trạng thái</span>
+
+        <strong
+          [class.parked]="vehicleLocated"
+          [class.not-parked]="!vehicleLocated"
+        >
+
+          {{
+            vehicleLocated
+              ? 'Đang gửi xe'
+              : 'Chưa có xe trong bãi'
+          }}
+
+        </strong>
+
+      </div>
+
+      @if (activeSession(); as session) {
+
+        <div class="vehicle-detail">
+
+          <span>Thời gian Check-in</span>
+
+          <strong>
+            {{
+              session.checkInAt
+                | date:'HH:mm dd/MM/yyyy'
+            }}
+          </strong>
+
+        </div>
+
+      }
+
+    </div>
+
+
+    <!-- KHÔNG CÓ XE TRONG BÃI -->
+
+    @if (!vehicleLocated) {
+
+      <div class="no-active-vehicle">
+
+        <strong>
+          ⚠ Chưa có xe đang gửi
+        </strong>
+
+        <p>
+          Bạn chỉ có thể gửi yêu cầu qua đêm
+          bổ sung khi xe đã check-in vào bãi.
+        </p>
+
+        <p>
+          Nếu muốn xin phép gửi qua đêm từ trước,
+          hãy sử dụng chức năng đặt chỗ.
+        </p>
+
+        <a routerLink="/customer/spaces">
+          Xem sơ đồ và đặt chỗ →
+        </a>
+
+      </div>
+
+    }
+
+
+    <!-- FORM CHỌN NGÀY QUA ĐÊM -->
+
+    <div class="form-field">
+
+      <label for="nightDate">
+        Ngày muốn gửi qua đêm
+      </label>
+
+      <input
+        id="nightDate"
+        type="date"
+        name="nightDate"
+        [(ngModel)]="nightDate"
+        [min]="minNightDate"
+        [disabled]="!vehicleLocated"
+        required
+      />
+
+    </div>
+
+
+    <!-- HIỂN THỊ KHUNG GIỜ -->
+
+    @if (overnightWindow; as night) {
+
+      <div class="night-window">
+
+        <span>
+          Thời gian xin phép qua đêm
+        </span>
+
+        <strong>
+
+          Từ 22:00 ngày
+
+          {{ night.nightDate
+             | date:'dd/MM/yyyy' }}
+
+        </strong>
+
+        <strong>
+
+          Đến 06:00 ngày
+
+          {{ night.nextDate
+             | date:'dd/MM/yyyy' }}
+
+        </strong>
+
+      </div>
+
+    }
+
+
+    <!-- LÝ DO -->
+
+    <div class="form-field">
+
+      <label for="reason">
+        Lý do gửi xe qua đêm
+      </label>
+
+      <textarea
+        id="reason"
+        name="reason"
+        [(ngModel)]="reason"
+        [disabled]="!vehicleLocated"
+        placeholder="Nhập lý do muốn gửi xe qua đêm..."
+        rows="4"
+        maxlength="500"
+        required
+      ></textarea>
+
+    </div>
+
+
+    <!-- LƯU Ý -->
+
+    <div class="warning-note">
+
+      <span>⏳</span>
+
+      <p>
+        Sau khi gửi, yêu cầu sẽ có trạng thái
+        <strong>Chờ duyệt</strong>.
+        Bạn cần đợi người điều hành xác nhận.
+      </p>
+
+    </div>
+
+    <p class="night-price-note">
+
+      Gửi xe qua đêm được duyệt vẫn tính
+      phí gửi xe bình thường 5.000đ/giờ,
+      không áp dụng tiền phạt cho đêm
+      đã được cấp phép.
+
+    </p>
+
+
+    <!-- NÚT GỬI -->
+
+    <button
+      type="submit"
+      class="submit-button"
+      [disabled]="
+        requestForm.invalid ||
+        !vehicleLocated ||
+        !validNightDate ||
+        !reason.trim()
+      "
+    >
+
+      Gửi yêu cầu qua đêm
+
+    </button>
+
+  </form>
+
+
+  <!-- THÔNG BÁO KẾT QUẢ -->
+
+  @if (message()) {
+
+    <div
+      class="result-note"
+      [class.success-note]="success()"
+      [class.error-note]="!success()"
+      role="status"
+    >
+
+      {{ message() }}
+
+    </div>
+
+  }
+
+
+  <!-- LỊCH SỬ YÊU CẦU -->
+
+  <section class="overnight-history">
+
+    <div class="history-heading">
+
+      <h2>Yêu cầu đã gửi</h2>
+
+      <span>
+        {{ overnight.myRequests().length }}
+        yêu cầu
+      </span>
+
+    </div>
+
+
+    <!-- DANH SÁCH TRỐNG -->
+
+    @if (overnight.myRequests().length === 0) {
+
+      <div class="history-empty">
+
+        <div>📋</div>
+
+        <strong>
+          Chưa có yêu cầu qua đêm
+        </strong>
+
+        <p>
+          Các yêu cầu của
+          {{ demoUsers.activeUser().name }}
+          sẽ xuất hiện ở đây.
+        </p>
+
+      </div>
+
+    } @else {
+
+
+      <!-- DANH SÁCH YÊU CẦU -->
+
+      @for (
+        request of overnight.myRequests();
+        track request.id
+      ) {
+
+        <article class="history-card">
+
+
+          <!-- BIỂN SỐ VÀ TRẠNG THÁI -->
+
+          <div class="history-card-header">
+
+            <strong>
+              🚗 {{ request.plate }}
+            </strong>
+
+            <span
+              class="overnight-status"
+
+              [class.pending-status]="
+                request.status === 'pending'
+              "
+
+              [class.approved-status]="
+                request.status === 'approved'
+              "
+
+              [class.rejected-status]="
+                request.status === 'rejected'
+              "
+
+              [class.cancelled-status]="
+                request.status === 'cancelled'
+              "
+            >
+
+              @if (request.status === 'pending') {
+
+                ● Chờ duyệt
+
+              } @else if (
+                request.status === 'approved'
+              ) {
+
+                ✓ Đã duyệt
+
+              } @else if (
+                request.status === 'rejected'
+              ) {
+
+                ✕ Từ chối
+
+              } @else {
+
+                ● Đã hủy
+
+              }
+
+            </span>
+
+          </div>
+
+
+          <!-- CHI TIẾT YÊU CẦU -->
+
+          <div class="history-details">
+
+            <div>
+
+              <span>Vị trí</span>
+
+              <strong>
+                {{ request.floor }} -
+                {{ request.spot }}
+              </strong>
+
+            </div>
+
+            <div>
+
+              <span>Ngày qua đêm</span>
+
+              <strong>
+                {{ request.nightDate
+                   | date:'dd/MM/yyyy' }}
+              </strong>
+
+            </div>
+
+            <div>
+
+              <span>Loại yêu cầu</span>
+
+              <strong>
+
+                {{
+                  request.origin === 'booking'
+                    ? 'Kèm đặt chỗ'
+                    : 'Yêu cầu bổ sung'
+                }}
+
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <!-- LÝ DO -->
+
+          <div class="history-reason">
+
+            <span>Lý do</span>
+
+            <p>{{ request.reason }}</p>
+
+          </div>
+
+
+          <!-- YÊU CẦU CHỜ DUYỆT -->
+
+          @if (request.status === 'pending') {
+
+            <div
+              class="history-message pending-message"
+            >
+
+              ⏳ Đang chờ người điều hành
+              phê duyệt.
+
+            </div>
+
+            @if (request.origin !== 'booking') {
+
+              <button
+                type="button"
+                class="overnight-cancel-button"
+                (click)="cancelRequest(request.id)"
+              >
+
+                ✕ Hủy yêu cầu
+
+              </button>
+
+            } @else {
+
+              <p class="linked-booking-note">
+
+                Yêu cầu này đi kèm đặt chỗ.
+                Bạn có thể hủy booking tại
+                mục Yêu cầu của tôi
+                khi booking còn chờ duyệt.
+
+              </p>
+
+            }
+
+          }
+
+
+          <!-- ĐÃ DUYỆT -->
+
+          @if (request.status === 'approved') {
+
+            <div
+              class="history-message approved-message"
+            >
+
+              ✓ Yêu cầu gửi xe qua đêm
+              đã được chấp nhận.
+
+            </div>
+
+          }
+
+
+          <!-- TỪ CHỐI -->
+
+          @if (request.status === 'rejected') {
+
+            <div
+              class="history-message rejected-message"
+            >
+
+              ✕ Yêu cầu gửi xe qua đêm
+              không được chấp nhận.
+
+            </div>
+
+          }
+
+
+          <!-- ĐÃ HỦY -->
+
+          @if (request.status === 'cancelled') {
+
+            <div
+              class="history-message cancelled-message"
+            >
+
+              Yêu cầu này đã được hủy.
+
+            </div>
+
+          }
+
+        </article>
+
+      }
+
+    }
+
+  </section>
+
+</main>

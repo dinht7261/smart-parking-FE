@@ -1,0 +1,799 @@
+/* ===================================
+   SMART PARKING - OPERATOR REQUESTS
+=================================== */
+
+:host {
+  display: block;
+}
+
+/* TRANG CHÍNH */
+
+.requests-page {
+  min-height: 100vh;
+  box-sizing: border-box;
+
+  background: #f8f9fe;
+  color: #17233d;
+
+  padding: 32px 18px 48px;
+}
+
+
+/* ===================================
+   HEADER
+=================================== */
+
+.requests-header {
+  margin-bottom: 26px;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  color: #607395;
+  text-decoration: none;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  margin-bottom: 34px;
+}
+
+.back-link span {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.header-label {
+  color: #8665da;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  letter-spacing: 1.3px;
+
+  margin-bottom: 12px;
+}
+
+.requests-header h1 {
+  margin: 0 0 8px;
+
+  color: #17233d;
+
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.6px;
+}
+
+.requests-header p {
+  margin: 0;
+
+  color: #94a0b5;
+
+  font-size: 12px;
+}
+
+
+/* ===================================
+   THỐNG KÊ
+=================================== */
+
+.request-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 9px;
+
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 83px;
+  box-sizing: border-box;
+
+  padding: 12px 5px;
+
+  background: #ffffff;
+
+  border: 1px solid #e7ebf3;
+  border-radius: 15px;
+}
+
+.stat-card span {
+  color: #8190a8;
+
+  font-size: 10px;
+  font-weight: 500;
+
+  margin-bottom: 8px;
+}
+
+.stat-card strong {
+  font-size: 25px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.stat-card.pending strong {
+  color: #f59e0b;
+}
+
+.stat-card.approved strong {
+  color: #16a34a;
+}
+
+.stat-card.rejected strong {
+  color: #ef4444;
+}
+
+
+/* ===================================
+   DANH SÁCH YÊU CẦU
+=================================== */
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.section-heading h2 {
+  margin: 0;
+
+  color: #17233d;
+
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.section-heading span {
+  color: #98a4b9;
+
+  font-size: 11px;
+}
+
+
+/* ===================================
+   THẺ YÊU CẦU
+=================================== */
+
+.request-item {
+  background: #ffffff;
+
+  border: 1px solid #e7ebf3;
+  border-radius: 18px;
+
+  padding: 16px;
+  margin-bottom: 14px;
+
+  box-shadow: 0 5px 20px rgba(28, 45, 85, 0.04);
+}
+
+
+/* BIỂN SỐ */
+
+.request-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 8px;
+
+  margin-bottom: 18px;
+}
+
+.vehicle-info {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+  min-width: 0;
+}
+
+.vehicle-icon {
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  flex-shrink: 0;
+
+  background: #eaf2ff;
+  border-radius: 12px;
+
+  font-size: 19px;
+}
+
+.vehicle-text {
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+  gap: 5px;
+}
+
+.vehicle-text span {
+  color: #94a3b8;
+  font-size: 10px;
+}
+
+.vehicle-text strong {
+  color: #17233d;
+
+  font-size: 13px;
+  font-weight: 800;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* ===================================
+   NHÃN TRẠNG THÁI
+=================================== */
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  padding: 7px 9px;
+
+  border-radius: 30px;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+.status-dot {
+  display: inline-block;
+
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: currentColor;
+}
+
+.status-pending {
+  background: #fff3df;
+  color: #dc8d08;
+}
+
+.status-approved {
+  background: #e5f8ee;
+  color: #16a34a;
+}
+
+.status-rejected {
+  background: #feeaea;
+  color: #ef4444;
+}
+
+
+/* ===================================
+   THÔNG TIN ĐẶT CHỖ
+=================================== */
+
+.booking-details {
+  display: flex;
+  flex-direction: column;
+
+  gap: 13px;
+
+  padding: 14px;
+
+  background: #f7f9fd;
+  border-radius: 12px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  gap: 10px;
+}
+
+.detail-label {
+  color: #8693a8;
+
+  font-size: 11px;
+
+  flex-shrink: 0;
+}
+
+.detail-row strong {
+  color: #34435d;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  text-align: right;
+}
+
+.detail-row .spot-name {
+  color: #7654d7;
+  font-weight: 800;
+}
+
+
+/* ===================================
+   NÚT CHẤP NHẬN / TỪ CHỐI
+=================================== */
+
+.request-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  gap: 10px;
+
+  margin-top: 17px;
+}
+
+.request-actions button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 8px;
+
+  min-height: 47px;
+  padding: 12px 8px;
+
+  box-sizing: border-box;
+
+  border-radius: 12px;
+
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+
+/* CHẤP NHẬN */
+
+.request-actions .approve-btn {
+  background: linear-gradient(
+    135deg,
+    #27c86a,
+    #16a34a
+  );
+
+  color: #ffffff;
+
+  border: 1px solid #16a34a;
+
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.18);
+}
+
+
+/* TỪ CHỐI */
+
+.request-actions .reject-btn {
+  background: #ffffff;
+
+  color: #ef4444;
+
+  border: 1.5px solid #fecaca;
+
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.04);
+}
+
+
+/* ICON TRONG NÚT */
+
+.request-actions .btn-icon {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 21px;
+  height: 21px;
+
+  border-radius: 7px;
+
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.request-actions .approve-btn .btn-icon {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.request-actions .reject-btn .btn-icon {
+  background: #fee2e2;
+}
+
+
+/* HIỆU ỨNG */
+
+.request-actions button:active {
+  transform: scale(0.96);
+}
+
+.request-actions button:focus-visible {
+  outline: 3px solid #a5b4fc;
+  outline-offset: 2px;
+}
+
+
+/* ===================================
+   THÔNG BÁO ĐÃ XỬ LÝ
+=================================== */
+
+.processed-note {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 8px;
+
+  margin-top: 14px;
+  padding: 12px;
+
+  border-radius: 11px;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.approved-note {
+  background: #e8f8ee;
+  color: #159447;
+}
+
+.rejected-note {
+  background: #fff0f0;
+  color: #e54848;
+}
+
+
+/* ===================================
+   THÔNG BÁO THAO TÁC
+=================================== */
+
+.action-feedback {
+  padding: 14px;
+
+  background: #e7f8ee;
+  color: #168844;
+
+  border-radius: 12px;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  text-align: center;
+  margin-top: 16px;
+}
+
+.action-feedback.feedback-error {
+  background: #fff0f0;
+  color: #dc2626;
+}
+
+
+/* ===================================
+   TRẠNG THÁI TRỐNG
+=================================== */
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  min-height: 190px;
+
+  padding: 22px 15px;
+
+  background: #ffffff;
+
+  border: 1px solid #e7ebf3;
+  border-radius: 18px;
+
+  text-align: center;
+}
+
+.empty-icon {
+  font-size: 34px;
+  margin-bottom: 12px;
+}
+
+.empty-state h3 {
+  margin: 0 0 12px;
+
+  color: #17233d;
+
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.empty-state p {
+  margin: 0;
+
+  color: #94a3b8;
+
+  font-size: 11px;
+  line-height: 1.6;
+}
+/* TRẠNG THÁI ĐÃ HỦY */
+
+.status-cancelled {
+  background: #eef1f5;
+  color: #64748b;
+}
+
+/* THÔNG BÁO NGƯỜI DÙNG ĐÃ HỦY */
+
+.cancelled-note {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+/* =====================================
+   LỊCH SỬ YÊU CẦU QUA ĐÊM
+===================================== */
+
+.overnight-history {
+  margin-top: 28px;
+}
+
+/* TIÊU ĐỀ */
+
+.history-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 8px;
+  margin-bottom: 13px;
+}
+
+.history-heading h2 {
+  margin: 0;
+
+  color: #17233d;
+
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.history-heading > span {
+  color: #94a3b8;
+  font-size: 11px;
+}
+
+/* THỐNG KÊ */
+
+.history-stats {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.history-stats span {
+  padding: 7px 10px;
+
+  border-radius: 20px;
+
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.history-pending {
+  background: #fff4de;
+  color: #d88b08;
+}
+
+.history-approved {
+  background: #e3f8ec;
+  color: #16a34a;
+}
+
+.history-rejected {
+  background: #feeaea;
+  color: #ef4444;
+}
+
+/* THẺ YÊU CẦU */
+
+.history-card {
+  background: #ffffff;
+
+  border: 1px solid #e7ebf3;
+  border-radius: 17px;
+
+  padding: 15px;
+  margin-bottom: 13px;
+
+  box-shadow: 0 5px 16px rgba(28, 45, 85, 0.04);
+}
+
+.history-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.history-card-header > strong {
+  color: #17233d;
+
+  font-size: 13px;
+  font-weight: 800;
+}
+
+/* TRẠNG THÁI */
+
+.overnight-status {
+  padding: 7px 9px;
+
+  border-radius: 20px;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+.pending-status {
+  background: #fff4de;
+  color: #d88b08;
+}
+
+.approved-status {
+  background: #e3f8ec;
+  color: #16a34a;
+}
+
+.rejected-status {
+  background: #feeaea;
+  color: #ef4444;
+}
+
+/* THÔNG TIN */
+
+.history-details {
+  display: flex;
+  flex-direction: column;
+
+  gap: 12px;
+
+  padding: 13px;
+
+  background: #f7f9fd;
+  border-radius: 11px;
+}
+
+.history-details > div {
+  display: flex;
+  justify-content: space-between;
+
+  gap: 8px;
+}
+
+.history-details span {
+  color: #8996ab;
+  font-size: 11px;
+}
+
+.history-details strong {
+  color: #34435d;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* LÝ DO */
+
+.history-reason {
+  margin-top: 13px;
+}
+
+.history-reason span {
+  color: #8996ab;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.history-reason p {
+  margin: 7px 0 0;
+
+  color: #34435d;
+
+  font-size: 12px;
+  line-height: 1.6;
+
+  overflow-wrap: anywhere;
+}
+
+/* THÔNG BÁO */
+
+.history-message {
+  margin-top: 14px;
+  padding: 12px;
+
+  border-radius: 10px;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  line-height: 1.5;
+}
+
+.history-message.pending-message {
+  background: #fff5e4;
+  color: #b97806;
+}
+
+.history-message.approved-message {
+  background: #e7f8ee;
+  color: #168844;
+}
+
+.history-message.rejected-message {
+  background: #fff0f0;
+  color: #dc4040;
+}
+
+/* CHƯA CÓ YÊU CẦU */
+
+.history-empty {
+  padding: 26px 18px;
+
+  background: #ffffff;
+
+  border: 1px solid #e7ebf3;
+  border-radius: 16px;
+
+  text-align: center;
+}
+
+.history-empty > div {
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.history-empty strong {
+  display: block;
+
+  color: #17233d;
+  font-size: 13px;
+}
+
+.history-empty p {
+  margin: 8px 0 0;
+
+  color: #94a3b8;
+
+  font-size: 11px;
+}

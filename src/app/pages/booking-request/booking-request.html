@@ -1,0 +1,343 @@
+
+<main class="phone-page booking-page">
+
+  <header>
+
+    <a
+      routerLink="/customer/spaces"
+      class="back-link"
+    >
+      ← Quay lại sơ đồ
+    </a>
+
+    <span class="eyebrow">
+      ỨNG DỤNG NGƯỜI DÙNG
+    </span>
+
+    <h1>Yêu cầu đặt chỗ</h1>
+
+    <p class="subtitle">
+      Yêu cầu cần được người điều hành phê duyệt.
+    </p>
+
+  </header>
+
+
+  <!-- VỊ TRÍ ĐÃ CHỌN -->
+
+  <section class="booking-location">
+
+    <span>Vị trí đã chọn</span>
+
+    <h2>Tầng {{ floor }} · {{ spot }}</h2>
+
+    <p>Bãi đỗ xe Trung tâm A</p>
+
+  </section>
+
+
+  <!-- FORM ĐẶT CHỖ -->
+
+  <section class="booking-form">
+
+    <h2>Thông tin gửi xe</h2>
+
+    <form
+      (ngSubmit)="submit()"
+      #bookingForm="ngForm"
+    >
+
+
+      <!-- TÀI KHOẢN -->
+
+      <div class="booking-user-info">
+
+        <span>Tài khoản đặt chỗ</span>
+
+        <strong>
+          {{ users.activeUser().name }}
+        </strong>
+
+      </div>
+
+
+      <!-- BIỂN SỐ CỐ ĐỊNH -->
+
+      <label for="licensePlate">
+        Biển số xe
+      </label>
+
+      <div class="fixed-plate-field">
+
+        <input
+          id="licensePlate"
+          type="text"
+          [value]="licensePlate"
+          readonly
+        />
+
+        <span class="plate-lock">
+          🔒
+        </span>
+
+      </div>
+
+      <p class="plate-hint">
+        Biển số được liên kết với tài khoản của bạn.
+      </p>
+
+
+      <!-- NGÀY GỬI XE -->
+
+      <label for="startDate">
+        Ngày dự kiến gửi xe
+      </label>
+
+      <input
+        id="startDate"
+        name="startDate"
+        type="date"
+        [(ngModel)]="startDate"
+        [min]="today"
+        [disabled]="submitted()"
+        required
+      />
+
+
+      <!-- GIỜ GỬI XE -->
+
+      <label for="startTime">
+        Giờ dự kiến gửi xe
+      </label>
+
+      <input
+        id="startTime"
+        name="startTime"
+        type="time"
+        [(ngModel)]="startTime"
+        [disabled]="submitted()"
+        required
+      />
+
+
+      <!-- CHECKBOX QUA ĐÊM -->
+
+      <div class="overnight-option">
+
+        <label
+          class="overnight-checkbox"
+          for="requestOvernight"
+        >
+
+          <input
+            id="requestOvernight"
+            name="requestOvernight"
+            type="checkbox"
+            [ngModel]="requestOvernight"
+            (ngModelChange)="toggleOvernight($event)"
+            [disabled]="submitted()"
+          />
+
+          <span>
+
+            <strong>
+              Có nhu cầu gửi xe qua đêm
+            </strong>
+
+            <small>
+              Tích chọn nếu cần xin phép qua đêm.
+            </small>
+
+          </span>
+
+        </label>
+
+      </div>
+
+
+      <!-- FORM QUA ĐÊM -->
+
+      @if (requestOvernight) {
+
+        <section class="overnight-request-box">
+
+          <h3>
+            🌙 Yêu cầu gửi xe qua đêm
+          </h3>
+
+
+          <!-- KHUNG GIỜ TỰ ĐỘNG -->
+
+          @if (overnightWindow; as night) {
+
+            <div class="overnight-time-preview">
+
+              <span>
+                Khung giờ xin phép qua đêm
+              </span>
+
+              <strong>
+
+                Từ 22:00 ngày
+
+                {{ night.nightDate
+                  | date:'dd/MM/yyyy' }}
+
+              </strong>
+
+              <strong>
+
+                Đến 06:00 ngày
+
+                {{ night.nextDate
+                  | date:'dd/MM/yyyy' }}
+
+              </strong>
+
+              <small>
+                Tự động xác định theo ngày giờ
+                dự kiến gửi xe.
+              </small>
+
+            </div>
+
+          } @else {
+
+            <p class="overnight-description">
+
+              Vui lòng chọn ngày và giờ
+              dự kiến gửi xe ở phía trên.
+
+            </p>
+
+          }
+
+
+          <!-- LÝ DO -->
+
+          <label for="overnightReason">
+
+            Lý do gửi qua đêm
+
+          </label>
+
+          <textarea
+            id="overnightReason"
+            name="overnightReason"
+            [(ngModel)]="overnightReason"
+            [disabled]="submitted()"
+            placeholder="Nhập lý do gửi xe qua đêm..."
+            rows="4"
+            maxlength="500"
+            required
+          ></textarea>
+
+
+          <p class="overnight-warning">
+
+            Nếu không được cấp phép,
+            xe gửi qua đêm sẽ bị phạt
+            100.000đ/đêm.
+
+          </p>
+
+          <p class="overnight-extra-note">
+
+            Nếu cần gửi thêm những đêm tiếp theo,
+            bạn có thể sử dụng chức năng
+            Yêu cầu gửi xe qua đêm.
+
+          </p>
+
+        </section>
+
+      }
+
+
+      <!-- CHÍNH SÁCH GIÁ -->
+
+      <section class="pricing-info">
+
+        <div class="pricing-row">
+
+          <span>Đơn giá gửi xe</span>
+
+          <strong>5.000đ/giờ</strong>
+
+        </div>
+
+        <p>
+
+          Tiền gửi xe được tính dựa trên
+          thời gian Check-in và Check-out
+          mô phỏng.
+
+        </p>
+
+      </section>
+
+
+      <!-- THÔNG BÁO DUYỆT -->
+
+      <div class="approval-note">
+
+        ⏳ Sau khi gửi, yêu cầu sẽ có
+        trạng thái <strong>Chờ duyệt</strong>.
+
+      </div>
+
+
+      <!-- NÚT GỬI YÊU CẦU -->
+
+      <button
+        type="submit"
+        class="submit-button"
+        [disabled]="
+          bookingForm.invalid ||
+          submitted() ||
+          (
+            requestOvernight &&
+            (
+              !overnightWindow ||
+              !overnightReason.trim()
+            )
+          )
+        "
+      >
+
+        {{
+          submitted()
+            ? 'Đã gửi yêu cầu'
+            : 'Gửi yêu cầu đặt chỗ'
+        }}
+
+      </button>
+
+
+      <!-- KẾT QUẢ -->
+
+      @if (notice()) {
+
+        <p
+          class="form-status"
+          [class.success]="submitted()"
+          role="status"
+        >
+          {{ notice() }}
+        </p>
+
+      }
+
+      <p class="form-note">
+
+        Chỗ đỗ chỉ chuyển sang trạng thái
+        Đã đặt sau khi người điều hành
+        chấp nhận yêu cầu.
+
+      </p>
+
+    </form>
+
+  </section>
+
+</main>

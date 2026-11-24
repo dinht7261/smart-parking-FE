@@ -1,0 +1,400 @@
+
+<main class="phone-page receipt-history-page">
+
+  <!-- HEADER -->
+  <header class="page-header">
+
+    <a [routerLink]="backRoute" class="back-link">
+      ← Quay lại
+    </a>
+
+    <span class="eyebrow">
+      {{ isOperator
+        ? 'ỨNG DỤNG NGƯỜI ĐIỀU HÀNH'
+        : 'ỨNG DỤNG NGƯỜI DÙNG' }}
+    </span>
+
+    <h1>
+      {{ isOperator ? 'Quản lý hóa đơn' : 'Hóa đơn của tôi' }}
+    </h1>
+
+    <p>
+      Xem lịch sử gửi xe và tình trạng thanh toán
+    </p>
+
+    <button
+      type="button"
+      class="refresh-button"
+      [disabled]="loading()"
+      (click)="loadPayments()"
+    >
+      {{ loading() ? 'Đang tải...' : '↻ Làm mới dữ liệu' }}
+    </button>
+
+  </header>
+
+
+  <!-- THỐNG KÊ -->
+  <section class="receipt-stats">
+
+    <article>
+
+      <span>Tổng hóa đơn</span>
+
+      <strong>
+        {{ totalCount() }}
+      </strong>
+
+    </article>
+
+    <article>
+
+      <span>Chưa thanh toán</span>
+
+      <strong class="warning">
+        {{ unpaidCount() }}
+      </strong>
+
+    </article>
+
+  </section>
+
+
+  <!-- TỔNG TIỀN -->
+  <section class="amount-summary">
+
+    <div>
+      <span>Tổng giá trị hóa đơn</span>
+
+      <strong>
+        {{ money(totalAmount()) }}
+      </strong>
+    </div>
+
+    <div class="unpaid-summary">
+      <span>Còn phải thanh toán</span>
+
+      <strong>
+        {{ money(unpaidAmount()) }}
+      </strong>
+    </div>
+
+  </section>
+
+
+  <!-- BIỂN SỐ TÀI KHOẢN -->
+  @if (!isOperator) {
+
+    <div class="customer-plate">
+
+      <span>Biển số theo tài khoản hiện tại</span>
+
+      <strong>
+        {{ customerPlate() }}
+      </strong>
+
+      <small>
+        {{ demoUser.activeUser().name }}
+      </small>
+
+    </div>
+
+  }
+
+
+  <!-- TÌM KIẾM CHO OPERATOR -->
+  @if (isOperator) {
+
+    <div class="search-box">
+
+      <input
+        type="search"
+        placeholder="Tìm theo biển số hoặc mã giao dịch..."
+        [value]="search()"
+        (input)="search.set($any($event.target).value)"
+      />
+
+    </div>
+
+  }
+
+
+  <!-- THÔNG BÁO -->
+  @if (feedback()) {
+
+    <div
+      class="feedback"
+      [class.error]="feedbackError()"
+      role="status"
+    >
+      {{ feedback() }}
+    </div>
+
+  }
+
+
+  <!-- DANH SÁCH HÓA ĐƠN -->
+  <section class="history-list">
+
+    <div class="section-heading">
+
+      <h2>Danh sách hóa đơn</h2>
+
+      <span>
+        {{ visiblePayments().length }} kết quả
+      </span>
+
+    </div>
+
+
+    @if (loading()) {
+
+      <div class="empty-state">
+
+        <span>⏳</span>
+
+        <strong>Đang tải hóa đơn</strong>
+
+        <p>
+          Đang đồng bộ dữ liệu từ Backend.
+        </p>
+
+      </div>
+
+    } @else if (visiblePayments().length === 0) {
+
+      <div class="empty-state">
+
+        <span>🧾</span>
+
+        <strong>Chưa có hóa đơn</strong>
+
+        <p>
+          @if (!isOperator) {
+            Chưa có hóa đơn gửi xe thuộc tài khoản hiện tại.
+          } @else {
+            Chưa tìm thấy hóa đơn phù hợp.
+          }
+        </p>
+
+      </div>
+
+    } @else {
+
+      @for (
+        payment of visiblePayments();
+        track payment.paymentCode
+      ) {
+
+        <article class="invoice-card">
+
+          <!-- HEADER -->
+          <div class="invoice-header">
+
+            <div class="vehicle">
+
+              <span>🚗</span>
+
+              <div>
+
+                <small>Biển số xe</small>
+
+                <strong>
+                  {{ payment.licensePlate }}
+                </strong>
+
+              </div>
+
+            </div>
+
+            <span
+              class="status"
+              [class.pending]="payment.status === 'PENDING'"
+              [class.paid]="payment.status === 'SUCCESS'"
+              [class.failed]="payment.status === 'FAILED' || payment.status === 'CANCELLED'"
+            >
+              {{ paymentStatusText(payment.status) }}
+            </span>
+
+          </div>
+
+
+          <!-- MÃ HÓA ĐƠN -->
+          <div class="invoice-details">
+
+            <div>
+
+              <span>Mã thanh toán</span>
+
+              <strong>
+                {{ payment.paymentCode }}
+              </strong>
+
+            </div>
+
+            <div>
+
+              <span>Mã phiên gửi xe</span>
+
+              <strong>
+                {{ payment.sessionCode }}
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <!-- THỜI GIAN -->
+          <div class="invoice-details">
+
+            <div>
+
+              <span>Check-in</span>
+
+              <strong>
+                {{ formatDate(payment.checkInTime) }}
+              </strong>
+
+            </div>
+
+            <div>
+
+              <span>Check-out</span>
+
+              <strong>
+                {{ formatDate(payment.checkOutTime) }}
+              </strong>
+
+            </div>
+
+            <div>
+
+              <span>Thời gian tính phí</span>
+
+              <strong>
+                {{ payment.billableHours }} giờ
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <!-- QUA ĐÊM -->
+          <div class="invoice-details">
+
+            <div>
+
+              <span>Đăng ký qua đêm</span>
+
+              <strong>
+                {{ payment.overnightRequested ? 'Có' : 'Không' }}
+              </strong>
+
+            </div>
+
+            <div>
+
+              <span>Số đêm vi phạm</span>
+
+              <strong>
+                {{ payment.violationNights }} đêm
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <!-- CHI PHÍ -->
+          <div class="invoice-fees">
+
+            <div>
+
+              <span>Phí gửi xe</span>
+
+              <strong>
+                {{ money(payment.parkingFee) }}
+              </strong>
+
+            </div>
+
+            <div>
+
+              <span>Tiền phạt qua đêm</span>
+
+              <strong class="penalty">
+                {{ money(payment.overnightPenalty) }}
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <!-- TỔNG TIỀN -->
+          <div class="invoice-total">
+
+            <span>Tổng thanh toán</span>
+
+            <strong>
+              {{ money(payment.amount) }}
+            </strong>
+
+          </div>
+
+
+          <!-- THANH TOÁN THÀNH CÔNG -->
+          @if (payment.status === 'SUCCESS') {
+
+            <div class="payment-success">
+
+              <strong>
+                ✓ Đã thanh toán thành công
+              </strong>
+
+              <span>
+                {{ formatDate(payment.paidAt) }}
+              </span>
+
+              <small>
+                {{ paymentMethodText(payment.paymentMethod) }}
+              </small>
+
+            </div>
+
+          }
+
+
+          <!-- THANH TOÁN -->
+          @if (payment.status === 'PENDING') {
+
+            <button
+              type="button"
+              class="pay-button"
+              [disabled]="confirmingPayment() !== null"
+              (click)="confirmPayment(payment)"
+            >
+
+              {{
+                confirmingPayment() === payment.paymentCode
+                  ? 'Đang xử lý thanh toán...'
+                  : isOperator
+                    ? '✓ Xác nhận đã thu tiền'
+                    : '💳 Thanh toán hóa đơn'
+              }}
+
+            </button>
+
+          }
+
+        </article>
+
+      }
+
+    }
+
+  </section>
+
+</main>

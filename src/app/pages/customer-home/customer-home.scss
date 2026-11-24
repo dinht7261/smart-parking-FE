@@ -1,0 +1,525 @@
+
+/* =====================================
+   SMART PARKING - CUSTOMER HOME
+===================================== */
+
+:host {
+  display: block;
+  min-height: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* TRANG CHỦ */
+
+.customer-page {
+  min-height: calc(100dvh - 64px);
+  padding: 22px 22px 38px;
+  background: #f7f9fd;
+  color: #17233e;
+}
+
+/* =====================================
+   HEADER
+===================================== */
+
+.customer-header {
+  margin-bottom: 28px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 25px;
+  color: #7083a1;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.greeting {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 14px 0 30px;
+}
+
+.greeting-copy {
+  flex: 1;
+  min-width: 0;
+}
+
+.eyebrow {
+  color: #637ba3;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.greeting h1 {
+  margin: 13px 0 0;
+  font-size: 30px;
+  font-weight: 850;
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+}
+
+/* =====================================
+   NÚT CHUYỂN USER A, B, C, D
+===================================== */
+
+.change-user-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-shrink: 0;
+
+  padding: 11px 12px;
+
+  border: 1px solid #e3dcf8;
+  border-radius: 12px;
+
+  background: #f0eaff;
+  color: #7452ce;
+
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.change-user-button:active {
+  background: #e6ddff;
+}
+
+/* =====================================
+   BẢNG CHỌN 4 USER
+===================================== */
+
+.user-chooser {
+  padding: 15px;
+  margin: -12px 0 22px;
+  border: 1px solid #e5e9f4;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 8px 24px #1d2c4e0f;
+}
+
+.user-chooser-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 13px;
+
+  strong {
+    font-size: 13px;
+    color: #293a57;
+  }
+
+  span {
+    color: #97a4b9;
+    font-size: 10px;
+  }
+}
+
+.user-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.user-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  min-height: 106px;
+  padding: 12px;
+
+  border: 1px solid #e8ebf4;
+  border-radius: 13px;
+
+  background: #f8f9fd;
+  color: #34435d;
+  font-family: inherit;
+  cursor: pointer;
+
+  strong {
+    font-size: 12px;
+  }
+
+  small {
+    color: #98a5ba;
+    font-size: 10px;
+  }
+
+  &.selected {
+    border-color: #a68bed;
+    background: #f1ebff;
+
+    small {
+      color: #7552d1;
+      font-weight: 800;
+    }
+  }
+}
+
+.user-letter {
+  display: grid;
+  place-items: center;
+  width: 39px;
+  height: 39px;
+  border-radius: 50%;
+  background: #e6edff;
+  color: #4279d8;
+  font-size: 17px;
+  font-weight: 900;
+}
+
+.user-option.selected .user-letter {
+  background: #805edb;
+  color: #fff;
+}
+
+/* =====================================
+   THẺ BÃI ĐỖ XE
+===================================== */
+
+.lot-card {
+  width: 100%;
+  overflow: hidden;
+
+  background: #fff;
+  border: 1px solid #e7edf6;
+  border-radius: 22px;
+
+  box-shadow: 0 8px 24px #253e630f;
+}
+
+/* =====================================
+   HÌNH MINH HỌA BÃI XE
+===================================== */
+
+.garage-art {
+  position: relative;
+  height: 175px;
+  overflow: hidden;
+
+  background: linear-gradient(
+    160deg,
+    #233750 5%,
+    #526984 52%,
+    #192b42 100%
+  );
+}
+
+.garage-art::before {
+  content: '';
+  position: absolute;
+  inset: 20px 0 auto;
+  height: 28px;
+  border-top: 6px solid #c7d5e5;
+  border-bottom: 6px solid #a2b3c8;
+  transform: skewY(-3deg);
+  opacity: .55;
+}
+
+.garage-art::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 55px;
+
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 75px,
+      #f8f8df50 76px 78px
+    ),
+    linear-gradient(
+      0deg,
+      #192b42,
+      #52698400
+    );
+}
+
+/* BIỂN P */
+
+.garage-label {
+  position: absolute;
+  z-index: 2;
+  top: 23px;
+  left: 24px;
+
+  padding: 10px 17px;
+  border-radius: 10px;
+
+  background: #217cfa;
+  color: #fff;
+  font-size: 32px;
+  font-weight: 900;
+}
+
+/* VẠCH KẺ */
+
+.lane {
+  position: absolute;
+  z-index: 1;
+  width: 56%;
+  height: 5px;
+  left: 23%;
+  bottom: 30px;
+
+  background: #ffffff6a;
+  transform: perspective(60px) rotateX(45deg);
+}
+
+/* HÌNH XE */
+
+.car {
+  position: absolute;
+  z-index: 2;
+
+  width: 72px;
+  height: 29px;
+  bottom: 31px;
+
+  background: #dce7f7;
+  border-radius: 16px 17px 6px 6px;
+  border-bottom: 6px solid #23364a;
+  box-shadow: 0 5px 0 #102536;
+}
+
+.car::before {
+  content: '';
+  position: absolute;
+
+  width: 48px;
+  height: 20px;
+  top: -15px;
+  left: 12px;
+
+  border-radius: 22px 22px 0 0;
+  background: #a1b5c9;
+}
+
+.car-one {
+  left: 20%;
+  transform: scale(.85);
+}
+
+.car-two {
+  right: 12%;
+  background: #b9cada;
+  transform: scale(.62);
+}
+
+/* =====================================
+   THỐNG KÊ CHỖ TRỐNG
+===================================== */
+
+.parking-merged-info {
+  padding: 20px;
+  background: #fff;
+}
+
+.merged-top {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.parking-icon {
+  display: grid;
+  place-items: center;
+
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+
+  border-radius: 15px;
+  background: #e8f1ff;
+  color: #247af5;
+
+  font-size: 29px;
+  font-weight: 900;
+}
+
+.parking-availability {
+  flex: 1;
+  min-width: 0;
+}
+
+.availability-label {
+  display: block;
+  margin-bottom: 5px;
+  color: #8093b0;
+  font-size: 12px;
+}
+
+.availability-count {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+
+  strong {
+    color: #18a765;
+    font-size: 30px;
+    font-weight: 850;
+  }
+
+  span {
+    color: #8294af;
+    font-size: 13px;
+  }
+}
+
+.availability-percent {
+  flex-shrink: 0;
+  padding: 9px 11px;
+  border-radius: 22px;
+
+  background: #e9f8ef;
+  color: #0e9c59;
+
+  font-size: 12px;
+  font-weight: 800;
+}
+
+/* THANH TIẾN ĐỘ */
+
+.parking-progress {
+  height: 7px;
+  margin-top: 18px;
+
+  border-radius: 20px;
+  background: #edf0f6;
+  overflow: hidden;
+}
+
+.parking-progress-fill {
+  height: 100%;
+  border-radius: 20px;
+  background: #20b86d;
+  transition: width .25s ease;
+}
+
+/* =====================================
+   NÚT XEM SƠ ĐỒ ĐỖ XE
+===================================== */
+
+.parking-map-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 9px;
+
+  margin-top: 17px;
+  padding: 13px 12px;
+
+  border: 1px solid #e1eaff;
+  border-radius: 12px;
+
+  background: #f3f7ff;
+  color: #287cf0;
+
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.parking-map-link:active {
+  background: #e7efff;
+}
+
+.parking-map-link:focus-visible {
+  outline: 3px solid #247af5;
+  outline-offset: 3px;
+}
+
+.map-icon {
+  font-size: 18px;
+}
+
+.map-arrow {
+  font-size: 22px;
+  line-height: 1;
+}
+
+/* =====================================
+   RESPONSIVE MOBILE
+===================================== */
+
+@media (max-width: 360px) {
+
+  .customer-page {
+    padding: 18px 14px 30px;
+  }
+
+  .greeting h1 {
+    font-size: 26px;
+  }
+
+  .change-user-button {
+    padding: 9px 8px;
+    font-size: 10px;
+  }
+
+  .parking-merged-info {
+    padding: 16px 13px;
+  }
+
+  .merged-top {
+    gap: 9px;
+  }
+
+  .parking-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 25px;
+  }
+
+  .availability-count strong {
+    font-size: 25px;
+  }
+
+  .availability-percent {
+    padding: 7px 8px;
+    font-size: 11px;
+  }
+}
+
+
+.user-vehicle {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.vehicle-label {
+  font-size: 12px;
+  color: #8796ad;
+}
+
+.vehicle-plate {
+  display: inline-block;
+  padding: 5px 10px;
+  border: 1.5px solid #dce3ed;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #26344f;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}

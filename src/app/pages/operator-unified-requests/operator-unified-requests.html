@@ -1,0 +1,614 @@
+
+<main class="phone-page review-page">
+
+  <!-- HEADER -->
+
+  <header class="review-header">
+
+    <a
+      routerLink="/operator"
+      class="back-link"
+    >
+      ← Quay lại
+    </a>
+
+    <span class="eyebrow">
+      ỨNG DỤNG NGƯỜI ĐIỀU HÀNH
+    </span>
+
+    <h1>Duyệt yêu cầu gửi xe</h1>
+
+    <p>
+      Tiếp nhận và phê duyệt yêu cầu
+      đặt chỗ, gửi xe qua đêm
+    </p>
+
+  </header>
+
+
+  <!-- THỐNG KÊ BOOKING -->
+
+  <section class="review-stats">
+
+    <div class="stat-card pending">
+
+      <span>Chờ duyệt</span>
+
+      <strong>
+        {{ pendingCount() }}
+      </strong>
+
+    </div>
+
+    <div class="stat-card approved">
+
+      <span>Đã duyệt</span>
+
+      <strong>
+        {{ approvedCount() }}
+      </strong>
+
+    </div>
+
+    <div class="stat-card rejected">
+
+      <span>Từ chối</span>
+
+      <strong>
+        {{ rejectedCount() }}
+      </strong>
+
+    </div>
+
+  </section>
+
+
+  <!-- THỐNG KÊ QUA ĐÊM -->
+
+  <section class="overnight-overview">
+
+    <span class="moon-icon">
+      🌙
+    </span>
+
+    <div>
+
+      <strong>
+        Yêu cầu qua đêm
+      </strong>
+
+      <p>
+        Đang chờ người điều hành xử lý
+      </p>
+
+    </div>
+
+    <strong class="night-count">
+      {{ overnightPendingCount() }}
+    </strong>
+
+  </section>
+
+
+  <!-- THÔNG BÁO -->
+
+  @if (message()) {
+
+    <div
+      class="result-note"
+      [class.success-note]="success()"
+      [class.error-note]="!success()"
+      role="status"
+    >
+      {{ message() }}
+    </div>
+
+  }
+
+
+  <!-- DANH SÁCH YÊU CẦU -->
+
+  <section class="request-list">
+
+    <div class="section-heading">
+
+      <h2>Danh sách yêu cầu đặt chỗ</h2>
+
+      <span>
+        {{ rows().length }} yêu cầu
+      </span>
+
+    </div>
+
+
+    <!-- DANH SÁCH TRỐNG -->
+
+    @if (rows().length === 0) {
+
+      <div class="empty-state">
+
+        <div class="empty-icon">
+          📋
+        </div>
+
+        <strong>
+          Chưa có yêu cầu đặt chỗ
+        </strong>
+
+        <p>
+          Các yêu cầu gửi xe sẽ xuất hiện ở đây.
+        </p>
+
+      </div>
+
+    }
+
+
+    <!-- DANH SÁCH BOOKING -->
+
+    @for (row of rows(); track row.booking.id) {
+
+      <article class="request-card">
+
+
+        <!-- BIỂN SỐ VÀ USER -->
+
+        <div class="request-header">
+
+          <div class="vehicle-icon">
+            🚗
+          </div>
+
+          <div class="vehicle-info">
+
+            <span>
+              {{ ownerLabel(row.booking.userId) }}
+            </span>
+
+            <strong>
+              {{ row.booking.plate }}
+            </strong>
+
+          </div>
+
+          <span
+            class="status-chip"
+            [class.pending]="
+              row.booking.status === 'pending'
+            "
+            [class.approved]="
+              row.booking.status === 'approved'
+            "
+            [class.rejected]="
+              row.booking.status === 'rejected'
+            "
+            [class.cancelled]="
+              row.booking.status === 'cancelled'
+            "
+          >
+            {{ statusLabel(row.booking.status) }}
+          </span>
+
+        </div>
+
+
+        <!-- CHI TIẾT BOOKING -->
+
+        <div class="request-details">
+
+          <div class="detail-row">
+
+            <span>Vị trí</span>
+
+            <strong>
+              {{ row.booking.floor }} -
+              {{ row.booking.spot }}
+            </strong>
+
+          </div>
+
+          <div class="detail-row">
+
+<span>Dự kiến gửi xe</span>
+
+            <strong>
+              {{
+                row.booking.startAt
+                | date:'HH:mm dd/MM/yyyy'
+              }}
+            </strong>
+
+          </div>
+        </div>
+
+
+        <!-- YÊU CẦU QUA ĐÊM ĐI KÈM -->
+
+        @if (row.overnights.length > 0) {
+
+          <section class="night-section">
+
+            <div class="night-heading">
+
+              <strong>
+                🌙 Yêu cầu gửi xe qua đêm
+              </strong>
+
+              <span>
+                {{ row.overnights.length }}
+              </span>
+
+            </div>
+
+
+            @for (
+              night of row.overnights;
+              track night.id
+            ) {
+
+              <div class="night-item">
+
+                <div class="night-item-header">
+
+                  <strong>
+                    Đêm {{ night.nightDate }}
+                  </strong>
+
+                  <span
+                    class="status-chip"
+                    [class.pending]="
+                      night.status === 'pending'
+                    "
+                    [class.approved]="
+                      night.status === 'approved'
+                    "
+                    [class.rejected]="
+                      night.status === 'rejected'
+                    "
+                    [class.cancelled]="
+                      night.status === 'cancelled'
+                    "
+                  >
+                    {{ statusLabel(night.status) }}
+                  </span>
+
+                </div>
+
+
+                <div class="night-reason">
+
+                  <span>Lý do gửi qua đêm</span>
+
+                  <p>{{ night.reason }}</p>
+
+                </div>
+
+
+                <!-- DUYỆT RIÊNG TỪNG ĐÊM -->
+
+                @if (night.status === 'pending') {
+
+                  <div class="action-grid">
+
+                    <button
+                      type="button"
+                      class="action-button approve-outline"
+                      [disabled]="
+                        !canApproveNight(night)
+                      "
+                      (click)="
+                        approveOvernight(night)
+                      "
+                    >
+                      ✓ Duyệt qua đêm
+                    </button>
+
+                    <button
+                      type="button"
+                      class="action-button reject-button"
+                      (click)="
+                        rejectOvernight(night.id)
+                      "
+                    >
+                      ✕ Từ chối
+                    </button>
+
+                  </div>
+
+                }
+
+              </div>
+
+            }
+
+          </section>
+
+        }
+
+
+        <!-- CẢNH BÁO BOOKING CŨ -->
+
+        @if (row.missingDates.length > 0) {
+
+          <div class="warning-note">
+
+            ⚠ Chưa có yêu cầu xin phép qua đêm
+            cho ngày:
+
+            {{ row.missingDates.join(', ') }}.
+
+            Booking này chưa được xác nhận
+            quyền gửi qua đêm cho các ngày trên.
+
+          </div>
+
+        }
+
+
+        <!-- DUYỆT KẾT HỢP -->
+
+        @if (
+          row.booking.status === 'pending' &&
+          pendingNightCount(row) > 0
+        ) {
+
+          <button
+            type="button"
+            class="approve-all-button"
+            (click)="approveAll(row.booking.id)"
+          >
+            ✓ Duyệt đặt chỗ và
+            {{ pendingNightCount(row) }}
+            yêu cầu qua đêm
+          </button>
+
+        }
+
+
+        <!-- DUYỆT RIÊNG BOOKING -->
+
+        @if (row.booking.status === 'pending') {
+
+          <div class="action-grid booking-actions">
+
+            <button
+              type="button"
+              class="action-button approve-outline"
+              (click)="
+                approveBooking(row.booking.id)
+              "
+            >
+
+              @if (row.overnights.length > 0) {
+
+                ✓ Chỉ duyệt đặt chỗ
+
+              } @else {
+
+                ✓ Duyệt đặt chỗ
+
+              }
+
+            </button>
+
+            <button
+              type="button"
+              class="action-button reject-button"
+              (click)="
+                rejectBooking(row.booking.id)
+              "
+            >
+              ✕ Từ chối đặt chỗ
+            </button>
+
+          </div>
+
+        }
+
+
+        <!-- BOOKING ĐÃ DUYỆT,
+             CÒN ĐÊM ĐANG CHỜ -->
+
+        @if (
+          row.booking.status === 'approved' &&
+          pendingNightCount(row) > 0
+        ) {
+
+          <button
+            type="button"
+            class="approve-all-button"
+            (click)="approveAll(row.booking.id)"
+          >
+            ✓ Duyệt tất cả đêm đang chờ
+          </button>
+
+        }
+
+
+        <!-- TRẠNG THÁI BOOKING -->
+
+        @if (row.booking.status === 'approved') {
+
+          <div class="booking-info approved-info">
+
+            ✓ Đã xác nhận giữ chỗ.
+
+            @if (row.overnights.length > 0) {
+              Quyền qua đêm được xác định
+              theo trạng thái từng đêm.
+            }
+
+          </div>
+
+        }
+
+
+        @if (row.booking.status === 'rejected') {
+
+          <div class="booking-info rejected-info">
+
+            ✕ Yêu cầu đặt chỗ đã bị từ chối.
+
+          </div>
+
+        }
+
+
+        @if (row.booking.status === 'cancelled') {
+
+          <div class="booking-info cancelled-info">
+
+            Yêu cầu đã được người dùng hủy.
+
+          </div>
+
+        }
+
+      </article>
+
+    }
+
+  </section>
+
+
+  <!-- YÊU CẦU QUA ĐÊM ĐỘC LẬP CŨ -->
+
+  @if (standaloneRequests().length > 0) {
+
+    <section class="request-list legacy-section">
+
+      <div class="section-heading">
+
+        <h2>Yêu cầu qua đêm độc lập</h2>
+
+        <span>
+          {{ standaloneRequests().length }} yêu cầu
+        </span>
+
+      </div>
+
+
+      @for (
+        night of standaloneRequests();
+        track night.id
+      ) {
+
+        <article class="request-card">
+
+          <div class="request-header">
+
+            <div class="vehicle-icon">
+              🌙
+            </div>
+
+            <div class="vehicle-info">
+
+              <span>
+                {{ ownerLabel(night.userId) }}
+              </span>
+
+              <strong>
+                {{ night.plate }}
+              </strong>
+
+            </div>
+
+            <span
+              class="status-chip"
+              [class.pending]="
+                night.status === 'pending'
+              "
+              [class.approved]="
+                night.status === 'approved'
+              "
+              [class.rejected]="
+                night.status === 'rejected'
+              "
+              [class.cancelled]="
+                night.status === 'cancelled'
+              "
+            >
+              {{ statusLabel(night.status) }}
+            </span>
+
+          </div>
+
+
+          <div class="request-details">
+
+            <div class="detail-row">
+
+              <span>Vị trí</span>
+
+              <strong>
+                {{ night.floor }} -
+                {{ night.spot }}
+              </strong>
+
+            </div>
+
+            <div class="detail-row">
+
+              <span>Ngày qua đêm</span>
+
+              <strong>
+                {{ night.nightDate }}
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <div class="night-reason">
+
+            <span>Lý do</span>
+
+            <p>{{ night.reason }}</p>
+
+          </div>
+
+
+          @if (night.status === 'pending') {
+
+            @if (!canApproveNight(night)) {
+
+              <div class="warning-note">
+                Không tìm thấy booking hợp lệ
+                liên quan đến yêu cầu này.
+              </div>
+
+            }
+
+            <div class="action-grid">
+
+              <button
+                type="button"
+                class="action-button approve-outline"
+                [disabled]="!canApproveNight(night)"
+                (click)="approveOvernight(night)"
+              >
+                ✓ Chấp nhận
+              </button>
+
+              <button
+                type="button"
+                class="action-button reject-button"
+                (click)="rejectOvernight(night.id)"
+              >
+                ✕ Từ chối
+              </button>
+
+            </div>
+
+          }
+
+        </article>
+
+      }
+
+    </section>
+
+  }
+
+</main>

@@ -1,0 +1,368 @@
+
+/* =====================================
+   OPERATOR HOME
+===================================== */
+
+:host {
+  display: block;
+}
+
+.operator-page {
+  min-height: calc(100dvh - 64px);
+  padding: 22px 22px 38px;
+  box-sizing: border-box;
+  background: #f7f9fd;
+  color: #17233e;
+}
+
+/* HEADER */
+
+.operator-header {
+  margin-bottom: 28px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 26px;
+  color: #7083a1;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.operator-greeting {
+  margin: 14px 0 30px;
+}
+
+.eyebrow {
+  color: #637ba3;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.operator-greeting h1 {
+  margin: 13px 0 0;
+  font-size: 30px;
+  font-weight: 850;
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+}
+
+/* THẺ BÃI XE */
+
+.lot-card {
+  overflow: hidden;
+  background: white;
+  border: 1px solid #e7edf6;
+  border-radius: 22px;
+  box-shadow: 0 8px 24px #253e630f;
+}
+
+/* HÌNH MINH HỌA */
+
+.garage-art {
+  position: relative;
+  height: 175px;
+  overflow: hidden;
+  background: linear-gradient(
+    160deg,
+    #233750 5%,
+    #526984 52%,
+    #192b42 100%
+  );
+}
+
+.garage-art::before {
+  content: '';
+  position: absolute;
+  inset: 20px 0 auto;
+  height: 28px;
+  border-top: 6px solid #c7d5e5;
+  border-bottom: 6px solid #a2b3c8;
+  transform: skewY(-3deg);
+  opacity: .55;
+}
+
+.garage-art::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 55px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 75px,
+      #f8f8df50 76px 78px
+    ),
+    linear-gradient(
+      0deg,
+      #192b42,
+      #52698400
+    );
+}
+
+.garage-label {
+  position: absolute;
+  z-index: 2;
+  top: 23px;
+  left: 24px;
+  padding: 10px 17px;
+  border-radius: 10px;
+  background: #217cfa;
+  color: white;
+  font-size: 32px;
+  font-weight: 900;
+}
+
+.lane {
+  position: absolute;
+  z-index: 1;
+  width: 56%;
+  height: 5px;
+  left: 23%;
+  bottom: 30px;
+  background: #ffffff6a;
+  transform: perspective(60px) rotateX(45deg);
+}
+
+.car {
+  position: absolute;
+  z-index: 2;
+  width: 72px;
+  height: 29px;
+  bottom: 31px;
+  background: #dce7f7;
+  border-radius: 16px 17px 6px 6px;
+  border-bottom: 6px solid #23364a;
+  box-shadow: 0 5px 0 #102536;
+}
+
+.car::before {
+  content: '';
+  position: absolute;
+  width: 48px;
+  height: 20px;
+  top: -15px;
+  left: 12px;
+  border-radius: 22px 22px 0 0;
+  background: #a1b5c9;
+}
+
+.car-one {
+  left: 20%;
+  transform: scale(.85);
+}
+
+.car-two {
+  right: 12%;
+  background: #b9cada;
+  transform: scale(.62);
+}
+
+/* THỐNG KÊ CHỖ TRỐNG */
+
+.parking-merged-info {
+  padding: 20px;
+}
+
+.merged-top {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.parking-icon {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  border-radius: 15px;
+  background: #e8f1ff;
+  color: #247af5;
+  font-size: 29px;
+  font-weight: 900;
+}
+
+.parking-availability {
+  flex: 1;
+  min-width: 0;
+}
+
+.availability-label {
+  display: block;
+  margin-bottom: 5px;
+  color: #8093b0;
+  font-size: 12px;
+}
+
+.availability-count {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+
+  strong {
+    color: #18a765;
+    font-size: 30px;
+    font-weight: 850;
+  }
+
+  span {
+    color: #8294af;
+    font-size: 13px;
+  }
+}
+
+.availability-percent {
+  padding: 9px 11px;
+  border-radius: 22px;
+  background: #e9f8ef;
+  color: #0e9c59;
+  font-size: 12px;
+  font-weight: 800;
+
+  &.no-space {
+    background: #fff0ef;
+    color: #d85d61;
+  }
+}
+
+/* THANH TIẾN ĐỘ */
+
+.parking-progress {
+  height: 7px;
+  margin-top: 18px;
+  border-radius: 20px;
+  background: #edf0f6;
+  overflow: hidden;
+}
+
+.parking-progress-fill {
+  height: 100%;
+  border-radius: 20px;
+  background: #20b86d;
+  transition: width .25s ease;
+}
+
+/* CHI TIẾT TRẠNG THÁI */
+
+.parking-legend {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 8px;
+  margin-top: 19px;
+  padding: 15px 0;
+  border-top: 1px solid #eef0f5;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #8090aa;
+  font-size: 11px;
+  white-space: nowrap;
+
+  strong {
+    color: #34445d;
+    font-weight: 800;
+  }
+}
+
+.legend-dot {
+  width: 9px;
+  height: 9px;
+  flex-shrink: 0;
+  border-radius: 50%;
+
+  &.available {
+    background: #20b86d;
+  }
+
+  &.occupied {
+    background: #7187a7;
+  }
+
+  &.reserved {
+    background: #8b68db;
+  }
+
+  &.maintenance {
+    background: #f59e0b;
+  }
+}
+
+/* NÚT XEM SƠ ĐỒ */
+
+.parking-map-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 13px 10px;
+  margin-top: 4px;
+  border: 1px solid #e1eaff;
+  border-radius: 12px;
+  background: #f3f7ff;
+  color: #287cf0;
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: none;
+
+  &:active {
+    background: #e7efff;
+  }
+
+  &:focus-visible {
+    outline: 3px solid #247af5;
+    outline-offset: 3px;
+  }
+}
+
+.map-icon {
+  font-size: 18px;
+}
+
+.map-arrow {
+  font-size: 22px;
+  line-height: 1;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 360px) {
+  .operator-page {
+    padding: 18px 14px 30px;
+  }
+
+  .operator-greeting h1 {
+    font-size: 26px;
+  }
+
+  .parking-merged-info {
+    padding: 16px 13px;
+  }
+
+  .merged-top {
+    gap: 9px;
+  }
+
+  .parking-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 25px;
+  }
+
+  .availability-count strong {
+    font-size: 25px;
+  }
+
+  .availability-percent {
+    padding: 7px 8px;
+  }
+
+  .legend-item {
+    font-size: 10px;
+  }
+}

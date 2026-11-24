@@ -1,0 +1,529 @@
+/* ===================================
+   SMART PARKING - OVERNIGHT REQUEST
+=================================== */
+
+:host {
+  display: block;
+}
+
+.overnight-page {
+  min-height: 100vh;
+  box-sizing: border-box;
+
+  padding: 35px 18px 45px;
+
+  background: #f8f9fe;
+  color: #17233d;
+}
+
+
+/* HEADER */
+
+.overnight-header {
+  display: flex;
+  flex-direction: column;
+
+  margin-bottom: 24px;
+}
+
+.back-link {
+  align-self: flex-start;
+
+  margin-bottom: 34px;
+
+  color: #607395;
+  text-decoration: none;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.eyebrow {
+  margin-bottom: 12px;
+
+  color: #8665da;
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+}
+
+.overnight-header h1 {
+  margin: 0 0 8px;
+
+  font-size: 24px;
+  font-weight: 800;
+
+  color: #17233d;
+}
+
+.overnight-header p {
+  margin: 0;
+
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+
+/* HƯỚNG DẪN */
+
+.info-card {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 12px;
+
+  padding: 16px;
+  margin-bottom: 18px;
+
+  background: #eee9ff;
+  border: 1px solid #e5ddff;
+  border-radius: 16px;
+}
+
+.info-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 42px;
+
+  flex-shrink: 0;
+
+  background: #e0d6ff;
+  border-radius: 12px;
+
+  font-size: 22px;
+}
+
+.info-card strong {
+  display: block;
+
+  color: #7554d7;
+
+  font-size: 13px;
+  font-weight: 800;
+
+  margin-bottom: 6px;
+}
+
+.info-card p {
+  margin: 0;
+
+  color: #78689d;
+
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+
+/* BIỂU MẪU */
+
+.overnight-form {
+  background: white;
+
+  border: 1px solid #e7ebf3;
+  border-radius: 18px;
+
+  padding: 18px;
+
+  box-shadow: 0 5px 20px rgba(28, 45, 85, 0.04);
+}
+
+.overnight-form h2 {
+  margin: 0 0 22px;
+
+  color: #17233d;
+
+  font-size: 16px;
+  font-weight: 800;
+}
+
+
+/* CÁC TRƯỜNG NHẬP */
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+
+  gap: 9px;
+
+  margin-bottom: 19px;
+}
+
+.form-field label {
+  color: #34435d;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 13px 14px;
+
+  background: #f8faff;
+  color: #17233d;
+
+  border: 1px solid #e1e7f0;
+  border-radius: 11px;
+
+  font-family: inherit;
+  font-size: 13px;
+
+  outline: none;
+}
+
+.form-field input,
+.form-field select {
+  min-height: 46px;
+}
+
+.form-field textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  border-color: #9372e5;
+
+  box-shadow: 0 0 0 3px rgba(147, 114, 229, 0.1);
+}
+
+
+/* CHỌN TẦNG VÀ VỊ TRÍ */
+
+.field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  gap: 12px;
+}
+
+
+/* LƯU Ý */
+
+.warning-note {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 9px;
+
+  padding: 13px;
+  margin-bottom: 20px;
+
+  background: #fff5e5;
+  border-radius: 11px;
+}
+
+.warning-note span {
+  font-size: 16px;
+}
+
+.warning-note p {
+  margin: 0;
+
+  color: #b97806;
+
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+
+/* NÚT GỬI */
+
+.submit-button {
+  width: 100%;
+  min-height: 47px;
+
+  padding: 13px;
+
+  background: linear-gradient(
+    135deg,
+    #9270e4,
+    #7654d7
+  );
+
+  color: white;
+
+  border: none;
+  border-radius: 12px;
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  box-shadow: 0 4px 12px rgba(118, 84, 215, 0.18);
+}
+
+.submit-button:disabled {
+  background: #cbd5e1;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.submit-button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+
+/* KẾT QUẢ */
+
+.result-note {
+  margin-top: 16px;
+  padding: 14px;
+
+  border-radius: 12px;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  line-height: 1.6;
+}
+
+.success-note {
+  background: #e7f8ee;
+  color: #15803d;
+}
+
+.error-note {
+  background: #fff0f0;
+  color: #dc2626;
+}
+/* LỊCH SỬ YÊU CẦU QUA ĐÊM */
+
+.overnight-history {
+  margin-top: 28px;
+}
+
+.history-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 15px;
+}
+
+.history-heading h2 {
+  margin: 0;
+
+  color: #17233d;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.history-heading span {
+  color: #94a3b8;
+  font-size: 11px;
+}
+
+/* THẺ YÊU CẦU */
+
+.history-card {
+  background: white;
+
+  border: 1px solid #e7ebf3;
+  border-radius: 17px;
+
+  padding: 16px;
+  margin-bottom: 14px;
+
+  box-shadow: 0 5px 18px rgba(28, 45, 85, 0.04);
+}
+
+.history-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.history-card-header strong {
+  font-size: 13px;
+  color: #17233d;
+}
+
+.overnight-status {
+  padding: 7px 9px;
+
+  border-radius: 20px;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+.pending-status {
+  background: #fff4de;
+  color: #d88b08;
+}
+
+.approved-status {
+  background: #e3f8ec;
+  color: #16a34a;
+}
+
+.rejected-status {
+  background: #feeaea;
+  color: #ef4444;
+}
+
+/* THÔNG TIN */
+
+.history-details {
+  display: flex;
+  flex-direction: column;
+
+  gap: 12px;
+  padding: 13px;
+
+  background: #f7f9fd;
+  border-radius: 11px;
+}
+
+.history-details > div {
+  display: flex;
+  justify-content: space-between;
+
+  gap: 8px;
+}
+
+.history-details span {
+  color: #8996ab;
+  font-size: 11px;
+}
+
+.history-details strong {
+  color: #34435d;
+  font-size: 11px;
+}
+
+.history-reason {
+  margin-top: 14px;
+}
+
+.history-reason span {
+  color: #8996ab;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.history-reason p {
+  margin: 7px 0 0;
+
+  color: #34435d;
+
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* THÔNG BÁO TRẠNG THÁI */
+
+.history-message {
+  margin-top: 14px;
+  padding: 12px;
+
+  border-radius: 10px;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.history-message.pending-message {
+  background: #fff5e4;
+  color: #b97806;
+}
+
+.history-message.approved-message {
+  background: #e7f8ee;
+  color: #168844;
+}
+
+.history-message.rejected-message {
+  background: #fff0f0;
+  color: #dc4040;
+}
+
+/* CHƯA CÓ YÊU CẦU */
+
+.history-empty {
+  padding: 26px 18px;
+
+  background: white;
+
+  border: 1px solid #e7ebf3;
+  border-radius: 16px;
+
+  text-align: center;
+}
+
+.history-empty > div {
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.history-empty strong {
+  display: block;
+  font-size: 13px;
+}
+
+.history-empty p {
+  color: #94a3b8;
+  font-size: 11px;
+}
+
+/* THÔNG BÁO TỰ ĐỘNG NHẬN DIỆN VỊ TRÍ */
+
+.auto-location-hint {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+
+  padding: 13px;
+  margin: 12px 0 18px;
+
+  border-radius: 12px;
+
+  background: #e9f8f0;
+  border: 1px solid #d1efde;
+
+  > span {
+    color: #18a66d;
+    font-size: 18px;
+    font-weight: 800;
+  }
+
+  strong {
+    display: block;
+    color: #14945f;
+    font-size: 12px;
+    margin-bottom: 5px;
+  }
+
+  p {
+    margin: 0;
+    color: #43886a;
+    font-size: 11px;
+    line-height: 1.5;
+  }
+}
+
+.overnight-form select:disabled {
+  background: #eef1f7;
+  color: #5c6b83;
+  opacity: 1;
+  cursor: not-allowed;
+}

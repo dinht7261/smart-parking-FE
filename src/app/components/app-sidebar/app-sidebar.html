@@ -1,0 +1,260 @@
+<!-- =====================================
+     THANH HEADER TRANG CHỦ
+===================================== -->
+
+<header class="app-topbar">
+
+  <!-- NÚT MỞ MENU -->
+
+  <button
+    type="button"
+    class="menu-toggle"
+    aria-label="Mở menu chức năng"
+    aria-controls="smart-parking-side-navigation"
+    [attr.aria-expanded]="opened()"
+    (click)="openMenu()"
+  >
+
+    <span aria-hidden="true">
+      ☰
+    </span>
+
+  </button>
+
+
+  <!-- TÊN ỨNG DỤNG -->
+
+  <div class="topbar-title">
+
+    <strong>
+      Smart Parking
+    </strong>
+
+    <span>
+      {{ roleTitle() }} · Trang chủ
+    </span>
+
+  </div>
+
+
+  <!-- BIỂU TƯỢNG -->
+
+  <div
+    class="topbar-symbol"
+    aria-hidden="true"
+  >
+    🅿️
+  </div>
+
+</header>
+
+
+<!-- =====================================
+     MENU SIDEBAR
+===================================== -->
+
+@if (opened()) {
+
+  <!-- LỚP NỀN TỐI -->
+
+  <button
+    type="button"
+    class="menu-backdrop"
+    aria-label="Đóng menu"
+    (click)="closeMenu()"
+  ></button>
+
+
+  <!-- NỘI DUNG SIDEBAR -->
+
+  <aside
+    id="smart-parking-side-navigation"
+    class="drawer"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Danh sách chức năng Smart Parking"
+  >
+
+    <!-- HEADER SIDEBAR -->
+
+    <div class="drawer-heading">
+
+      <div class="drawer-brand">
+
+        <span
+          class="brand-logo"
+          aria-hidden="true"
+        >
+          🅿️
+        </span>
+
+        <div>
+
+          <strong>
+            Smart Parking
+          </strong>
+
+          <small>
+            {{ roleTitle() }}
+          </small>
+
+        </div>
+
+      </div>
+
+
+      <!-- NÚT ĐÓNG -->
+
+      <button
+        type="button"
+        class="drawer-close"
+        aria-label="Đóng menu"
+        (click)="closeMenu()"
+      >
+        ✕
+      </button>
+
+    </div>
+
+
+    <!-- TÌM KIẾM -->
+
+    <label
+      for="sidebar-search"
+      class="visually-hidden"
+    >
+      Tìm chức năng
+    </label>
+
+    <input
+      id="sidebar-search"
+      type="search"
+      class="drawer-search"
+      placeholder="⌕ Tìm chức năng..."
+      [value]="query()"
+      (input)="query.set($any($event.target).value)"
+    />
+
+
+    <!-- DANH SÁCH ĐIỀU HƯỚNG -->
+
+    <nav
+      class="drawer-nav"
+      aria-label="Điều hướng Smart Parking"
+    >
+
+      <!-- TRANG CHỦ -->
+
+      <a
+        class="drawer-link home-link"
+        [routerLink]="homePath()"
+        routerLinkActive="is-active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="closeMenu()"
+      >
+
+        <span
+          class="link-icon"
+          aria-hidden="true"
+        >
+          🏠
+        </span>
+
+        <span>
+          Trang chủ
+        </span>
+
+      </a>
+
+
+      <!-- CÁC NHÓM CHỨC NĂNG -->
+
+      @for (
+        section of visibleSections();
+        track section.title
+      ) {
+
+        <section class="drawer-section">
+
+          <h2>
+            {{ section.title }}
+          </h2>
+
+
+          <!-- TỪNG CHỨC NĂNG -->
+
+          @for (
+            item of section.items;
+            track item.path + '|' + item.label
+          ) {
+
+            <a
+              class="drawer-link"
+              [routerLink]="item.path"
+              routerLinkActive="is-active"
+              (click)="closeMenu()"
+            >
+
+              <span
+                class="link-icon"
+                aria-hidden="true"
+              >
+                {{ item.icon }}
+              </span>
+
+
+              <span class="link-copy">
+
+                <span>
+                  {{ item.label }}
+                </span>
+
+                @if (item.description) {
+
+                  <small>
+                    {{ item.description }}
+                  </small>
+
+                }
+
+              </span>
+
+
+              <span
+                class="link-arrow"
+                aria-hidden="true"
+              >
+                ›
+              </span>
+
+            </a>
+
+          }
+
+        </section>
+
+      }
+
+
+      <!-- KHÔNG TÌM THẤY CHỨC NĂNG -->
+
+      @if (visibleSections().length === 0) {
+
+        <p class="menu-empty">
+          Không tìm thấy chức năng phù hợp.
+        </p>
+
+      }
+
+    </nav>
+
+
+    <!-- FOOTER MENU -->
+
+    <p class="drawer-footnote">
+      Giao diện mô phỏng · Smart Parking
+    </p>
+
+  </aside>
+
+}

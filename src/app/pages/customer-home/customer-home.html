@@ -1,0 +1,252 @@
+
+<!-- SIDEBAR -->
+
+<app-sidebar
+  role="customer"
+  [sections]="sidebarSections"
+/>
+
+
+<main class="phone-page customer-page">
+
+  <!-- HEADER -->
+
+  <header class="customer-header">
+
+    <a
+      routerLink="/"
+      class="back-link"
+    >
+      ← Đổi vai trò
+    </a>
+
+
+    <div class="greeting">
+
+      <div class="greeting-copy">
+
+        <span class="eyebrow">
+          ỨNG DỤNG NGƯỜI DÙNG
+        </span>
+
+        <h1>
+          Xin chào,<br />
+          {{ demoUsers.activeUser().name }}
+        </h1>
+
+      </div>
+
+
+      <div class="user-vehicle">
+
+        <span class="vehicle-label">
+          Biển số xe
+        </span>
+
+        <strong class="vehicle-plate">
+          {{ demoUsers.activePlate() }}
+        </strong>
+
+      </div>
+
+
+
+      <!-- NÚT CHUYỂN USER -->
+
+      <button
+        type="button"
+        class="change-user-button"
+        [attr.aria-expanded]="showUserChooser()"
+        (click)="toggleUserChooser()"
+      >
+
+        <span>⇄</span>
+
+        <span>
+          User {{ demoUsers.selectedUserId() }}
+        </span>
+
+        <span>⌄</span>
+
+      </button>
+
+    </div>
+
+
+    <!-- DANH SÁCH 4 USER -->
+
+    @if (showUserChooser()) {
+
+      <section class="user-chooser">
+
+        <div class="user-chooser-heading">
+
+          <strong>Chọn tài khoản</strong>
+
+          <span>Chế độ demo</span>
+
+        </div>
+
+        <div class="user-grid">
+
+          @for (
+            user of demoUsers.accounts;
+            track user.id
+          ) {
+
+            <button
+              type="button"
+              class="user-option"
+              [class.selected]="
+                demoUsers.selectedUserId() === user.id
+              "
+              (click)="changeUser(user.id)"
+            >
+
+              <span class="user-letter">
+                {{ user.id }}
+              </span>
+
+              <strong>
+                {{ user.name }}
+              </strong>
+
+              @if (
+                demoUsers.selectedUserId() === user.id
+              ) {
+                <small>✓ Đang chọn</small>
+              } @else {
+                <small>Chuyển sang</small>
+              }
+
+            </button>
+
+          }
+
+        </div>
+
+      </section>
+
+    }
+
+  </header>
+
+
+  <!-- =====================================
+       THẺ BÃI XE
+  ===================================== -->
+
+  <section class="lot-card">
+
+    <!-- HÌNH MINH HỌA -->
+
+    <div
+      class="garage-art"
+      aria-hidden="true"
+    >
+
+      <div class="garage-label">
+        P
+      </div>
+
+      <div class="lane"></div>
+
+      <div class="car car-one"></div>
+
+      <div class="car car-two"></div>
+
+    </div>
+
+
+    <!-- THÔNG TIN CHỖ TRỐNG -->
+
+    <div class="parking-merged-info">
+
+      <div class="merged-top">
+
+        <div class="parking-icon">
+          P
+        </div>
+
+        <div class="parking-availability">
+
+          <span class="availability-label">
+            Chỗ trống hiện tại
+          </span>
+
+          <div class="availability-count">
+
+            <strong>
+              {{ lot.availableCount() }}
+            </strong>
+
+            <span>
+              / {{ lot.totalCount }} chỗ
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="availability-percent">
+
+          {{ lot.availablePercent() }}%
+
+        </div>
+
+      </div>
+
+
+      <!-- THANH TIẾN ĐỘ -->
+
+      <div
+        class="parking-progress"
+        role="progressbar"
+        aria-label="Tỷ lệ chỗ trống"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        [attr.aria-valuenow]="lot.availablePercent()"
+      >
+
+        <div
+          class="parking-progress-fill"
+          [style.width.%]="lot.availablePercent()"
+        ></div>
+
+      </div>
+
+
+      <!-- XEM SƠ ĐỒ BÃI XE -->
+
+      <a
+        class="parking-map-link"
+        [routerLink]="parkingMapRoute"
+      >
+        <a
+  class="parking-map-link"
+  routerLink="/customer/check-in"
+>
+  <span class="map-icon">▣</span>
+
+  <span>
+    Quét QR tại cổng IN
+  </span>
+
+  <span class="map-arrow">›</span>
+</a>
+        <span class="map-icon">▦</span>
+
+        <span>
+          Xem sơ đồ đỗ xe theo tầng
+        </span>
+
+        <span class="map-arrow">›</span>
+
+      </a>
+
+    </div>
+
+  </section>
+
+</main>

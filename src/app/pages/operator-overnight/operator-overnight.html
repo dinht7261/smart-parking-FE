@@ -1,0 +1,284 @@
+<main class="phone-page overnight-admin-page">
+
+  <!-- HEADER -->
+
+  <header class="page-header">
+
+    <a routerLink="/operator" class="back-link">
+      ← Quay lại
+    </a>
+
+    <span class="eyebrow">
+      ỨNG DỤNG NGƯỜI ĐIỀU HÀNH
+    </span>
+
+    <h1>Yêu cầu qua đêm</h1>
+
+    <p>
+      Tiếp nhận và phê duyệt yêu cầu gửi xe qua đêm
+    </p>
+
+  </header>
+
+
+  <!-- THỐNG KÊ -->
+
+  <section class="request-stats">
+
+    <div class="stat-card pending">
+
+      <span>Chờ duyệt</span>
+
+      <strong>
+        {{ overnight.pendingCount() }}
+      </strong>
+
+    </div>
+
+    <div class="stat-card approved">
+
+      <span>Đã duyệt</span>
+
+      <strong>
+        {{ overnight.approvedCount() }}
+      </strong>
+
+    </div>
+
+    <div class="stat-card rejected">
+
+      <span>Từ chối</span>
+
+      <strong>
+        {{ overnight.rejectedCount() }}
+      </strong>
+
+    </div>
+
+  </section>
+
+
+  <!-- DANH SÁCH YÊU CẦU -->
+
+  <section class="request-list">
+
+    <div class="section-heading">
+
+      <h2>Danh sách yêu cầu</h2>
+
+      <span>
+        {{ overnight.requests().length }} yêu cầu
+      </span>
+
+    </div>
+
+
+    @if (overnight.requests().length === 0) {
+
+      <div class="empty-state">
+
+        <div class="empty-icon">🌙</div>
+
+        <h3>Chưa có yêu cầu qua đêm</h3>
+
+        <p>
+          Các yêu cầu gửi xe qua đêm
+          sẽ xuất hiện tại đây.
+        </p>
+
+      </div>
+
+    } @else {
+
+
+      @for (request of overnight.requests(); track request.id) {
+
+        <article class="request-item">
+
+
+          <!-- BIỂN SỐ VÀ TRẠNG THÁI -->
+
+          <div class="request-top">
+
+            <div class="vehicle-info">
+
+              <div class="vehicle-icon">
+                🚗
+              </div>
+
+              <div class="vehicle-text">
+
+                <small>Biển số xe</small>
+
+                <strong>
+                  {{ request.plate }}
+                </strong>
+
+              </div>
+
+            </div>
+
+
+            <span
+              class="status-pill"
+              [class.status-pending]="request.status === 'pending'"
+              [class.status-approved]="request.status === 'approved'"
+              [class.status-rejected]="request.status === 'rejected'"
+            >
+
+              @if (request.status === 'pending') {
+
+                ● Chờ duyệt
+
+              } @else if (request.status === 'approved') {
+
+                ✓ Đã duyệt
+
+              } @else {
+
+                ✕ Từ chối
+
+              }
+
+            </span>
+
+          </div>
+
+
+          <!-- THÔNG TIN YÊU CẦU -->
+
+          <div class="request-details">
+
+            <div class="detail-row">
+
+              <span>Vị trí đỗ</span>
+
+              <strong>
+                {{ request.floor }} - {{ request.spot }}
+              </strong>
+
+            </div>
+
+
+            <div class="detail-row">
+
+              <span>Ngày gửi qua đêm</span>
+
+              <strong>
+                {{ formatDate(request.nightDate) }}
+              </strong>
+
+            </div>
+
+
+            <div class="detail-row">
+
+              <span>Ngày tạo yêu cầu</span>
+
+              <strong>
+                {{ formatTime(request.createdAt) }}
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <!-- LÝ DO -->
+
+          <div class="reason-box">
+
+            <span>Lý do gửi qua đêm</span>
+
+            <p>
+              {{ request.reason }}
+            </p>
+
+          </div>
+
+
+          <!-- NÚT XỬ LÝ -->
+
+          @if (request.status === 'pending') {
+
+            <div class="request-actions">
+
+              <button
+                type="button"
+                class="approve-btn"
+                (click)="approve(request.id)"
+              >
+
+                <span>✓</span>
+                Chấp nhận
+
+              </button>
+
+
+              <button
+                type="button"
+                class="reject-btn"
+                (click)="reject(request.id)"
+              >
+
+                <span>✕</span>
+                Từ chối
+
+              </button>
+
+            </div>
+
+          }
+
+
+          <!-- ĐÃ DUYỆT -->
+
+          @if (request.status === 'approved') {
+
+            <div class="processed-note approved-note">
+
+              ✓ Đã cho phép gửi xe qua đêm
+
+            </div>
+
+          }
+
+
+          <!-- ĐÃ TỪ CHỐI -->
+
+          @if (request.status === 'rejected') {
+
+            <div class="processed-note rejected-note">
+
+              ✕ Yêu cầu gửi xe qua đêm đã bị từ chối
+
+            </div>
+
+          }
+
+        </article>
+
+      }
+
+    }
+
+  </section>
+
+
+  <!-- THÔNG BÁO -->
+
+  @if (feedback()) {
+
+    <div
+      class="action-feedback"
+      [class.feedback-error]="feedbackError()"
+      role="status"
+    >
+
+      {{ feedback() }}
+
+    </div>
+
+  }
+
+</main>

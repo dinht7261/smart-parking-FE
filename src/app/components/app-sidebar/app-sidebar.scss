@@ -1,0 +1,391 @@
+/* =====================================
+   SMART PARKING - SIDEBAR MENU
+===================================== */
+
+:host {
+  display: block;
+  color: #21324c;
+  font-family: inherit;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* =====================================
+   HEADER TRANG CHỦ
+===================================== */
+
+.app-topbar {
+  position: relative;
+  z-index: 30;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  min-height: 64px;
+  padding: 9px 18px;
+
+  background: #ffffff;
+
+  border-bottom: 1px solid #ecedf5;
+}
+
+/* NÚT BA GẠCH */
+
+.menu-toggle {
+  display: grid;
+  place-items: center;
+
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+
+  border: 1px solid #e7e8f4;
+  border-radius: 12px;
+
+  background: #f7f8fe;
+  color: #273650;
+
+  font-size: 23px;
+  cursor: pointer;
+}
+
+/* TIÊU ĐỀ */
+
+.topbar-title {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 3px;
+
+  min-width: 0;
+
+  strong {
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  span {
+    color: #90a0b5;
+    font-size: 10px;
+  }
+}
+
+/* LOGO */
+
+.topbar-symbol {
+  font-size: 22px;
+}
+
+/* =====================================
+   NỀN TỐI KHI MỞ MENU
+===================================== */
+
+.menu-backdrop {
+  position: fixed;
+  z-index: 1090;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  border: 0;
+
+  background: rgba(20, 29, 48, 0.55);
+
+  cursor: pointer;
+}
+
+/* =====================================
+   KHUNG SIDEBAR
+===================================== */
+
+.drawer {
+  position: fixed;
+  z-index: 1091;
+
+  inset: 0 auto 0 0;
+
+  width: min(86vw, 340px);
+  height: 100dvh;
+
+  display: flex;
+  flex-direction: column;
+
+  padding:
+    max(22px, env(safe-area-inset-top))
+    14px
+    max(18px, env(safe-area-inset-bottom));
+
+  background: #ffffff;
+
+  box-shadow:
+    8px 0 32px rgba(25, 39, 68, 0.17);
+
+  overflow: hidden;
+
+  animation: drawer-enter 0.18s ease-out;
+}
+
+/* HIỆU ỨNG MENU TRƯỢT */
+
+@keyframes drawer-enter {
+
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+
+}
+
+/* =====================================
+   HEADER TRONG SIDEBAR
+===================================== */
+
+.drawer-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.drawer-brand {
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+  min-width: 0;
+
+  strong {
+    display: block;
+
+    font-size: 15px;
+    font-weight: 800;
+  }
+
+  small {
+    display: block;
+
+    margin-top: 4px;
+
+    color: #9ba6ba;
+    font-size: 11px;
+  }
+}
+
+.brand-logo {
+  display: grid;
+  place-items: center;
+
+  flex: 0 0 41px;
+
+  width: 41px;
+  height: 41px;
+
+  border-radius: 12px;
+
+  background: #eee9ff;
+
+  font-size: 21px;
+}
+
+/* NÚT ĐÓNG */
+
+.drawer-close {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+
+  border: 0;
+  border-radius: 9px;
+
+  background: #f2f3f8;
+  color: #55637c;
+
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* =====================================
+   TÌM KIẾM CHỨC NĂNG
+===================================== */
+
+.visually-hidden {
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+
+  padding: 0;
+
+  overflow: hidden;
+
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+
+  border: 0;
+}
+
+.drawer-search {
+  flex: 0 0 auto;
+
+  width: 100%;
+  height: 44px;
+
+  padding: 0 13px;
+
+  border: 1px solid #e6e8f3;
+  border-radius: 12px;
+
+  outline: none;
+
+  color: #293a56;
+  background: #f8f9fd;
+
+  font-family: inherit;
+  font-size: 12px;
+
+  &:focus {
+    border-color: #9473e3;
+    background: #ffffff;
+  }
+}
+
+/* =====================================
+   DANH SÁCH CHỨC NĂNG
+===================================== */
+
+.drawer-nav {
+  flex: 1;
+
+  overflow-y: auto;
+
+  margin-top: 15px;
+  padding-bottom: 10px;
+
+  overscroll-behavior: contain;
+}
+
+/* NHÓM MENU */
+
+.drawer-section {
+  margin-top: 19px;
+
+  h2 {
+    margin: 0 0 9px 13px;
+
+    color: #9eabc0;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+}
+
+/* TỪNG CHỨC NĂNG */
+
+.drawer-link {
+  display: flex;
+  align-items: center;
+
+  min-height: 45px;
+
+  padding: 10px 12px;
+  gap: 11px;
+
+  border-radius: 11px;
+
+  text-decoration: none;
+
+  color: #30415f;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  &:hover,
+  &:focus-visible {
+    background: #f4f0ff;
+    outline: none;
+  }
+
+  &.is-active {
+    background: #efeaff;
+    color: #714dca;
+  }
+}
+
+/* ICON */
+
+.link-icon {
+  flex: 0 0 23px;
+
+  width: 23px;
+
+  text-align: center;
+  font-size: 18px;
+}
+
+/* NỘI DUNG ITEM */
+
+.link-copy {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+
+  gap: 3px;
+  min-width: 0;
+
+  small {
+    color: #9eabc0;
+
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 1.3;
+  }
+}
+
+/* MŨI TÊN */
+
+.link-arrow {
+  color: #adb6c8;
+
+  font-size: 21px;
+  font-weight: 400;
+}
+
+/* KHÔNG CÓ KẾT QUẢ */
+
+.menu-empty {
+  padding: 16px 10px;
+
+  color: #8d9bb1;
+
+  font-size: 12px;
+}
+
+/* =====================================
+   FOOTER
+===================================== */
+
+.drawer-footnote {
+  flex: 0 0 auto;
+
+  margin: 10px 5px 0;
+
+  color: #a7b0bf;
+
+  font-size: 10px;
+  text-align: center;
+}

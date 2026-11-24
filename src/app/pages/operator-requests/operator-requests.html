@@ -1,0 +1,305 @@
+<main class="phone-page requests-page">
+
+  <!-- HEADER -->
+  <header class="requests-header">
+
+    <a routerLink="/operator" class="back-link">
+      ← Quay lại
+    </a>
+
+    <div class="header-label">
+      ỨNG DỤNG NGƯỜI ĐIỀU HÀNH
+    </div>
+
+    <h1>Quản lý yêu cầu</h1>
+
+    <p>
+      Tiếp nhận và xử lý yêu cầu đặt chỗ
+    </p>
+
+  </header>
+
+
+  <!-- THỐNG KÊ YÊU CẦU -->
+  <section class="request-stats">
+
+    <div class="stat-card pending">
+
+      <span>Chờ duyệt</span>
+
+      <strong>
+        {{ bookings.pendingCount() }}
+      </strong>
+
+    </div>
+
+    <div class="stat-card approved">
+
+      <span>Đã duyệt</span>
+
+      <strong>
+        {{ bookings.approvedCount() }}
+      </strong>
+
+    </div>
+
+    <div class="stat-card rejected">
+
+      <span>Từ chối</span>
+
+      <strong>
+        {{ bookings.rejectedCount() }}
+      </strong>
+
+    </div>
+
+  </section>
+
+
+  <!-- DANH SÁCH YÊU CẦU -->
+  <section class="request-list">
+
+    <div class="section-heading">
+
+      <h2>Danh sách yêu cầu</h2>
+
+      <span>
+        {{ bookings.requests().length }} yêu cầu
+      </span>
+
+    </div>
+
+
+    <!-- CHƯA CÓ YÊU CẦU -->
+    @if (bookings.requests().length === 0) {
+
+      <div class="empty-state">
+
+        <div class="empty-icon">
+          📋
+        </div>
+
+        <h3>Chưa có yêu cầu</h3>
+
+        <p>
+          Các yêu cầu đặt chỗ từ người dùng
+          sẽ xuất hiện tại đây.
+        </p>
+
+      </div>
+
+    } @else {
+
+
+      <!-- DANH SÁCH -->
+      @for (request of bookings.requests(); track request.id) {
+
+        <article class="request-item">
+
+
+          <!-- THÔNG TIN XE -->
+          <div class="request-top">
+
+            <div class="vehicle-info">
+
+              <div class="vehicle-icon">
+                🚗
+              </div>
+
+              <div class="vehicle-text">
+
+                <span>Biển số xe</span>
+
+                <strong>
+                  {{ request.plate }}
+                </strong>
+
+              </div>
+
+            </div>
+
+
+            <!-- TRẠNG THÁI -->
+            <span
+              class="status-pill"
+              [class.status-pending]="request.status === 'pending'"
+              [class.status-approved]="request.status === 'approved'"
+              [class.status-rejected]="request.status === 'rejected'"
+            >
+
+              @if (request.status === 'pending') {
+
+                <span class="status-dot"></span>
+                Chờ duyệt
+
+              } @else if (request.status === 'approved') {
+
+                <span class="status-dot"></span>
+                Đã duyệt
+
+              } @else if (request.status === 'rejected') {
+
+                <span class="status-dot"></span>
+                Đã từ chối
+
+              } @else {
+
+                <span class="status-dot"></span>
+                Đã hủy
+
+              }
+
+            </span>
+
+          </div>
+
+
+          <!-- CHI TIẾT ĐẶT CHỖ -->
+          <div class="booking-details">
+
+            <div class="detail-row">
+
+              <span class="detail-label">
+                Vị trí đỗ
+              </span>
+
+              <strong class="spot-name">
+                {{ request.floor }} - {{ request.spot }}
+              </strong>
+
+            </div>
+
+
+            <div class="detail-row">
+
+              <span class="detail-label">
+                Thời gian gửi
+              </span>
+
+              <strong>
+                {{ formatTime(request.startAt) }}
+              </strong>
+
+            </div>
+
+
+            <div class="detail-row">
+
+              <span class="detail-label">
+                Thời gian lấy
+              </span>
+
+              <strong>
+                {{ formatTime(request.endAt) }}
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <!-- NÚT DUYỆT VÀ TỪ CHỐI -->
+          @if (request.status === 'pending') {
+
+            <div class="request-actions">
+
+              <button
+                type="button"
+                class="approve-btn"
+                (click)="approve(request.id)"
+              >
+
+                <span class="btn-icon">
+                  ✓
+                </span>
+
+                <span>Chấp nhận</span>
+
+              </button>
+
+
+              <button
+                type="button"
+                class="reject-btn"
+                (click)="reject(request.id)"
+              >
+
+                <span class="btn-icon">
+                  ✕
+                </span>
+
+                <span>Từ chối</span>
+
+              </button>
+
+            </div>
+
+          }
+
+
+          <!-- ĐÃ DUYỆT -->
+          @if (request.status === 'approved') {
+
+            <div class="processed-note approved-note">
+
+              <span>✓</span>
+
+              Yêu cầu đã được chấp nhận
+
+            </div>
+
+          }
+
+
+          <!-- ĐÃ TỪ CHỐI -->
+          @if (request.status === 'rejected') {
+
+            <div class="processed-note rejected-note">
+
+              <span>✕</span>
+
+              Yêu cầu đã bị từ chối
+
+            </div>
+
+          }
+
+
+          <!-- ĐÃ HỦY -->
+          @if (request.status === 'cancelled') {
+
+            <div class="processed-note">
+
+              <span>○</span>
+
+              Người dùng đã hủy yêu cầu
+
+            </div>
+
+          }
+
+        </article>
+
+      }
+
+    }
+
+  </section>
+
+
+  <!-- THÔNG BÁO SAU KHI XỬ LÝ -->
+  @if (feedback()) {
+
+    <div
+      class="action-feedback"
+      [class.feedback-error]="feedbackError()"
+      role="status"
+    >
+
+      {{ feedback() }}
+
+    </div>
+
+  }
+
+</main>

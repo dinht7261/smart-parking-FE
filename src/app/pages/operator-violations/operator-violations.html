@@ -1,0 +1,315 @@
+
+<main class="phone-page violations-page">
+
+  <!-- HEADER -->
+  <header class="violations-header">
+
+    <a routerLink="/operator" class="back-link">
+      ← Quay lại
+    </a>
+
+    <span class="eyebrow">
+      ỨNG DỤNG NGƯỜI ĐIỀU HÀNH
+    </span>
+
+    <h1>Quản lý vi phạm</h1>
+
+    <p>
+      Theo dõi và xử lý các trường hợp vi phạm gửi xe
+    </p>
+
+  </header>
+
+
+  <!-- THÔNG TIN -->
+  <section class="demo-banner">
+
+    <span class="demo-icon">⚠️</span>
+
+    <div>
+
+      <strong>Danh sách vi phạm</strong>
+
+      <p>
+        Hệ thống chỉ hiển thị những phiên gửi xe
+        đã phát hiện có vi phạm.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- THỐNG KÊ -->
+  <section class="violation-stats">
+
+    <div class="stat-card danger">
+
+      <span>Tổng trường hợp vi phạm</span>
+
+      <strong>
+        {{ visibleRecords().length }}
+      </strong>
+
+    </div>
+
+    <div class="stat-card">
+
+      <span>Xe đang trong bãi</span>
+
+      <strong>
+        {{ activeViolationCount() }}
+      </strong>
+
+    </div>
+
+    <div class="stat-card">
+
+      <span>Xe đã check-out</span>
+
+      <strong>
+        {{ completedViolationCount() }}
+      </strong>
+
+    </div>
+
+  </section>
+
+
+  <!-- DANH SÁCH VI PHẠM -->
+  <section class="violation-list">
+
+    <div class="section-heading">
+
+      <h2>Các trường hợp vi phạm</h2>
+
+      <span>
+        {{ visibleRecords().length }} trường hợp
+      </span>
+
+    </div>
+
+
+    <!-- KHÔNG CÓ VI PHẠM -->
+    @if (visibleRecords().length === 0) {
+
+      <div class="empty-state">
+
+        <div>✓</div>
+
+        <strong>Hiện không có trường hợp vi phạm</strong>
+
+        <p>
+          Khi hệ thống phát hiện xe vi phạm,
+          thông tin sẽ xuất hiện tại đây.
+        </p>
+
+      </div>
+
+    } @else {
+
+
+      <!-- DANH SÁCH XE VI PHẠM -->
+      @for (
+        item of visibleRecords();
+        track item.id
+      ) {
+
+        <article
+          class="violation-card has-violation"
+        >
+
+          <!-- THÔNG TIN XE -->
+          <div class="card-top">
+
+            <div class="vehicle-info">
+
+              <div class="vehicle-icon">
+                🚗
+              </div>
+
+              <div>
+
+                <span>Biển số xe</span>
+
+                <strong>
+                  {{ item.plate }}
+                </strong>
+
+              </div>
+
+            </div>
+
+
+            <span class="status-badge danger">
+              ⚠ VI PHẠM
+            </span>
+
+          </div>
+
+
+          <!-- NGUỒN PHIÊN -->
+          <div class="source-row">
+
+            @if (item.source === 'booking') {
+
+              <span class="booking-tag">
+                CÓ ĐẶT CHỖ
+              </span>
+
+            } @else {
+
+              <span class="demo-tag">
+                PHIÊN GỬI XE
+              </span>
+
+            }
+
+          </div>
+
+
+          <!-- THÔNG TIN VỊ TRÍ -->
+          <div class="detail-row">
+
+            <span>Vị trí đỗ</span>
+
+            <strong>
+              {{ item.floor }} - {{ item.spot }}
+            </strong>
+
+          </div>
+
+
+          <!-- TRẠNG THÁI XE -->
+          <div class="detail-row">
+
+            <span>Tình trạng xe</span>
+
+            <strong>
+              {{ item.isActive
+                ? 'Đang gửi trong bãi'
+                : 'Đã check-out' }}
+            </strong>
+
+          </div>
+
+
+          <!-- THỜI GIAN -->
+          <div class="detail-row">
+
+            <span>Check-in</span>
+
+            <strong>
+              {{ formatTime(item.checkInAt) }}
+            </strong>
+
+          </div>
+
+
+          <div class="detail-row">
+
+            <span>Check-out</span>
+
+            <strong>
+              {{ item.checkOutAt
+                ? formatTime(item.checkOutAt)
+                : 'Chưa check-out' }}
+            </strong>
+
+          </div>
+
+
+          <div class="detail-row">
+
+            <span>Hạn đặt chỗ</span>
+
+            <strong>
+              {{ item.bookingEndAt
+                ? formatTime(item.bookingEndAt)
+                : 'Không có hạn đặt chỗ' }}
+            </strong>
+
+          </div>
+
+
+          <div class="detail-row">
+
+            <span>Hạn gửi xe sau gia hạn</span>
+
+            <strong>
+              {{ formatTime(item.effectiveEndAt) }}
+            </strong>
+
+          </div>
+
+
+          <!-- KẾT QUẢ VI PHẠM -->
+          <div class="result-box danger">
+
+            <div class="result-title">
+
+              <span>⚠</span>
+
+              <strong>
+                Chi tiết vi phạm
+              </strong>
+
+            </div>
+
+
+            <!-- VI PHẠM QUÁ GIỜ -->
+            @if (item.overtimeViolation) {
+
+              <p>
+                • Xe đã quá hạn gửi:
+                <strong>
+                  {{ item.overdueMinutes }} phút
+                </strong>.
+              </p>
+
+              <p>
+                • Vượt quá thời gian gia hạn:
+                <strong>
+                  {{ item.excessMinutes }} phút
+                </strong>.
+              </p>
+
+            }
+
+
+            <!-- VI PHẠM QUA ĐÊM -->
+            @if (item.overnightViolation) {
+
+              <p>
+                • Xe lưu trong khung giờ
+                <strong>22:00 – 06:00</strong>
+                nhưng không có yêu cầu qua đêm
+                hợp lệ cho đêm tương ứng.
+              </p>
+
+              <p>
+                • Ngày phát sinh:
+                <strong>
+                  {{ item.nightDate }}
+                </strong>.
+              </p>
+
+            }
+
+
+            <span class="result-note">
+              Người điều hành cần kiểm tra thông tin
+              trước khi áp dụng mức phạt.
+            </span>
+
+          </div>
+
+        </article>
+
+      }
+
+    }
+
+  </section>
+
+</main>

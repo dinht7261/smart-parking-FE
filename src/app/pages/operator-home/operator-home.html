@@ -1,0 +1,220 @@
+
+<!-- =====================================
+     SIDEBAR NGƯỜI ĐIỀU HÀNH
+===================================== -->
+
+<app-sidebar
+  role="operator"
+  [sections]="sidebarSections"
+/>
+
+
+<!-- =====================================
+     TRANG CHỦ NGƯỜI ĐIỀU HÀNH
+===================================== -->
+
+<main class="phone-page operator-page">
+
+  <!-- HEADER -->
+
+  <header class="operator-header">
+
+    <a
+      routerLink="/"
+      class="back-link"
+    >
+      ← Đổi vai trò
+    </a>
+
+    <div class="operator-greeting">
+
+      <span class="eyebrow">
+        ỨNG DỤNG NGƯỜI ĐIỀU HÀNH
+      </span>
+
+      <h1>
+        Vận hành bãi xe
+      </h1>
+
+    </div>
+
+  </header>
+
+
+  <!-- =====================================
+       THẺ TỔNG QUAN BÃI XE
+  ===================================== -->
+
+  <section class="lot-card">
+
+    <!-- HÌNH MINH HỌA BÃI XE -->
+
+    <div
+      class="garage-art"
+      aria-hidden="true"
+    >
+
+      <div class="garage-label">
+        P
+      </div>
+
+      <div class="lane"></div>
+
+      <div class="car car-one"></div>
+
+      <div class="car car-two"></div>
+
+    </div>
+
+
+    <!-- THỐNG KÊ TÍCH HỢP -->
+
+    <div class="parking-merged-info">
+
+      <div class="merged-top">
+
+        <!-- ICON -->
+
+        <div class="parking-icon">
+          P
+        </div>
+
+
+        <!-- SỐ CHỖ TRỐNG -->
+
+        <div class="parking-availability">
+
+          <span class="availability-label">
+            Chỗ trống hiện tại
+          </span>
+
+          <div class="availability-count">
+
+            <strong>
+              {{ lot.availableCount() }}
+            </strong>
+
+            <span>
+              / {{ lot.totalCount }} chỗ
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- PHẦN TRĂM -->
+
+        <div
+          class="availability-percent"
+          [class.no-space]="lot.availableCount() === 0"
+        >
+          {{ lot.availablePercent() }}%
+        </div>
+
+      </div>
+
+
+      <!-- THANH TỶ LỆ CHỖ TRỐNG -->
+
+      <div
+        class="parking-progress"
+        role="progressbar"
+        aria-label="Tỷ lệ chỗ trống"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        [attr.aria-valuenow]="lot.availablePercent()"
+      >
+
+        <div
+          class="parking-progress-fill"
+          [style.width.%]="lot.availablePercent()"
+        ></div>
+
+      </div>
+
+
+      <!-- =====================================
+           CHI TIẾT TRẠNG THÁI
+      ===================================== -->
+
+      <div class="parking-legend">
+
+        <div class="legend-item">
+
+          <span class="legend-dot available"></span>
+
+          <span>
+            Trống:
+            <strong>{{ lot.availableCount() }}</strong>
+          </span>
+
+        </div>
+
+
+        <div class="legend-item">
+
+          <span class="legend-dot occupied"></span>
+
+          <span>
+            Đã đỗ:
+            <strong>{{ lot.occupiedCount() }}</strong>
+          </span>
+
+        </div>
+
+
+        <div class="legend-item">
+
+          <span class="legend-dot reserved"></span>
+
+          <span>
+            Đã đặt:
+            <strong>{{ lot.reservedCount() }}</strong>
+          </span>
+
+        </div>
+
+
+        <div class="legend-item">
+
+          <span class="legend-dot maintenance"></span>
+
+          <span>
+            Bảo trì:
+            <strong>{{ lot.maintenanceCount() }}</strong>
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- =====================================
+           XEM SƠ ĐỒ VÀ BẢO TRÌ
+      ===================================== -->
+
+      <a
+        routerLink="/operator/spaces"
+        class="parking-map-link"
+      >
+
+        <span class="map-icon">
+          ▦
+        </span>
+
+        <span>
+          Xem sơ đồ & quản lý bảo trì
+        </span>
+
+        <span class="map-arrow">
+          ›
+        </span>
+
+      </a>
+
+    </div>
+
+  </section>
+
+</main>

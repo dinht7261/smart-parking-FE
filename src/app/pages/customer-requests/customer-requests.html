@@ -1,0 +1,325 @@
+<main class="phone-page my-requests-page">
+
+  <!-- HEADER -->
+
+  <header class="page-header">
+
+    <a routerLink="/customer" class="back-link">
+      ← Quay lại
+    </a>
+
+    <span class="eyebrow">
+      ỨNG DỤNG NGƯỜI DÙNG
+    </span>
+
+    <h1>Yêu cầu của tôi</h1>
+
+    <p>
+      Theo dõi trạng thái các yêu cầu đặt chỗ
+    </p>
+
+  </header>
+
+
+  <!-- THỐNG KÊ -->
+
+  <section class="request-summary">
+
+    <div class="summary-card pending">
+      <span>Chờ duyệt</span>
+      <strong>{{ bookings.myPendingCount() }}</strong>
+    </div>
+
+    <div class="summary-card approved">
+      <span>Đã duyệt</span>
+      <strong>{{ bookings.myApprovedCount() }}</strong>
+    </div>
+
+    <div class="summary-card rejected">
+      <span>Từ chối</span>
+      <strong>{{ bookings.myRejectedCount() }}</strong>
+    </div>
+
+  </section>
+
+
+  <!-- DANH SÁCH YÊU CẦU -->
+
+  <section class="request-list">
+
+    <div class="section-heading">
+
+      <h2>Danh sách yêu cầu</h2>
+
+      <span>
+        {{ bookings.myRequests().length }} yêu cầu
+      </span>
+
+    </div>
+
+
+    @if (bookings.myRequests().length === 0) {
+
+      <div class="empty-state">
+
+        <div class="empty-icon">📋</div>
+
+        <h3>Bạn chưa có yêu cầu</h3>
+
+        <p>
+          Hãy chọn một vị trí còn trống
+          để tạo yêu cầu đặt chỗ.
+        </p>
+
+        <a routerLink="/customer/spaces" class="empty-button">
+          Xem chỗ đỗ
+        </a>
+
+      </div>
+
+    } @else {
+
+      @for (request of bookings.myRequests(); track request.id) {
+
+        <article class="booking-card">
+
+          <!-- BIỂN SỐ -->
+
+          <div class="booking-card-header">
+
+            <div class="vehicle-info">
+
+              <div class="vehicle-icon">🚗</div>
+
+              <div class="vehicle-text">
+
+                <small>Biển số xe</small>
+
+                <strong>{{ request.plate }}</strong>
+
+              </div>
+
+            </div>
+
+<!-- TRẠNG THÁI QUA ĐÊM CỦA BOOKING -->
+
+<app-booking-overnight-status
+  [booking]="request"
+></app-booking-overnight-status>
+
+
+            <!-- TRẠNG THÁI -->
+
+            <span
+              class="status-badge"
+              [class.pending-badge]="request.status === 'pending'"
+              [class.approved-badge]="request.status === 'approved'"
+              [class.rejected-badge]="request.status === 'rejected'"
+              [class.cancelled-badge]="request.status === 'cancelled'"
+            >
+
+              @if (request.status === 'pending') {
+
+                ● Chờ duyệt
+
+              } @else if (request.status === 'approved') {
+
+                ✓ Đã duyệt
+
+              } @else if (request.status === 'rejected') {
+
+                ✕ Từ chối
+
+              } @else {
+
+                Đã hủy
+
+              }
+
+            </span>
+
+          </div>
+
+
+          <!-- CHI TIẾT -->
+
+          <div class="booking-details">
+
+            <div class="detail-row">
+
+              <span>Vị trí</span>
+
+              <strong>
+                {{ request.floor }} - {{ request.spot }}
+              </strong>
+
+            </div>
+
+            <div class="detail-row">
+
+              <span>Thời gian gửi</span>
+
+              <strong>
+                {{ formatTime(request.startAt) }}
+              </strong>
+
+            </div>
+
+
+          </div>
+
+
+          <!-- ĐANG CHỜ DUYỆT -->
+
+          @if (request.status === 'pending') {
+
+            <div class="request-message pending-message">
+
+              <span>⏳</span>
+
+              <p>
+                Yêu cầu đang chờ người điều hành phê duyệt.
+              </p>
+
+            </div>
+
+
+            <!-- HỎI XÁC NHẬN HỦY -->
+
+            @if (confirmingCancelId() === request.id) {
+
+              <div class="cancel-confirm">
+
+                <strong>
+                  Bạn muốn hủy yêu cầu này?
+                </strong>
+
+                <p>
+                  Yêu cầu sẽ không còn được người điều hành duyệt.
+                </p>
+
+                <div class="cancel-confirm-actions">
+
+                  <button
+                    type="button"
+                    class="keep-btn"
+                    (click)="keepRequest()"
+                  >
+                    Giữ yêu cầu
+                  </button>
+
+                  <button
+                    type="button"
+                    class="confirm-cancel-btn"
+                    (click)="confirmCancel(request.id)"
+                  >
+                    Xác nhận hủy
+                  </button>
+
+                </div>
+
+              </div>
+
+            } @else {
+
+              <button
+                type="button"
+                class="cancel-request-btn"
+                (click)="askCancel(request.id)"
+              >
+                ✕ Hủy yêu cầu
+              </button>
+
+            }
+
+          }
+
+
+          <!-- ĐÃ DUYỆT -->
+
+          @if (request.status === 'approved') {
+
+            <div class="request-message approved-message">
+
+              <span>✓</span>
+
+              <p>
+                Yêu cầu đã được chấp nhận.
+                Vị trí đỗ đã được giữ cho bạn.
+              </p>
+
+            </div>
+
+          }
+
+
+          <!-- TỪ CHỐI -->
+
+          @if (request.status === 'rejected') {
+
+            <div class="request-message rejected-message">
+
+              <span>✕</span>
+
+              <p>
+                Yêu cầu không được chấp nhận.
+                Bạn có thể chọn vị trí khác.
+              </p>
+
+            </div>
+
+          }
+
+
+          <!-- ĐÃ HỦY -->
+
+          @if (request.status === 'cancelled') {
+
+            <div class="request-message cancelled-message">
+
+              <span>○</span>
+
+              <p>
+                Bạn đã hủy yêu cầu này.
+                Vị trí không còn được giữ theo yêu cầu.
+              </p>
+
+            </div>
+
+          }
+
+        </article>
+
+      }
+
+    }
+
+  </section>
+
+
+  <!-- THÔNG BÁO -->
+
+  @if (feedback()) {
+
+    <div
+      class="customer-feedback"
+      [class.feedback-error]="feedbackError()"
+      role="status"
+    >
+      {{ feedback() }}
+    </div>
+
+  }
+
+
+  <!-- QUAY LẠI SƠ ĐỒ -->
+
+  <a routerLink="/customer/spaces" class="parking-link">
+
+    Xem sơ đồ chỗ đỗ
+
+    <span>→</span>
+
+  </a>
+
+</main>

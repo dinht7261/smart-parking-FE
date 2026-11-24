@@ -1,0 +1,257 @@
+
+<main class="phone-page checkin-page">
+
+  <!-- HEADER -->
+
+  <header class="checkin-header">
+
+    <a
+      routerLink="/customer"
+      class="back-link"
+    >
+      ← Quay lại
+    </a>
+
+    <span class="eyebrow">
+      SMART PARKING
+    </span>
+
+    <h1>
+      Check-in gửi xe
+    </h1>
+
+    <p>
+      Quét mã QR tại cổng vào để xác nhận thông tin gửi xe.
+    </p>
+
+  </header>
+
+
+  <!-- USER ĐANG ĐƯỢC CHỌN -->
+
+  <section class="checkin-user-card">
+
+    <div class="user-avatar">
+      {{ demoUsers.selectedUserId() }}
+    </div>
+
+    <div class="user-info">
+
+      <strong>
+        {{ demoUsers.activeUser().name }}
+      </strong>
+
+      <span>
+        {{ demoUsers.activePlate() }}
+      </span>
+
+    </div>
+
+    <span class="user-status">
+      Đang chọn
+    </span>
+
+  </section>
+
+
+  <!-- CAMERA SCANNER -->
+
+  <section class="scanner-card">
+
+    <div class="scanner-heading">
+
+      <h2>
+        Quét QR cổng IN
+      </h2>
+
+      <p>
+        Đưa camera hướng vào mã QR được đặt tại barrier.
+      </p>
+
+    </div>
+
+
+    <!-- KHUNG CAMERA -->
+
+    <div
+      class="video-wrapper"
+      [class.scanning]="isScanning()"
+    >
+
+      <video
+        #cameraVideo
+        autoplay
+        muted
+        playsinline
+      ></video>
+
+
+      @if (!isScanning()) {
+
+        <div class="video-placeholder">
+
+          <div class="camera-icon">
+            ▣
+          </div>
+
+          <strong>
+            Camera chưa được kích hoạt
+          </strong>
+
+          <span>
+            Nhấn nút bên dưới để bắt đầu quét.
+          </span>
+
+        </div>
+
+      }
+
+
+      @if (isScanning()) {
+
+        <div class="scan-overlay">
+
+          <div class="scan-frame"></div>
+
+          <p>
+            Đang tìm mã QR...
+          </p>
+
+        </div>
+
+      }
+
+    </div>
+
+
+    <!-- THÔNG BÁO LỖI -->
+
+    @if (errorMessage()) {
+
+      <div class="error-message">
+
+        <strong>
+          Không thể Check-in
+        </strong>
+
+        <p>
+          {{ errorMessage() }}
+        </p>
+
+      </div>
+
+    }
+
+
+    <!-- ĐANG XỬ LÝ -->
+
+    @if (isProcessing()) {
+
+      <div class="processing-message">
+
+        Đang xác thực QR và kiểm tra lịch đặt chỗ...
+
+      </div>
+
+    }
+
+
+    <!-- KẾT QUẢ CHECK-IN -->
+
+    @if (checkedInSession(); as session) {
+
+      <section class="success-panel">
+
+        <div class="success-icon">
+          ✓
+        </div>
+
+        <h2>
+          Check-in thành công!
+        </h2>
+
+        <span class="customer-type">
+          {{ customerTypeLabel }}
+        </span>
+
+        <div class="session-details">
+
+          <div>
+            <span>Mã phiên</span>
+            <strong>{{ session.sessionCode }}</strong>
+          </div>
+
+          <div>
+            <span>Biển số xe</span>
+            <strong>{{ session.plate }}</strong>
+          </div>
+
+          <div>
+            <span>Tầng</span>
+            <strong>{{ session.floor }}</strong>
+          </div>
+
+          <div>
+            <span>Vị trí đỗ</span>
+            <strong>{{ session.spot }}</strong>
+          </div>
+
+          <div>
+            <span>Trạng thái</span>
+            <strong>{{ session.status }}</strong>
+          </div>
+
+        </div>
+
+        <p class="success-note">
+          Vui lòng di chuyển xe đến vị trí được hệ thống chỉ định.
+        </p>
+
+        <a
+          routerLink="/customer"
+          class="home-button"
+        >
+          Về trang chủ
+        </a>
+
+      </section>
+
+    } @else {
+
+      <!-- NÚT ĐIỀU KHIỂN CAMERA -->
+
+      <div class="scanner-actions">
+
+        @if (isScanning()) {
+
+          <button
+            type="button"
+            class="stop-button"
+            (click)="stopScanner()"
+          >
+            Dừng camera
+          </button>
+
+        } @else {
+
+          <button
+            type="button"
+            class="start-button"
+            [disabled]="isProcessing()"
+            (click)="startScanner()"
+          >
+            {{ isProcessing()
+              ? 'Đang xử lý...'
+              : 'Bắt đầu quét QR'
+            }}
+          </button>
+
+        }
+
+      </div>
+
+    }
+
+  </section>
+
+</main>
