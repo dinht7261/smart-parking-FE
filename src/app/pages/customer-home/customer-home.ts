@@ -1,17 +1,31 @@
 
 import {
   Component,
+  DestroyRef,
+  OnInit,
+  computed,
   inject,
   signal
 } from '@angular/core';
 
-import {
-  RouterLink
-} from '@angular/router';
+import { RouterLink } from '@angular/router';
 
 import {
-  ParkingLotService
-} from '../../services/parking-lot.service';
+  EMPTY,
+  catchError,
+  switchMap,
+  timer
+} from 'rxjs';
+
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+import {
+  ParkingSpotsApiService
+} from '../../services/parking-spots-api.service';
+
+import type {
+  ParkingSpotApiResponse
+} from '../../services/parking-spots-api.service';
 
 import {
   DemoUserService,
@@ -35,9 +49,11 @@ import {
   templateUrl: './customer-home.html',
   styleUrl: './customer-home.scss'
 })
-export class CustomerHome {
+export class CustomerHome implements OnInit {
 
-  readonly lot = inject(ParkingLotService);
+  private readonly api = inject(ParkingSpotsApiService);
+
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly demoUsers = inject(DemoUserService);
 
@@ -45,6 +61,43 @@ export class CustomerHome {
 
   readonly parkingMapRoute = '/customer/spaces';
 
+  // =====================================
+  // DỮ LIỆU BÃI XE TỪ BACKEND
+  // =====================================
+
+  readonly parkingSpots =
+    signal<ParkingSpotApiResponse[]>([]);
+
+  readonly parkingLoading = signal(true);
+
+  readonly parkingError = signal('');
+
+  // =====================================
+  // THỐNG KÊ CHỖ TRỐNG
+  // =====================================
+
+  readonly availableSpaces = computed(() =>
+    this.parkingSpots().filter(
+      spot => spot.status.toUpperCase() === 'AVAILABLE'
+    ).length
+  );
+
+  readonly totalSpaces = computed(() =>
+    this.parkingSpots().length
+  );
+
+  readonly availablePercent = computed(() => {
+
+    const total = this.totalSpaces();
+
+    if (total === 0) {
+      return 0;
+    }
+
+    return Math.round(
+      this.availableSpaces() / total * 100
+    );
+  });
 
   // =====================================
   // MENU NGƯỜI DÙNG
@@ -52,7 +105,6 @@ export class CustomerHome {
 
   readonly sidebarSections: SidebarMenuSection[] = [
 
-    
     {
       title: '___________________________________________________',
       items: [
@@ -76,12 +128,54 @@ export class CustomerHome {
           label: 'Thanh toán & hóa đơn',
           icon: '💳',
           path: '/customer/receipts'
-        },
+        }
       ]
     }
 
   ];
 
+  // =====================================
+  // ĐỒNG BỘ DỮ LIỆU TỪ BACKEND
+  // =====================================
+
+  ngOnInit(): void {
+
+    timer(0, 5000).pipe(
+
+      switchMap(() =>
+        this.api.getSpots().pipe(
+
+          catchError(error => {
+
+            console.error(
+              'Không thể lấy trạng thái bãi xe:',
+              error
+            );
+
+            this.parkingError.set(
+              'Không thể kết nối Backend.'
+            );
+
+            this.parkingLoading.set(false);
+
+            return EMPTY;
+          })
+
+        )
+      ),
+
+      takeUntilDestroyed(this.destroyRef)
+
+    ).subscribe(data => {
+
+      this.parkingSpots.set(data);
+
+      this.parkingLoading.set(false);
+
+      this.parkingError.set('');
+
+    });
+  }
 
   // =====================================
   // MỞ / ĐÓNG CHỌN USER
@@ -94,7 +188,6 @@ export class CustomerHome {
     );
   }
 
-
   // =====================================
   // CHỌN USER
   // =====================================
@@ -104,19 +197,6 @@ export class CustomerHome {
     this.demoUsers.selectUser(id);
 
     this.showUserChooser.set(false);
-  }
-
-
-  // =====================================
-  // THỐNG KÊ BÃI XE
-  // =====================================
-
-  get availableSpaces(): number {
-    return this.lot.availableCount();
-  }
-
-  get totalSpaces(): number {
-    return this.lot.totalCount;
   }
 
 }

@@ -5,7 +5,17 @@
     <h1>Chỗ trống trong bãi</h1>
     <p>⌖ Bãi đỗ xe Trung tâm A</p>
   </header>
+@if (loading()) {
+  <p class="map-caption">
+    Đang tải trạng thái chỗ đỗ từ hệ thống...
+  </p>
+}
 
+@if (error()) {
+  <p class="map-caption" style="color: #dc2626">
+    {{ error() }}
+  </p>
+}
   <section class="stats" aria-label="Trạng thái khu vực đang xem">
     <div class="stat available-stat"><span>● Trống</span><strong>{{ availableCount() }}</strong></div>
 
@@ -16,7 +26,7 @@
   </span>
 
   <strong class="occupied-stat-number">
-    {{ lot.occupiedCount() }}
+    {{ occupiedCount() }}
   </strong>
 
 </div>
@@ -35,7 +45,7 @@
   </section>
 
   <section class="map-card" aria-label="Sơ đồ vị trí đỗ xe">
-    <div class="map-head"><h2>Khu A · Tầng {{ activeFloor() }}</h2><span>{{ availableCount() }}/2 còn trống</span></div>
+    <div class="map-head"><h2>Khu A · Tầng {{ activeFloor() }}</h2><span>{{ availableCount() }}/{{ currentSpots().length }} còn trống</span></div>
     <div class="legend" aria-label="Chú thích trạng thái">
       <span><i class="available-dot"></i>Trống</span>
       <span><i class="occupied-dot"></i>Đã đỗ</span>
@@ -57,12 +67,18 @@
     <p class="map-caption">Chỉ có thể chọn ô màu xanh lá. Ô đang bảo trì sẽ không thể chọn.</p>
   </section>
 
-  @if (confirmedSpot()) {
-    <div class="confirmation" role="status">✓ Đã ghi nhận lựa chọn <strong>{{ confirmedSpot() }}</strong> trên giao diện demo.</div>
-  }
-
   <section class="selection-panel" aria-label="Xác nhận lựa chọn">
-    <button type="button" class="select-button" [disabled]="!selectedSpot()" (click)="confirmSelection()">{{selectedSpot()? 'Tạo yêu cầu cho chỗ ' + selectedSpot(): 'Chọn một chỗ trống'}}</button>
-    <p>Demo có 2 tầng, mỗi tầng 2 vị trí. Sơ đồ lấy trạng thái từ cùng nguồn dữ liệu với giao diện điều hành; chưa có đặt chỗ thật.</p>
+    <button
+      type="button"
+      class="select-button"
+      [disabled]="!selectedSpot() || loading() || !!error()"
+      (click)="confirmSelection()"
+    >
+                  {{selectedSpot()? 'Tạo yêu cầu cho chỗ ' + selectedSpot(): 'Chọn một chỗ trống'}}
+    </button>
+  <p>
+  Trạng thái chỗ đỗ được lấy trực tiếp từ Backend
+  và tự động cập nhật mỗi 5 giây.
+</p>
   </section>
 </main>

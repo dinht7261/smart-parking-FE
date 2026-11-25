@@ -176,13 +176,20 @@
 
           <div class="availability-count">
 
-            <strong>
-              {{ lot.availableCount() }}
-            </strong>
+<strong>
+  {{ parkingLoading() ? '...' :
+     parkingError() ? '—' : availableSpaces() }}
+</strong>
 
-            <span>
-              / {{ lot.totalCount }} chỗ
-            </span>
+<span>
+  @if (parkingLoading()) {
+    Đang cập nhật...
+  } @else if (parkingError()) {
+    Không có dữ liệu
+  } @else {
+    / {{ totalSpaces() }} chỗ
+  }
+</span>
 
           </div>
 
@@ -191,7 +198,8 @@
 
         <div class="availability-percent">
 
-          {{ lot.availablePercent() }}%
+          {{ parkingLoading() ? '...' :
+   parkingError() ? '!' : availablePercent() + '%' }}
 
         </div>
 
@@ -206,12 +214,12 @@
         aria-label="Tỷ lệ chỗ trống"
         aria-valuemin="0"
         aria-valuemax="100"
-        [attr.aria-valuenow]="lot.availablePercent()"
+        [style.width.%]="parkingError() ? 0 : availablePercent()"
       >
 
         <div
           class="parking-progress-fill"
-          [style.width.%]="lot.availablePercent()"
+          [style.width.%]="parkingError() ? 0 : availablePercent()"
         ></div>
 
       </div>
@@ -219,31 +227,41 @@
 
       <!-- XEM SƠ ĐỒ BÃI XE -->
 
-      <a
-        class="parking-map-link"
-        [routerLink]="parkingMapRoute"
-      >
-        <a
-  class="parking-map-link"
-  routerLink="/customer/check-in"
->
-  <span class="map-icon">▣</span>
+<!-- CÁC CHỨC NĂNG BÃI XE -->
 
-  <span>
-    Quét QR tại cổng IN
-  </span>
+<div class="parking-actions">
 
-  <span class="map-arrow">›</span>
-</a>
-        <span class="map-icon">▦</span>
+  <!-- QUÉT QR CỔNG IN -->
 
-        <span>
-          Xem sơ đồ đỗ xe theo tầng
-        </span>
+  <a
+    class="parking-map-link"
+    routerLink="/customer/check-in"
+  >
+    <span class="map-icon">▣</span>
 
-        <span class="map-arrow">›</span>
+    <span>
+      Quét QR tại cổng IN
+    </span>
 
-      </a>
+    <span class="map-arrow">›</span>
+  </a>
+
+  <!-- XEM SƠ ĐỒ -->
+
+  <a
+    class="parking-map-link"
+    [routerLink]="parkingMapRoute"
+  >
+    <span class="map-icon">▦</span>
+
+    <span>
+      Xem sơ đồ đỗ xe theo tầng
+    </span>
+
+    <span class="map-arrow">›</span>
+  </a>
+
+</div>
 
     </div>
 

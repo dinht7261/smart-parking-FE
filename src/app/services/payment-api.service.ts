@@ -31,6 +31,7 @@ export type BackendPaymentMethod =
 // RESPONSE TỪ SPRING BOOT
 // =====================================
 
+
 export interface PaymentResponse {
 
   id: number;
@@ -47,14 +48,22 @@ export interface PaymentResponse {
 
   overnightRequested: boolean;
 
+  // Thời gian gửi xe
   billableHours: number;
 
   parkingFee: number;
 
+  // Phụ phí giữ chỗ do Check-in muộn
+  reservationHoldHours: number;
+
+  reservationHoldFee: number;
+
+  // Phạt qua đêm
   violationNights: number;
 
   overnightPenalty: number;
 
+  // Tổng tiền
   amount: number;
 
   paymentMethod: BackendPaymentMethod;
@@ -65,6 +74,7 @@ export interface PaymentResponse {
 
   createdAt: string;
 }
+
 
 // =====================================
 // API CONFIG
