@@ -18,18 +18,11 @@
     <button
       type="button"
       class="sensor-entry-button"
-      [disabled]="loading() || checkingOut() !== null"
+      [disabled]="loading()"
       (click)="loadSessions()"
     >
       {{ loading() ? 'Đang tải...' : '↻ Làm mới dữ liệu' }}
     </button>
-
-    <a
-      routerLink="/operator/fees"
-      class="fees-shortcut"
-    >
-      💳 Quản lý hóa đơn và thanh toán →
-    </a>
 
   </header>
 
@@ -278,30 +271,6 @@
             </div>
 
           </div>
-
-          @if (session.status === 'ACTIVE') {
-
-            <button
-              type="button"
-              class="sensor-exit-button"
-              [disabled]="checkingOut() !== null"
-              (click)="checkOut(session)"
-            >
-              {{
-                checkingOut() === session.sessionCode
-                  ? 'Đang xử lý Check-out...'
-                  : '↗ Check-out và tạo hóa đơn'
-              }}
-            </button>
-
-          } @else if (session.status === 'AWAITING_PAYMENT') {
-
-            <div class="payment-pending-note" role="status">
-              Xe đã Check-out. Hóa đơn đang chờ thanh toán.
-              Vui lòng mở mục Quản lý hóa đơn và thanh toán.
-            </div>
-
-          }
 
         </article>
 
