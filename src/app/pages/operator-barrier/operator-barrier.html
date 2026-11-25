@@ -1,6 +1,10 @@
+
 <main class="phone-page barrier-page">
 
-  <!-- HEADER -->
+  <!-- =====================================
+       HEADER
+  ====================================== -->
+
   <header class="barrier-header">
 
     <a routerLink="/operator" class="back-link">
@@ -16,113 +20,120 @@
   </header>
 
 
+  <!-- =====================================
+       OLED MÔ PHỎNG
+  ====================================== -->
 
-<!-- MÀN HÌNH OLED MÔ PHỎNG -->
-<app-parking-availability-preview>
-</app-parking-availability-preview>
+  <app-parking-availability-preview>
+  </app-parking-availability-preview>
 
-<!-- =====================================
-     LED NHẬN DIỆN KHÁCH HÀNG
-===================================== -->
 
-<section class="recognition-section">
+  <!-- =====================================
+       LED NHẬN DIỆN KHÁCH HÀNG
+  ====================================== -->
 
-  <div class="section-heading">
+  <section class="recognition-section">
 
-    <h2>LED nhận diện khách hàng</h2>
+    <div class="section-heading">
 
-    <span>GATE IN</span>
+      <h2>LED nhận diện khách hàng</h2>
 
-  </div>
-
-  @if (barrier.lastEntryRecognition(); as recognition) {
-
-    <article
-      class="recognition-card"
-      [class.is-reservation]="recognition.sessionType === 'RESERVATION'"
-      [class.is-walk-in]="recognition.sessionType === 'WALK_IN'"
-      aria-live="polite"
-    >
-
-      <div class="led-indicator"></div>
-
-      <div class="recognition-content">
-
-        <span class="led-label">
-          SMART PARKING / ENTRY SYSTEM
-        </span>
-
-        @if (recognition.sessionType === 'RESERVATION') {
-
-          <strong class="recognition-type">
-            KHÁCH ĐẶT TRƯỚC
-          </strong>
-
-          <span class="recognition-description">
-            RESERVATION CUSTOMER
-          </span>
-
-        } @else {
-
-          <strong class="recognition-type">
-            KHÁCH VÃNG LAI
-          </strong>
-
-          <span class="recognition-description">
-            WALK-IN CUSTOMER
-          </span>
-
-        }
-
-        <div class="recognition-info">
-
-          <span>
-            User: {{ recognition.userCode }}
-          </span>
-
-          <span>
-            Biển số: {{ recognition.licensePlate }}
-          </span>
-
-          <span>
-            Khách hàng:
-            {{ recognition.customerName || 'Chưa có thông tin' }}
-          </span>
-
-          <span>
-            Mã phiên: {{ recognition.sessionCode }}
-          </span>
-
-        </div>
-
-      </div>
-
-      <span class="led-live">
-        ● ACTIVE
-      </span>
-
-    </article>
-
-  } @else {
-
-    <div class="recognition-empty">
-
-      <span>◉</span>
-
-      <strong>Đang chờ nhận diện QR</strong>
-
-      <p>
-        Thông tin khách hàng sẽ xuất hiện
-        sau khi Check-in thành công.
-      </p>
+      <span>GATE IN</span>
 
     </div>
 
-  }
+    @if (barrier.lastEntryRecognition(); as recognition) {
 
-</section>
+      <article
+        class="recognition-card"
+        [class.is-reservation]="recognition.sessionType === 'RESERVATION'"
+        [class.is-walk-in]="recognition.sessionType === 'WALK_IN'"
+        aria-live="polite"
+      >
 
-  <!-- DANH SÁCH BARRIER -->
+        <div class="led-indicator"></div>
+
+        <div class="recognition-content">
+
+          <span class="led-label">
+            SMART PARKING / ENTRY SYSTEM
+          </span>
+
+          @if (recognition.sessionType === 'RESERVATION') {
+
+            <strong class="recognition-type">
+              KHÁCH ĐẶT TRƯỚC
+            </strong>
+
+            <span class="recognition-description">
+              RESERVATION CUSTOMER
+            </span>
+
+          } @else {
+
+            <strong class="recognition-type">
+              KHÁCH VÃNG LAI
+            </strong>
+
+            <span class="recognition-description">
+              WALK-IN CUSTOMER
+            </span>
+
+          }
+
+          <div class="recognition-info">
+
+            <span>
+              User: {{ recognition.userCode }}
+            </span>
+
+            <span>
+              Biển số: {{ recognition.licensePlate }}
+            </span>
+
+            <span>
+              Khách hàng:
+              {{ recognition.customerName || 'Chưa có thông tin' }}
+            </span>
+
+            <span>
+              Mã phiên: {{ recognition.sessionCode }}
+            </span>
+
+          </div>
+
+        </div>
+
+        <span class="led-live">
+          ● ACTIVE
+        </span>
+
+      </article>
+
+    } @else {
+
+      <div class="recognition-empty">
+
+        <span>◉</span>
+
+        <strong>Đang chờ nhận diện QR</strong>
+
+        <p>
+          Thông tin khách hàng sẽ xuất hiện
+          sau khi Check-in thành công.
+        </p>
+
+      </div>
+
+    }
+
+  </section>
+
+
+  <!-- =====================================
+       DANH SÁCH BARRIER
+  ====================================== -->
+
   <section class="gate-section">
 
     <div class="section-heading">
@@ -139,6 +150,7 @@
       <article class="gate-card">
 
         <!-- TÊN CỔNG -->
+
         <div class="gate-top">
 
           <div class="gate-title">
@@ -158,14 +170,16 @@
           </div>
 
 
+          <!-- BADGE TRẠNG THÁI -->
+
           <span
             class="gate-status"
-            [class.open]="barrier.getState(gate.id) === 'open'"
+            [class.open]="barrier.states()[gate.id] === 'open'"
           >
 
             <span class="status-dot"></span>
 
-            @if (barrier.getState(gate.id) === 'open') {
+            @if (barrier.states()[gate.id] === 'open') {
               Đang mở
             } @else {
               Đang đóng
@@ -177,9 +191,10 @@
 
 
         <!-- HÌNH MINH HỌA BARRIER -->
+
         <div
           class="barrier-visual"
-          [class.is-open]="barrier.getState(gate.id) === 'open'"
+          [class.is-open]="barrier.states()[gate.id] === 'open'"
           aria-hidden="true"
         >
 
@@ -194,12 +209,15 @@
         </div>
 
 
-        <!-- TRẠNG THÁI -->
+        <!-- MÔ TẢ TRẠNG THÁI -->
+
         <div class="state-description">
 
-          @if (barrier.getState(gate.id) === 'open') {
+          @if (barrier.states()[gate.id] === 'open') {
 
-            <span class="state-icon open-icon">✓</span>
+            <span class="state-icon open-icon">
+              ✓
+            </span>
 
             <span>
               Barrier đang ở trạng thái mở
@@ -207,7 +225,9 @@
 
           } @else {
 
-            <span class="state-icon closed-icon">●</span>
+            <span class="state-icon closed-icon">
+              ●
+            </span>
 
             <span>
               Barrier đang ở trạng thái đóng
@@ -218,28 +238,37 @@
         </div>
 
 
-        <!-- NÚT ĐIỀU KHIỂN -->
+        <!-- =====================================
+             ĐIỀU KHIỂN THỦ CÔNG
+        ====================================== -->
+
         <div class="gate-actions">
 
           <button
             type="button"
             class="open-btn"
-            [disabled]="barrier.getState(gate.id) === 'open'"
+            [disabled]="barrier.states()[gate.id] === 'open'"
             (click)="changeState(gate.id, 'open')"
           >
+
             <span>↗</span>
+
             Mở barrier
+
           </button>
 
 
           <button
             type="button"
             class="close-btn"
-            [disabled]="barrier.getState(gate.id) === 'closed'"
+            [disabled]="barrier.states()[gate.id] === 'closed'"
             (click)="changeState(gate.id, 'closed')"
           >
+
             <span>■</span>
+
             Đóng barrier
+
           </button>
 
         </div>
@@ -251,7 +280,10 @@
   </section>
 
 
-  <!-- THÔNG BÁO -->
+  <!-- =====================================
+       THÔNG BÁO
+  ====================================== -->
+
   @if (message()) {
 
     <div class="action-message" role="status">
@@ -261,7 +293,10 @@
   }
 
 
-  <!-- LỊCH SỬ -->
+  <!-- =====================================
+       LỊCH SỬ ĐIỀU KHIỂN
+  ====================================== -->
+
   <section class="history-section">
 
     <div class="section-heading">
@@ -310,6 +345,7 @@
 
             </div>
 
+
             <div class="history-info">
 
               <strong>
@@ -321,6 +357,7 @@
               </span>
 
             </div>
+
 
             <time>
               {{ formatTime(item.createdAt) }}
@@ -335,6 +372,5 @@
     }
 
   </section>
-
 
 </main>

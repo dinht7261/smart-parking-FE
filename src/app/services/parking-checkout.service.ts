@@ -9,7 +9,8 @@ import {
   Observable,
   switchMap,
   tap,
-  throwError
+  throwError,
+  map
 } from 'rxjs';
 
 import {
@@ -135,69 +136,68 @@ export class ParkingCheckoutService {
   // 3. XÁC NHẬN THANH TOÁN MÔ PHỎNG
   // =====================================
 
-  confirmPayment(
-    paymentCode: string
-  ): Observable<PaymentResponse> {
 
-    const current = this.currentPayment();
+confirmPayment(
+  paymentCode: string
+): Observable<PaymentResponse> {
 
-    if (
-      !current ||
-      current.paymentCode !== paymentCode
-    ) {
+  const current = this.currentPayment();
 
-      return throwError(
-        () => new Error(
-          'Không tìm thấy hóa đơn thanh toán hiện tại'
-        )
-      );
-
-    }
-
-    if (current.status !== 'PENDING') {
-
-      return throwError(
-        () => new Error(
-          'Hóa đơn không ở trạng thái chờ thanh toán'
-        )
-      );
-
-    }
-
-    // Gửi yêu cầu xác nhận lên Backend
-
-    return this.paymentApi.confirmPayment(
-      paymentCode
-    ).pipe(
-
-      tap(payment => {
-
-        // Chỉ mở Barrier khi Backend xác nhận SUCCESS
-
-        if (payment.status !== 'SUCCESS') {
-
-          throw new Error(
-            'Thanh toán chưa được xác nhận thành công'
-          );
-
-        }
-
-        // Cập nhật hóa đơn hiện tại
-
-        this.currentPayment.set(payment);
-
-        // Mở Barrier OUT mô phỏng
-
-        this.barrier.setState(
-          'exit',
-          'open'
-        );
-
-      })
-
+  // Kiểm tra hóa đơn
+  if (
+    !current ||
+    current.paymentCode !== paymentCode
+  ) {
+    return throwError(
+      () => new Error(
+        'Không tìm thấy hóa đơn thanh toán hiện tại.'
+      )
     );
-
   }
+
+  // Kiểm tra trạng thái
+  if (current.status !== 'PENDING') {
+    return throwError(
+      () => new Error(
+        'Hóa đơn không ở trạng thái chờ thanh toán.'
+      )
+    );
+  }
+
+  // Gọi Backend xác nhận thanh toán
+  return this.paymentApi.confirmPayment(
+    paymentCode
+  ).pipe(
+
+    // Kiểm tra phản hồi Backend
+    map((payment: PaymentResponse) => {
+
+      if (payment.status !== 'SUCCESS') {
+        throw new Error(
+          'Thanh toán chưa được xác nhận thành công.'
+        );
+      }
+
+      return payment;
+    }),
+
+    // Thực hiện nghiệp vụ sau khi xác nhận thành công
+    tap((payment: PaymentResponse) => {
+
+      this.currentPayment.set(payment);
+
+      // Mở Barrier OUT và tự động đóng sau 5 giây
+      this.barrier.openExitAfterPayment();
+
+      console.log(
+        'Thanh toán SUCCESS - Barrier OUT đã mở.'
+      );
+
+    })
+
+  );
+}
+
 
   // =====================================
   // 4. ĐÓNG BARRIER OUT

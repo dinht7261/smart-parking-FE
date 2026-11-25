@@ -31,9 +31,9 @@ import {
   DemoUserService
 } from '../../services/demo-user.service';
 
-import {
-  BarrierService
-} from '../../services/barrier.service';
+// =====================================
+// RECEIPT HISTORY COMPONENT
+// =====================================
 
 @Component({
   selector: 'app-receipt-history',
@@ -44,21 +44,28 @@ import {
 })
 export class ReceiptHistory implements OnInit, OnDestroy {
 
+  // =====================================
+  // 1. QUẢN LÝ POLLING
+  // =====================================
+
   private pollingSubscription?: Subscription;
 
-  
+  private readonly POLLING_INTERVAL_MS = 5000;
+
+  // =====================================
+  // 2. KẾT NỐI SERVICE
+  // =====================================
 
   private readonly router = inject(Router);
 
-  private readonly api = inject(PaymentApiService);
-  private readonly barrier = inject(
-  BarrierService
-);
+  private readonly api = inject(
+    PaymentApiService
+  );
 
   readonly demoUser = inject(DemoUserService);
 
   // =====================================
-  // PHÂN BIỆT VAI TRÒ
+  // 3. PHÂN BIỆT VAI TRÒ
   // =====================================
 
   readonly isOperator =
@@ -68,12 +75,13 @@ export class ReceiptHistory implements OnInit, OnDestroy {
     this.isOperator ? '/operator' : '/customer';
 
   // Biển số tự động theo tài khoản
+
   readonly customerPlate = computed(
     () => this.demoUser.activePlate()
   );
 
   // =====================================
-  // DỮ LIỆU THANH TOÁN
+  // 4. DỮ LIỆU THANH TOÁN
   // =====================================
 
   readonly payments = signal<PaymentResponse[]>([]);
@@ -89,7 +97,7 @@ export class ReceiptHistory implements OnInit, OnDestroy {
   readonly search = signal('');
 
   // =====================================
-  // DANH SÁCH HÓA ĐƠN
+  // 5. DANH SÁCH HÓA ĐƠN HIỂN THỊ
   // =====================================
 
   readonly visiblePayments = computed(() => {
@@ -108,7 +116,8 @@ export class ReceiptHistory implements OnInit, OnDestroy {
 
       .filter(payment => {
 
-        // Người điều hành xem toàn bộ giao dịch
+        // Operator xem toàn bộ giao dịch
+
         if (this.isOperator) {
 
           if (!keyword) {
@@ -127,10 +136,12 @@ export class ReceiptHistory implements OnInit, OnDestroy {
               .toUpperCase()
               .includes(keyword)
           );
+
         }
 
-        // Người dùng chỉ xem hóa đơn
+        // Customer chỉ xem hóa đơn
         // thuộc biển số tài khoản hiện tại
+
         return (
           plate.length > 0 &&
           this.normalize(payment.licensePlate) === plate
@@ -142,10 +153,11 @@ export class ReceiptHistory implements OnInit, OnDestroy {
         new Date(b.createdAt).getTime() -
         new Date(a.createdAt).getTime()
       );
+
   });
 
   // =====================================
-  // THỐNG KÊ
+  // 6. THỐNG KÊ HÓA ĐƠN
   // =====================================
 
   readonly totalCount = computed(
@@ -167,7 +179,9 @@ export class ReceiptHistory implements OnInit, OnDestroy {
 
   readonly unpaidAmount = computed(() =>
     this.visiblePayments()
+
       .filter(payment => payment.status === 'PENDING')
+
       .reduce(
         (total, payment) => total + payment.amount,
         0
@@ -175,67 +189,70 @@ export class ReceiptHistory implements OnInit, OnDestroy {
   );
 
   // =====================================
-  // KHỞI TẠO
+  // 7. KHỞI TẠO COMPONENT
   // =====================================
 
-// =====================================
-// KHỞI TẠO VÀ TỰ ĐỘNG CẬP NHẬT
-// =====================================
+  ngOnInit(): void {
 
-ngOnInit(): void {
+    // Tải hóa đơn ngay khi mở trang
 
-  // Tải hóa đơn ngay khi mở trang
-  this.loadPayments();
+    this.loadPayments();
 
-  // Chỉ tự động Polling ở Customer App
-  if (!this.isOperator) {
+    // Customer tự động cập nhật hóa đơn
+    // Operator có cơ chế polling riêng
+    // trong operator-barrier.ts
 
-    this.pollingSubscription = interval(5000)
+    if (!this.isOperator) {
 
-      .pipe(
-
-        exhaustMap(() =>
-          this.api.refreshPayments().pipe(
-
-            catchError(error => {
-
-              console.error(
-                'Lỗi tự động cập nhật hóa đơn:',
-                error
-              );
-
-              return EMPTY;
-
-            })
-
-          )
-        )
-
+      this.pollingSubscription = interval(
+        this.POLLING_INTERVAL_MS
       )
 
-      .subscribe((response: PaymentResponse[]) => {
+        .pipe(
 
-        this.payments.set(response);
+          exhaustMap(() =>
 
-      });
+            this.api.refreshPayments().pipe(
+
+              catchError(error => {
+
+                console.error(
+                  'Lỗi tự động cập nhật hóa đơn:',
+                  error
+                );
+
+                return EMPTY;
+
+              })
+
+            )
+
+          )
+
+        )
+
+        .subscribe((response: PaymentResponse[]) => {
+
+          this.payments.set(response);
+
+        });
+
+    }
 
   }
 
-}
+  // =====================================
+  // 8. HỦY POLLING KHI RỜI TRANG
+  // =====================================
 
+  ngOnDestroy(): void {
 
-// =====================================
-// HỦY POLLING KHI RỜI TRANG
-// =====================================
+    this.pollingSubscription?.unsubscribe();
 
-ngOnDestroy(): void {
-
-  this.pollingSubscription?.unsubscribe();
-
-}
+  }
 
   // =====================================
-  // TẢI HÓA ĐƠN TỪ BACKEND
+  // 9. TẢI HÓA ĐƠN TỪ BACKEND
   // =====================================
 
   loadPayments(): void {
@@ -278,94 +295,121 @@ ngOnDestroy(): void {
   }
 
   // =====================================
-  // THANH TOÁN HÓA ĐƠN
+  // 10. XÁC NHẬN THANH TOÁN
   // =====================================
 
+  confirmPayment(payment: PaymentResponse): void {
 
-confirmPayment(payment: PaymentResponse): void {
+    // Không cho phép xác nhận nhiều hóa đơn cùng lúc
 
-  if (this.confirmingPayment()) {
-    return;
-  }
+    if (this.confirmingPayment()) {
+      return;
+    }
 
-  if (payment.status !== 'PENDING') {
-    return;
-  }
+    // Chỉ xác nhận hóa đơn đang PENDING
 
-  this.confirmingPayment.set(payment.paymentCode);
+    if (payment.status !== 'PENDING') {
+      return;
+    }
 
-  this.feedback.set('');
+    this.confirmingPayment.set(
+      payment.paymentCode
+    );
 
-  this.feedbackError.set(false);
+    this.feedback.set('');
 
-  this.api.confirmPayment(
-    payment.paymentCode
-  ).subscribe({
+    this.feedbackError.set(false);
 
-    next: (updatedPayment) => {
+    // Gửi yêu cầu xác nhận thanh toán lên Backend
 
-      this.confirmingPayment.set(null);
+    this.api.confirmPayment(
+      payment.paymentCode
+    ).subscribe({
 
-      // 1. Cập nhật dữ liệu thanh toán
-      this.payments.update(current =>
-        current.map(item =>
-          item.paymentCode === updatedPayment.paymentCode
-            ? updatedPayment
-            : item
-        )
-      );
+      next: (updatedPayment: PaymentResponse) => {
 
-      // 2. Chỉ mở barrier nếu Backend xác nhận SUCCESS
-      if (updatedPayment.status !== 'SUCCESS') {
+        this.confirmingPayment.set(null);
+
+        // =====================================
+        // CẬP NHẬT HÓA ĐƠN
+        // =====================================
+
+        this.payments.update(current =>
+
+          current.map(item =>
+
+            item.paymentCode === updatedPayment.paymentCode
+
+              ? updatedPayment
+
+              : item
+
+          )
+
+        );
+
+        // =====================================
+        // KIỂM TRA KẾT QUẢ BACKEND
+        // =====================================
+
+        if (updatedPayment.status !== 'SUCCESS') {
+
+          this.feedback.set(
+            'Backend chưa xác nhận thanh toán thành công. Vui lòng kiểm tra lại.'
+          );
+
+          this.feedbackError.set(true);
+
+          return;
+
+        }
+
+        // =====================================
+        // THANH TOÁN THÀNH CÔNG
+        // =====================================
 
         this.feedback.set(
-          'Backend chưa xác nhận thanh toán thành công. Barrier OUT vẫn đóng.'
+
+          `Thanh toán thành công cho xe ${updatedPayment.licensePlate}. Hệ thống Operator sẽ tự động phát hiện giao dịch và xử lý Barrier OUT.`
+
+        );
+
+        this.feedbackError.set(false);
+
+        console.log(
+          '[PAYMENT] Thanh toán thành công:',
+          updatedPayment
+        );
+
+        console.log(
+          '[PAYMENT] Operator sẽ tự động kiểm tra giao dịch SUCCESS.'
+        );
+
+      },
+
+      error: (error: unknown) => {
+
+        console.error(
+          'Lỗi thanh toán:',
+          error
+        );
+
+        this.confirmingPayment.set(null);
+
+        this.feedback.set(
+          'Thanh toán thất bại. Vui lòng thử lại.'
         );
 
         this.feedbackError.set(true);
 
-        return;
       }
 
-      // 3. YÊU CẦU MỞ BARRIER OUT
-      this.barrier.setState(
-        'exit',
-        'open'
-      );
+    });
 
-      // 4. Thông báo kết quả
-      this.feedback.set(
-        `Thanh toán thành công cho xe ${updatedPayment.licensePlate}. Barrier OUT đã được yêu cầu mở (mô phỏng).`
-      );
-
-      this.feedbackError.set(false);
-
-    },
-
-    error: (error: unknown) => {
-
-      console.error(
-        'Lỗi thanh toán:',
-        error
-      );
-
-      this.confirmingPayment.set(null);
-
-      this.feedback.set(
-        'Thanh toán thất bại. Barrier OUT sẽ không được mở.'
-      );
-
-      this.feedbackError.set(true);
-
-    }
-
-  });
-
-}
-
+  }
 
   // =====================================
-  // TRẠNG THÁI HÓA ĐƠN
+  // 11. HIỂN THỊ TRẠNG THÁI HÓA ĐƠN
   // =====================================
 
   paymentStatusText(status: PaymentStatus): string {
@@ -389,7 +433,7 @@ confirmPayment(payment: PaymentResponse): void {
   }
 
   // =====================================
-  // PHƯƠNG THỨC THANH TOÁN
+  // 12. PHƯƠNG THỨC THANH TOÁN
   // =====================================
 
   paymentMethodText(method: string): string {
@@ -407,7 +451,7 @@ confirmPayment(payment: PaymentResponse): void {
   }
 
   // =====================================
-  // ĐỊNH DẠNG TIỀN
+  // 13. ĐỊNH DẠNG TIỀN
   // =====================================
 
   money(amount: number): string {
@@ -418,7 +462,7 @@ confirmPayment(payment: PaymentResponse): void {
   }
 
   // =====================================
-  // ĐỊNH DẠNG NGÀY GIỜ
+  // 14. ĐỊNH DẠNG NGÀY GIỜ
   // =====================================
 
   formatDate(value: string | null): string {
@@ -447,7 +491,7 @@ confirmPayment(payment: PaymentResponse): void {
   }
 
   // =====================================
-  // CHUẨN HÓA BIỂN SỐ
+  // 15. CHUẨN HÓA BIỂN SỐ
   // =====================================
 
   private normalize(value: string): string {
