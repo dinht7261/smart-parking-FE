@@ -360,32 +360,47 @@
             </div>
 
           </div>
+          
+<!-- CHI TIẾT CHI PHÍ -->
+<div class="invoice-costs">
 
+  <!-- PHÍ GỬI XE -->
+  <div class="cost-row">
+    <span>Phí gửi xe</span>
 
-          <!-- CHI TIẾT CHI PHÍ -->
-          <div class="invoice-costs">
+    <strong>
+      {{ formatMoney(payment.parkingFee) }}
+    </strong>
+  </div>
 
-            <div class="cost-row">
+  <!-- PHỤ PHÍ GIỮ CHỖ -->
+  @if (
+    payment.reservationHoldHours > 0 ||
+    payment.reservationHoldFee > 0
+  ) {
+    <div class="cost-row">
+      <span>
+        Phụ phí giữ chỗ
+        ({{ payment.reservationHoldHours }} giờ)
+      </span>
 
-              <span>Phí gửi xe</span>
+      <strong class="has-hold-fee">
+        {{ formatMoney(payment.reservationHoldFee) }}
+      </strong>
+    </div>
+  }
 
-              <strong>
-                {{ formatMoney(payment.parkingFee) }}
-              </strong>
+  <!-- TIỀN PHẠT QUA ĐÊM -->
+  <div class="cost-row">
+    <span>Tiền phạt qua đêm</span>
 
-            </div>
+    <strong class="has-penalty">
+      {{ formatMoney(payment.overnightPenalty) }}
+    </strong>
+  </div>
 
-            <div class="cost-row">
+</div>
 
-              <span>Tiền phạt qua đêm</span>
-
-              <strong>
-                {{ formatMoney(payment.overnightPenalty) }}
-              </strong>
-
-            </div>
-
-          </div>
 
 
           <!-- TỔNG TIỀN -->

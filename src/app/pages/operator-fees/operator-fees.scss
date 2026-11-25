@@ -489,10 +489,16 @@
 }
 
 .invoice-costs {
+
+  
   padding: 9px 0;
 
   .has-penalty {
     color: #e65d69;
+  }
+
+    .has-hold-fee {
+    color: #b7791f;
   }
 }
 

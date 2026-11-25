@@ -1,63 +1,297 @@
+
 <main class="phone-page operator-spaces-page">
+
+  <!-- HEADER -->
   <header class="op-spaces-header">
-    <a routerLink="/operator" class="back-link">← Vận hành bãi xe</a>
-    <span class="eyebrow">DÀNH CHO NGƯỜI ĐIỀU HÀNH</span>
+
+    <a routerLink="/operator" class="back-link">
+      ← Vận hành bãi xe
+    </a>
+
+    <span class="eyebrow">
+      DÀNH CHO NGƯỜI ĐIỀU HÀNH
+    </span>
+
     <h1>Quản lý chỗ đỗ</h1>
-    <p>Bãi đỗ xe Trung tâm A · Bảo trì vị trí đỗ</p>
+
+    <p>
+      Bãi đỗ xe Trung tâm A · Dữ liệu đồng bộ từ hệ thống
+    </p>
+
   </header>
 
+
+  <!-- TRẠNG THÁI KẾT NỐI BACKEND -->
+  @if (parkingState.error()) {
+
+    <div class="op-data-error" role="alert">
+      <strong>Không thể đồng bộ dữ liệu</strong>
+      <p>{{ parkingState.error() }}</p>
+    </div>
+
+  }
+
+
+  <!-- TỔNG QUAN BÃI ĐỖ -->
   <section class="op-overview" aria-label="Tổng quan bãi đỗ">
-    <div><span>Tổng chỗ đỗ</span><strong>{{ lot.totalCount }}</strong></div>
-    <div><span>Còn trống</span><strong class="op-green">{{ lot.availableCount() }}</strong></div>
-    <div><span>Đang bảo trì</span><strong class="op-amber">{{ lot.maintenanceCount() }}</strong></div>
+
+    <div>
+      <span>Tổng chỗ đỗ</span>
+      <strong>{{ lot.totalCount }}</strong>
+    </div>
+
+    <div>
+      <span>Còn trống</span>
+      <strong class="op-green">
+        {{ lot.availableCount() }}
+      </strong>
+    </div>
+
+    <div>
+      <span>Đang có xe</span>
+      <strong class="op-gray">
+        {{ lot.occupiedCount() }}
+      </strong>
+    </div>
+
+    <div>
+      <span>Đã đặt</span>
+      <strong class="op-blue">
+        {{ lot.reservedCount() }}
+      </strong>
+    </div>
+
+    <div>
+      <span>Đang bảo trì</span>
+      <strong class="op-amber">
+        {{ lot.maintenanceCount() }}
+      </strong>
+    </div>
+
   </section>
 
+
+  <!-- CHỌN TẦNG -->
   <section class="op-floor-panel">
+
     <h2>Chọn tầng</h2>
-    <div class="op-floor-tabs" role="group" aria-label="Tầng bãi xe">
+
+    <div
+      class="op-floor-tabs"
+      role="group"
+      aria-label="Tầng bãi xe"
+    >
+
       @for (floor of lot.floors; track floor) {
-        <button type="button" [class.active]="activeFloor() === floor" [attr.aria-pressed]="activeFloor() === floor" (click)="changeFloor(floor)">Tầng {{ floor }}</button>
+
+        <button
+          type="button"
+          [class.active]="activeFloor() === floor"
+          [attr.aria-pressed]="activeFloor() === floor"
+          (click)="changeFloor(floor)"
+        >
+          Tầng {{ floor }}
+        </button>
+
       }
+
     </div>
+
   </section>
 
-  <section class="op-map" aria-label="Sơ đồ chỗ đỗ cho người điều hành">
-    <div class="op-map-heading"><h2>Tầng {{ activeFloor() }}</h2><span>{{ freeOnFloor() }}/2 còn trống</span></div>
+
+  <!-- SƠ ĐỒ CHỖ ĐỖ -->
+  <section
+    class="op-map"
+    aria-label="Sơ đồ chỗ đỗ cho người điều hành"
+  >
+
+    <div class="op-map-heading">
+
+      <h2>Tầng {{ activeFloor() }}</h2>
+
+      <span>
+        {{ freeOnFloor() }}/{{ parkingState.totalOnFloor(activeFloor()) }}
+        còn trống
+      </span>
+
+    </div>
+
+
+    <!-- CHÚ THÍCH -->
     <div class="op-legend">
-      <span><i class="op-dot is-free"></i>Trống</span>
-      <span><i class="op-dot is-occupied"></i>Đã đỗ</span>
-      <span><i class="op-dot is-reserved"></i>Đã đặt</span>
-      <span><i class="op-dot is-maintenance"></i>Bảo trì</span>
+
+      <span>
+        <i class="op-dot is-free"></i>
+        Trống
+      </span>
+
+      <span>
+        <i class="op-dot is-occupied"></i>
+        Đã đỗ
+      </span>
+
+      <span>
+        <i class="op-dot is-reserved"></i>
+        Đã đặt
+      </span>
+
+      <span>
+        <i class="op-dot is-maintenance"></i>
+        Bảo trì
+      </span>
+
     </div>
-    <div class="op-spot-grid">
-      @for (spot of currentSpots(); track spot.id) {
-        <button type="button" class="op-spot" [class.is-free]="spot.status === 'available'" [class.is-occupied]="spot.status === 'occupied'" [class.is-reserved]="spot.status === 'reserved'" [class.is-maintenance]="spot.status === 'maintenance'" [class.is-selected]="selectedId() === spot.id" [attr.aria-pressed]="selectedId() === spot.id" [attr.aria-label]="'Tầng ' + spot.floor + ', vị trí ' + spot.id + ', ' + statusLabel(spot.status)" (click)="selectSpot(spot)">
-          <span class="op-car" aria-hidden="true">▣</span>
-          <strong>{{ spot.id }}</strong>
-          <small>{{ statusLabel(spot.status) }}</small>
-        </button>
-      }
-    </div>
-    <p class="op-map-hint">Chạm vào một chỗ đỗ để xem trạng thái và thao tác bảo trì.</p>
+
+
+    <!-- ĐANG TẢI DỮ LIỆU -->
+    @if (parkingState.loading()) {
+
+      <div class="op-data-state">
+        Đang tải dữ liệu chỗ đỗ từ Backend...
+      </div>
+
+    }
+
+    <!-- CÓ DỮ LIỆU -->
+    @else if (currentSpots().length > 0) {
+
+      <div class="op-spot-grid">
+
+        @for (spot of currentSpots(); track spot.backendId) {
+
+          <button
+            type="button"
+            class="op-spot"
+
+            [class.is-free]="spot.status === 'available'"
+            [class.is-occupied]="spot.status === 'occupied'"
+            [class.is-reserved]="spot.status === 'reserved'"
+            [class.is-maintenance]="spot.status === 'maintenance'"
+
+            [class.is-selected]="selectedId() === spot.id"
+
+            [attr.aria-pressed]="selectedId() === spot.id"
+
+            [attr.aria-label]="
+              'Tầng ' + spot.floor +
+              ', vị trí ' + spot.id +
+              ', ' + statusLabel(spot.status)
+            "
+
+            (click)="selectSpot(spot)"
+          >
+
+            <span class="op-car" aria-hidden="true">
+              ▣
+            </span>
+
+            <strong>{{ spot.id }}</strong>
+
+            <small>
+              {{ statusLabel(spot.status) }}
+            </small>
+
+          </button>
+
+        }
+
+      </div>
+
+      <p class="op-map-hint">
+        Chạm vào một chỗ đỗ để xem thông tin và trạng thái.
+      </p>
+
+    }
+
+    <!-- KHÔNG CÓ DỮ LIỆU -->
+    @else {
+
+      <div class="op-data-state">
+
+        @if (parkingState.error()) {
+
+          Không thể tải danh sách chỗ đỗ.
+          Vui lòng kiểm tra kết nối Backend.
+
+        } @else {
+
+          Chưa có dữ liệu chỗ đỗ tại tầng này.
+
+        }
+
+      </div>
+
+    }
+
   </section>
 
+
+  <!-- THÔNG TIN VỊ TRÍ ĐƯỢC CHỌN -->
   @if (selectedSpot(); as spot) {
-    <section class="op-actions" aria-label="Quản lý vị trí đã chọn">
-      <div class="op-actions-heading"><h2>Vị trí {{ spot.floor }} - {{ spot.id }}</h2><span>{{ statusLabel(spot.status) }}</span></div>
-      @if (spot.status === 'available' || spot.status === 'maintenance') {
-        <button type="button" class="op-action-button" [class.reopen]="spot.status === 'maintenance'" (click)="toggleMaintenance()">
-          {{ spot.status === 'available' ? '⛔ Tạm ngưng để bảo trì' : '✓ Hoàn tất bảo trì · Mở lại' }}
-        </button>
+
+    <section
+      class="op-actions"
+      aria-label="Thông tin vị trí đã chọn"
+    >
+
+      <div class="op-actions-heading">
+
+        <h2>
+          Vị trí {{ spot.floor }} - {{ spot.id }}
+        </h2>
+
+        <span>
+          {{ statusLabel(spot.status) }}
+        </span>
+
+      </div>
+
+
+      @if (
+        spot.status === 'available' ||
+        spot.status === 'maintenance'
+      ) {
+
+        <p class="op-disabled-note">
+          Chức năng bảo trì đang chờ kết nối API Backend.
+          Trạng thái hiện tại được quản lý bởi Backend.
+        </p>
+
       } @else {
-        <p class="op-disabled-note">Vị trí đang có xe hoặc đã được đặt. Cần giải phóng chỗ trước khi chuyển sang bảo trì.</p>
+
+        <p class="op-disabled-note">
+          Vị trí đang có xe hoặc đã được đặt.
+          Cần giải phóng chỗ trước khi chuyển sang bảo trì.
+        </p>
+
       }
+
     </section>
+
   } @else {
-    <div class="op-empty-selection">Chọn ô A01 hoặc A02 để xem thao tác bảo trì.</div>
+
+    <div class="op-empty-selection">
+      Chọn một chỗ đỗ để xem thông tin.
+    </div>
+
   }
 
+
+  <!-- THÔNG BÁO -->
   @if (notice()) {
-    <p class="op-notice" role="status">✓ {{ notice() }}</p>
+
+    <p class="op-notice" role="status">
+      ✓ {{ notice() }}
+    </p>
+
   }
-  <p class="op-demo-note">Demo lưu trạng thái trên thiết bị này. Chưa đồng bộ giữa nhiều điện thoại hoặc kết nối cảm biến thật.</p>
+
+
+  <!-- THÔNG TIN ĐỒNG BỘ -->
+  <p class="op-sync-note">
+    Dữ liệu được lấy trực tiếp từ Backend.
+    Hệ thống tự động đồng bộ mỗi 5 giây.
+  </p>
+
 </main>

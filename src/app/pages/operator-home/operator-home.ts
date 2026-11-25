@@ -9,8 +9,8 @@ import {
 } from '@angular/router';
 
 import {
-  ParkingLotService
-} from '../../services/parking-lot.service';
+  OperatorParkingStateService
+} from '../../services/operator-parking-state.service';
 
 import {
   AppSidebar,
@@ -35,7 +35,7 @@ export class OperatorHome {
   // SERVICE QUẢN LÝ BÃI ĐỖ XE
   // =====================================
 
-  readonly lot = inject(ParkingLotService);
+readonly lot = inject(OperatorParkingStateService);
 
 
   // =====================================
