@@ -254,7 +254,7 @@
 
 .session-stats {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 9px;
   margin-bottom: 28px;
 
@@ -364,7 +364,7 @@
 
 .filter-tabs {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 7px;
   margin-bottom: 18px;
 
@@ -498,6 +498,21 @@
   &.active {
     background: #e4f8ef;
     color: #15a66e;
+  }
+
+  &.waiting {
+    background: #fff5df;
+    color: #b7791f;
+  }
+
+  &.completed {
+    background: #e8f8ef;
+    color: #16885d;
+  }
+
+  &.cancelled {
+    background: #fff0f0;
+    color: #d6535d;
   }
 }
 
@@ -638,9 +653,25 @@
   font-weight: 800;
   cursor: pointer;
 
-  &:active {
+  &:active:not(:disabled) {
     background: #ffe3e6;
   }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: wait;
+  }
+}
+
+.payment-pending-note {
+  padding: 12px;
+  margin-top: 14px;
+  border: 1px solid #f3e1b8;
+  border-radius: 11px;
+  background: #fff8e9;
+  color: #9a6b1d;
+  font-size: 11px;
+  line-height: 1.6;
 }
 
 /* =========================================

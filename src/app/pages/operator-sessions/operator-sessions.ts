@@ -7,6 +7,7 @@ import {
   OnInit
 } from '@angular/core';
 
+import { HttpErrorResponse } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
 
 import {
@@ -86,6 +87,8 @@ export class OperatorSessions implements OnInit {
   readonly feedback = signal('');
 
   readonly feedbackError = signal(false);
+
+  readonly checkingOut = signal<string | null>(null);
 
   // =====================================
   // TÌM KIẾM VÀ BỘ LỌC
@@ -242,6 +245,101 @@ export class OperatorSessions implements OnInit {
       }
 
     });
+
+  }
+
+  // =====================================
+  // CHECK-OUT VÀ TẠO HÓA ĐƠN
+  // Backend tự tạo hóa đơn sau khi Check-out thành công.
+  // =====================================
+
+  checkOut(session: OperatorSession): void {
+
+    if (
+      session.status !== 'ACTIVE' ||
+      this.checkingOut() !== null
+    ) {
+      return;
+    }
+
+    this.checkingOut.set(session.sessionCode);
+    this.feedback.set('');
+    this.feedbackError.set(false);
+
+    this.api.checkOut(session.sessionCode).subscribe({
+
+      next: response => {
+
+        const updatedSession = this.mapSession(response);
+
+        this.sessions.update(current =>
+          current.map(item =>
+            item.sessionCode === updatedSession.sessionCode
+              ? updatedSession
+              : item
+          )
+        );
+
+        this.checkingOut.set(null);
+
+        this.feedback.set(
+          `Check-out thành công cho xe ${updatedSession.plate}. ` +
+          'Hóa đơn đã được tạo và đang chờ thanh toán.'
+        );
+
+        this.feedbackError.set(false);
+
+      },
+
+      error: (error: HttpErrorResponse) => {
+
+        console.error(
+          'Lỗi Check-out phiên gửi xe:',
+          error
+        );
+
+        this.checkingOut.set(null);
+        this.feedback.set(this.getErrorMessage(error));
+        this.feedbackError.set(true);
+
+      }
+
+    });
+
+  }
+
+  // =====================================
+  // LẤY THÔNG BÁO LỖI TỪ BACKEND
+  // =====================================
+
+  private getErrorMessage(error: HttpErrorResponse): string {
+
+    const body = error.error;
+
+    if (typeof body === 'string' && body.trim()) {
+      return body;
+    }
+
+    if (body && typeof body === 'object') {
+
+      const details = body as Record<string, unknown>;
+
+      const message =
+        details['detail'] ??
+        details['message'] ??
+        details['error'];
+
+      if (typeof message === 'string' && message.trim()) {
+        return message;
+      }
+
+    }
+
+    if (error.status === 0) {
+      return 'Không thể kết nối Backend. Hãy kiểm tra Spring Boot và thử lại.';
+    }
+
+    return `Check-out thất bại (HTTP ${error.status}).`;
 
   }
 
