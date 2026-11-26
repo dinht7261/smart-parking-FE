@@ -62,6 +62,7 @@ export class BookingRequest {
     DemoUserService
   );
 
+  readonly submitting = signal(false);
   // =====================================
   // VỊ TRÍ ĐỖ XE
   // =====================================
@@ -154,96 +155,93 @@ export class BookingRequest {
   // GỬI YÊU CẦU ĐẶT CHỖ
   // =====================================
 
-  submit(): void {
+async submit(): Promise<void> {
 
-    if (this.submitted()) {
-      return;
-    }
+  if (this.submitted() || this.submitting()) {
+    return;
+  }
 
-    this.notice.set('');
+  this.notice.set('');
+
+  if (
+    this.floor !== 'B1' &&
+    this.floor !== 'B2'
+  ) {
+    this.notice.set('Tầng đỗ xe không hợp lệ.');
+    return;
+  }
+
+  const selectedSpot = this.lot
+    .spotsOnFloor(this.floor as FloorId)
+    .find(item => item.id === this.spot);
+
+  if (!selectedSpot) {
+    this.notice.set('Vị trí đỗ xe không hợp lệ.');
+    return;
+  }
+
+  if (!this.from) {
+    this.notice.set('Vui lòng chọn ngày giờ gửi xe.');
+    return;
+  }
+
+  const overnightWindow = this.overnightWindow;
+
+  if (this.requestOvernight) {
 
     if (
-      this.floor !== 'B1' &&
-      this.floor !== 'B2'
+      !overnightWindow ||
+      !this.overnightReason.trim()
     ) {
-
       this.notice.set(
-        'Tầng đỗ xe không hợp lệ.'
+        'Vui lòng chọn thời gian gửi xe và nhập lý do qua đêm.'
       );
-
       return;
-
     }
 
-    const selectedSpot = this.lot
-      .spotsOnFloor(this.floor as FloorId)
-      .find(item => item.id === this.spot);
+  }
 
-    if (!selectedSpot) {
+  this.submitting.set(true);
 
-      this.notice.set(
-        'Vị trí đỗ xe không hợp lệ.'
-      );
+  try {
 
-      return;
+    const result = await this.bookingService.createRequest({
 
-    }
+      floor: this.floor as FloorId,
 
-    if (!this.from) {
+      spot: this.spot as ParkingSpot['id'],
 
-      this.notice.set(
-        'Vui lòng chọn ngày giờ gửi xe.'
-      );
+      from: this.from,
 
-      return;
+      overnightDate: this.requestOvernight
+        ? overnightWindow?.nightDate
+        : undefined,
 
-    }
+      overnightReason: this.requestOvernight
+        ? this.overnightReason.trim()
+        : undefined
 
-    const overnightWindow =
-      this.overnightWindow;
-
-    if (this.requestOvernight) {
-
-      if (
-        !overnightWindow ||
-        !this.overnightReason.trim()
-      ) {
-
-        this.notice.set(
-          'Vui lòng chọn thời gian gửi xe ' +
-          'và nhập lý do qua đêm.'
-        );
-
-        return;
-
-      }
-
-    }
-
-    const result =
-      this.bookingService.createRequest({
-
-        floor: this.floor as FloorId,
-
-        spot: this.spot as ParkingSpot['id'],
-
-        from: this.from,
-
-        overnightDate: this.requestOvernight
-          ? overnightWindow?.nightDate
-          : undefined,
-
-        overnightReason: this.requestOvernight
-          ? this.overnightReason.trim()
-          : undefined
-
-      });
+    });
 
     this.notice.set(result.message);
 
     this.submitted.set(result.ok);
 
+  } catch (error) {
+
+    console.error(error);
+
+    this.notice.set(
+      'Không thể gửi yêu cầu đặt chỗ.'
+    );
+
+  } finally {
+
+    this.submitting.set(false);
+
   }
+
+}
 
   // =====================================
   // ĐỊNH DẠNG NGÀY

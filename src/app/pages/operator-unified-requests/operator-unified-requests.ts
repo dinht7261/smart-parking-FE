@@ -1,11 +1,3 @@
-
-import {
-  Component,
-  computed,
-  inject,
-  signal
-} from '@angular/core';
-
 import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
@@ -25,6 +17,14 @@ import {
   overnightDatesInRange
 } from '../../services/overnight-window.util';
 
+import {
+  Component,
+  computed,
+  inject,
+  signal,
+  OnInit
+} from '@angular/core';
+
 interface BookingReviewRow {
   booking: ParkingBookingRequest;
   overnights: OvernightRequest[];
@@ -43,7 +43,7 @@ interface BookingReviewRow {
   templateUrl: './operator-unified-requests.html',
   styleUrl: './operator-unified-requests.scss'
 })
-export class OperatorUnifiedRequests {
+export class OperatorUnifiedRequests implements OnInit {
 
   readonly bookings = inject(
     BookingRequestService
@@ -205,31 +205,43 @@ if (
     this.overnight.pendingCount()
   );
 
+  ngOnInit(): void {
+
+  void this.bookings.refreshAll().then(result => {
+
+    if (!result.ok) {
+      this.showResult(result);
+    }
+
+  });
+
+}
+
   // =====================================
   // DUYỆT RIÊNG BOOKING
   // =====================================
 
-  approveBooking(id: string): void {
+async approveBooking(id: string): Promise<void> {
 
-    const result =
-      this.bookings.approveRequest(id);
+  const result =
+    await this.bookings.approveRequest(id);
 
-    this.showResult(result);
+  this.showResult(result);
 
-  }
+}
 
   // =====================================
   // TỪ CHỐI BOOKING
   // =====================================
 
-  rejectBooking(id: string): void {
+async rejectBooking(id: string): Promise<void> {
 
-    const result =
-      this.bookings.rejectRequest(id);
+  const result =
+    await this.bookings.rejectRequest(id);
 
-    this.showResult(result);
+  this.showResult(result);
 
-  }
+}
 
   // =====================================
   // KIỂM TRA QUYỀN DUYỆT QUA ĐÊM
@@ -323,7 +335,7 @@ if (
   // BẰNG MỘT LẦN NHẤN NÚT
   // =====================================
 
-  approveAll(bookingId: string): void {
+async approveAll(bookingId: string): Promise<void> {
 
     const row = this.rows().find(
       item => item.booking.id === bookingId
@@ -360,19 +372,20 @@ if (
     // Nếu giữ chỗ thất bại, dừng lại,
     // không duyệt thêm yêu cầu qua đêm.
 
-    if (row.booking.status === 'pending') {
+if (row.booking.status === 'pending') {
 
-      const bookingResult =
-        this.bookings.approveRequest(bookingId);
+  const bookingResult =
+    await this.bookings.approveRequest(bookingId);
 
-      if (!bookingResult.ok) {
+  if (!bookingResult.ok) {
 
-        this.showResult(bookingResult);
+    this.showResult(bookingResult);
 
-        return;
-      }
+    return;
 
-    }
+  }
+
+}
 
     // Tiếp tục duyệt từng đêm.
 
@@ -449,6 +462,12 @@ if (
 
       case 'cancelled':
         return 'Đã hủy';
+      
+      case 'checked_in':
+  return 'Đã Check-in';
+
+case 'completed':
+  return 'Đã hoàn tất';
 
     }
 

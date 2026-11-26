@@ -7,6 +7,14 @@ import {
 } from '@angular/core';
 
 import {
+  HttpErrorResponse
+} from '@angular/common/http';
+
+import {
+  firstValueFrom
+} from 'rxjs';
+
+import {
   ParkingLotService,
   type FloorId,
   type ParkingSpot
@@ -22,7 +30,8 @@ import {
 } from './demo-user-scope.service';
 
 import {
-  OvernightRequestService
+  OvernightRequestService,
+  type LinkedOvernightPlan
 } from './overnight-request.service';
 
 import {
@@ -30,48 +39,97 @@ import {
   firstOvernightWindow
 } from './overnight-window.util';
 
+import {
+  ReservationApiService,
+  type ReservationApiResponse,
+  type ReservationApiStatus
+} from './reservation-api.service';
+
+import {
+  ParkingSpotsApiService
+} from './parking-spots-api.service';
+
+
+// =====================================
+// TRẠNG THÁI BOOKING
+// =====================================
 
 export type BookingStatus =
   | 'pending'
   | 'approved'
   | 'rejected'
-  | 'cancelled';
+  | 'cancelled'
+  | 'checked_in'
+  | 'completed';
+
+
+// =====================================
+// DỮ LIỆU BOOKING FRONTEND
+// =====================================
 
 export interface ParkingBookingRequest {
+
+  // Dùng reservationCode làm ID
+  // để liên kết với OvernightRequestService.
+
   id: string;
+
   userId: DemoUserId | null;
+
   floor: FloorId;
+
   spot: ParkingSpot['id'];
+
   plate: string;
 
-  // Ngày giờ dự kiến gửi xe.
   startAt: string;
 
-  // Giữ để tương thích code và dữ liệu cũ.
-  // Booking mới luôn có endAt = ''.
+  // NULL từ Backend chuyển thành chuỗi rỗng.
+
   endAt: string;
 
   status: BookingStatus;
+
   createdAt: string;
+
 }
+
+
+// =====================================
+// REQUEST TẠO BOOKING
+// =====================================
 
 export interface NewBookingRequest {
+
   floor: FloorId;
+
   spot: ParkingSpot['id'];
+
   from: string;
 
-  // Yêu cầu qua đêm do user chủ động chọn.
   overnightDate?: string;
+
   overnightReason?: string;
+
 }
+
+
+// =====================================
+// KẾT QUẢ NGHIỆP VỤ
+// =====================================
 
 export interface BookingResult {
+
   ok: boolean;
+
   message: string;
+
 }
 
-const STORAGE_KEY =
-  'smart-parking-bookings-v1';
+
+// =====================================
+// BOOKING REQUEST SERVICE
+// =====================================
 
 @Injectable({
   providedIn: 'root'
@@ -94,20 +152,43 @@ export class BookingRequestService {
     OvernightRequestService
   );
 
+  private readonly api = inject(
+    ReservationApiService
+  );
+
+  private readonly spotsApi = inject(
+    ParkingSpotsApiService
+  );
+
+
   // =====================================
-  // DANH SÁCH BOOKING
+  // DANH SÁCH RESERVATION
   // =====================================
 
   readonly requests = signal<
     ParkingBookingRequest[]
-  >(this.load());
+  >([]);
 
-  readonly myRequests = computed(() =>
-    this.requests().filter(
-      item =>
-        item.userId === this.scope.activeUserId()
-    )
-  );
+
+  readonly loading = signal(false);
+
+  readonly loadError = signal('');
+
+
+  // =====================================
+  // DANH SÁCH CỦA CUSTOMER HIỆN TẠI
+  // =====================================
+
+  readonly myRequests = computed(() => {
+
+    const userId = this.scope.activeUserId();
+
+    return this.requests().filter(
+      item => item.userId === userId
+    );
+
+  });
+
 
   // =====================================
   // THỐNG KÊ OPERATOR
@@ -125,6 +206,7 @@ export class BookingRequestService {
     this.count(this.requests(), 'rejected')
   );
 
+
   // =====================================
   // THỐNG KÊ CUSTOMER
   // =====================================
@@ -141,7 +223,115 @@ export class BookingRequestService {
     this.count(this.myRequests(), 'rejected')
   );
 
-  // Giữ API cũ để tương thích.
+
+  // =====================================
+  // LẤY RESERVATION TOÀN HỆ THỐNG
+  // DÀNH CHO OPERATOR
+  // =====================================
+
+  async refreshAll(): Promise<BookingResult> {
+
+    this.loading.set(true);
+
+    this.loadError.set('');
+
+    try {
+
+      const response = await firstValueFrom(
+        this.api.getAll()
+      );
+
+      const bookings = response.map(
+        item => this.toBooking(item)
+      );
+
+      this.requests.set(bookings);
+
+      return {
+        ok: true,
+        message: 'Đã cập nhật danh sách đặt chỗ.'
+      };
+
+    } catch (error) {
+
+      const message = this.apiErrorMessage(
+        error,
+        'Không thể tải danh sách đặt chỗ.'
+      );
+
+      this.loadError.set(message);
+
+      return {
+        ok: false,
+        message
+      };
+
+    } finally {
+
+      this.loading.set(false);
+
+    }
+
+  }
+
+
+  // =====================================
+  // LẤY RESERVATION CỦA USER
+  // =====================================
+
+  async refreshMine(): Promise<BookingResult> {
+
+    this.loading.set(true);
+
+    this.loadError.set('');
+
+    try {
+
+      const userCode =
+        this.scope.activeUserId();
+
+      const response = await firstValueFrom(
+        this.api.getByUser(userCode)
+      );
+
+      const bookings = response.map(
+        item => this.toBooking(item, userCode)
+      );
+
+      this.requests.set(bookings);
+
+      return {
+        ok: true,
+        message: 'Đã cập nhật yêu cầu của bạn.'
+      };
+
+    } catch (error) {
+
+      const message = this.apiErrorMessage(
+        error,
+        'Không thể tải yêu cầu đặt chỗ.'
+      );
+
+      this.loadError.set(message);
+
+      return {
+        ok: false,
+        message
+      };
+
+    } finally {
+
+      this.loading.set(false);
+
+    }
+
+  }
+
+
+  // =====================================
+  // GIỮ API TÍNH NGÀY QUA ĐÊM CŨ
+  // =====================================
+
   getOvernightDates(
     from: string,
     to: string
@@ -151,353 +341,502 @@ export class BookingRequestService {
 
   }
 
+
   // =====================================
   // TẠO YÊU CẦU ĐẶT CHỖ
   // =====================================
 
-  createRequest(
+  async createRequest(
     input: NewBookingRequest
-  ): BookingResult {
+  ): Promise<BookingResult> {
 
-    // Tự động nhận diện tài khoản và biển số.
+    try {
 
-    const userId = this.scope.activeUserId();
+      // 1. XÁC ĐỊNH USER
 
-    const plate = this.users.activePlate();
+      const userCode =
+        this.scope.activeUserId();
 
-    // Kiểm tra vị trí.
+      const userId = userCode;
 
-    const spot = this.parkingLot
-      .spotsOnFloor(input.floor)
-      .find(item => item.id === input.spot);
+      const plate =
+        this.users.activePlate();
 
-    if (!spot || spot.status !== 'available') {
+
+      // 2. KIỂM TRA TẦNG
+
+      if (
+        input.floor !== 'B1' &&
+        input.floor !== 'B2'
+      ) {
+
+        return {
+          ok: false,
+          message: 'Tầng đỗ xe không hợp lệ.'
+        };
+
+      }
+
+
+      // 3. KIỂM TRA VỊ TRÍ TRÊN FRONTEND
+
+      const localSpot = this.parkingLot
+        .spotsOnFloor(input.floor)
+        .find(item => item.id === input.spot);
+
+      if (!localSpot) {
+
+        return {
+          ok: false,
+          message: 'Vị trí đỗ xe không hợp lệ.'
+        };
+
+      }
+
+
+      // 4. KIỂM TRA THỜI GIAN
+
+      const start = new Date(input.from);
+
+      if (
+        !Number.isFinite(start.getTime()) ||
+        start.getTime() < Date.now()
+      ) {
+
+        return {
+          ok: false,
+          message:
+            'Ngày giờ dự kiến gửi xe không hợp lệ.'
+        };
+
+      }
+
+      // Giữ nguyên giờ địa phương.
+      // Không dùng toISOString() vì sẽ đổi múi giờ.
+
+      const startTime = this.toLocalDateTime(
+        input.from
+      );
+
+      if (!startTime) {
+
+        return {
+          ok: false,
+          message:
+            'Không thể chuyển đổi thời gian đặt chỗ.'
+        };
+
+      }
+
+
+      // 5. ĐỌC RESERVATION CỦA USER TỪ BACKEND
+
+      const mineResponse = await firstValueFrom(
+        this.api.getByUser(userCode)
+      );
+
+      const mine = mineResponse.map(
+        item => this.toBooking(item, userCode)
+      );
+
+      this.requests.set(mine);
+
+
+      // 6. KIỂM TRA USER ĐANG CÓ BOOKING PENDING
+
+      const userHasPending = mine.some(
+        item => item.status === 'pending'
+      );
+
+      if (userHasPending) {
+
+        return {
+          ok: false,
+          message:
+            'Bạn đang có yêu cầu đặt chỗ chờ duyệt.'
+        };
+
+      }
+
+
+      // 7. LẤY ID VỊ TRÍ THỰC TẾ TỪ DATABASE
+
+      const backendSpots = await firstValueFrom(
+        this.spotsApi.getSpots()
+      );
+
+      const backendSpot = backendSpots.find(
+        item =>
+          item.floor.toUpperCase() === input.floor &&
+          item.spot.toUpperCase() ===
+            input.spot.toUpperCase()
+      );
+
+      if (!backendSpot) {
+
+        return {
+          ok: false,
+          message:
+            'Không tìm thấy vị trí trong Backend.'
+        };
+
+      }
+
+
+      // 8. KIỂM TRA TRẠNG THÁI VỊ TRÍ BACKEND
+
+      const backendStatus =
+        backendSpot.status.toUpperCase();
+
+      if (
+        backendStatus !== 'AVAILABLE' &&
+        backendStatus !== 'RESERVED'
+      ) {
+
+        return {
+          ok: false,
+          message:
+            'Vị trí này hiện không khả dụng.'
+        };
+
+      }
+
+
+      // 9. KIỂM TRA YÊU CẦU QUA ĐÊM
+
+      const overnightDate =
+        (input.overnightDate ?? '').trim();
+
+      const overnightReason =
+        (input.overnightReason ?? '').trim();
+
+      const nightDates: string[] = [];
+
+      if (overnightDate || overnightReason) {
+
+        if (!overnightReason) {
+
+          return {
+            ok: false,
+            message:
+              'Vui lòng nhập lý do gửi xe qua đêm.'
+          };
+
+        }
+
+        const window = firstOvernightWindow(start);
+
+        if (!window) {
+
+          return {
+            ok: false,
+            message:
+              'Không thể xác định thời gian qua đêm.'
+          };
+
+        }
+
+        if (
+          overnightDate &&
+          overnightDate !== window.nightDate
+        ) {
+
+          return {
+            ok: false,
+            message:
+              'Ngày gửi qua đêm không hợp lệ.'
+          };
+
+        }
+
+        nightDates.push(window.nightDate);
+
+      }
+
+
+      // 10. CHUẨN BỊ YÊU CẦU QUA ĐÊM
+
+      let overnightPlan: LinkedOvernightPlan | null =
+        null;
+
+      const draftBookingId =
+        `draft-${Date.now()}-` +
+        Math.random().toString(36).slice(2, 8);
+
+      if (nightDates.length > 0) {
+
+        overnightPlan =
+          this.overnight.prepareForBooking({
+
+            bookingId: draftBookingId,
+
+            userId,
+
+            plate,
+
+            floor: input.floor,
+
+            spot: input.spot,
+
+            nightDates,
+
+            reason: overnightReason
+
+          });
+
+        if (!overnightPlan.ok) {
+
+          return {
+            ok: false,
+            message: overnightPlan.message
+          };
+
+        }
+
+      }
+
+
+      // =====================================
+      // 11. TẠO RESERVATION TRÊN BACKEND
+      // =====================================
+
+      const created = await firstValueFrom(
+        this.api.create({
+
+          userCode,
+
+          spotId: backendSpot.id,
+
+          startTime,
+
+          endTime: null,
+
+          phone: null,
+
+          overnightRequested:
+            nightDates.length > 0
+
+        })
+      );
+
+
+      // =====================================
+      // 12. CHUYỂN RESPONSE BACKEND
+      // THÀNH DỮ LIỆU FRONTEND
+      // =====================================
+
+      const booking = this.toBooking(
+        created,
+        userId
+      );
+
+      this.upsertBooking(booking);
+
+
+      // =====================================
+      // 13. LIÊN KẾT YÊU CẦU QUA ĐÊM
+      // VỚI RESERVATION CODE THỰC TẾ
+      // =====================================
+
+      if (
+        overnightPlan &&
+        overnightPlan.additions.length > 0
+      ) {
+
+        const linkedPlan: LinkedOvernightPlan = {
+
+          ...overnightPlan,
+
+          additions:
+            overnightPlan.additions.map(item => ({
+              ...item,
+              bookingId: created.reservationCode
+            }))
+
+        };
+
+        const committed =
+          this.overnight.commitForBooking(
+            linkedPlan
+          );
+
+        if (!committed) {
+
+          return {
+            ok: true,
+            message:
+              'Đã tạo đặt chỗ thành công. ' +
+              'Tuy nhiên, chi tiết yêu cầu qua đêm ' +
+              'chưa lưu được. Vui lòng kiểm tra lại.'
+          };
+
+        }
+
+      }
+
+
+      // =====================================
+      // 14. THÔNG BÁO KẾT QUẢ
+      // =====================================
 
       return {
+
+        ok: true,
+
+        message: nightDates.length > 0
+
+          ? 'Đã gửi yêu cầu đặt chỗ và gửi xe qua đêm. Vui lòng chờ duyệt.'
+
+          : 'Đã gửi yêu cầu đặt chỗ thành công. Vui lòng chờ duyệt.'
+
+      };
+
+    } catch (error) {
+
+      return {
+
         ok: false,
-        message: 'Vị trí này không còn khả dụng.'
+
+        message: this.apiErrorMessage(
+          error,
+          'Không thể tạo yêu cầu đặt chỗ.'
+        )
+
       };
 
     }
 
-    // Kiểm tra ngày giờ dự kiến gửi xe.
+  }
 
-    const start = new Date(input.from);
+
+  // =====================================
+  // OPERATOR DUYỆT RESERVATION
+  // =====================================
+
+  async approveRequest(
+    id: string
+  ): Promise<BookingResult> {
+
+    const booking = this.requests().find(
+      item => item.id === id
+    );
 
     if (
-      !Number.isFinite(start.getTime()) ||
-      start.getTime() < Date.now()
+      !booking ||
+      booking.status !== 'pending'
     ) {
 
       return {
         ok: false,
-        message:
-          'Ngày giờ dự kiến gửi xe không hợp lệ.'
+        message: 'Booking không hợp lệ hoặc đã được xử lý.'
       };
 
     }
 
-    // Không cho đặt trùng vị trí đang chờ duyệt.
+    try {
 
-    const alreadyPending =
-      this.requests().some(item =>
-        item.floor === input.floor &&
-        item.spot === input.spot &&
-        item.status === 'pending'
+      const response = await firstValueFrom(
+        this.api.confirm(booking.id)
       );
 
-    if (alreadyPending) {
-
-      return {
-        ok: false,
-        message:
-          'Vị trí này đang có yêu cầu chờ duyệt.'
-      };
-
-    }
-
-    // Một user không gửi đồng thời
-    // nhiều yêu cầu đặt chỗ đang chờ.
-
-    const userHasPending =
-      this.requests().some(item =>
-        item.userId === userId &&
-        item.status === 'pending'
+      this.upsertBooking(
+        this.toBooking(response, booking.userId ?? undefined)
       );
 
-    if (userHasPending) {
+      return {
+        ok: true,
+        message: 'Đã duyệt yêu cầu đặt chỗ.'
+      };
+
+    } catch (error) {
 
       return {
         ok: false,
-        message:
-          'Bạn đang có yêu cầu đặt chỗ chờ duyệt.'
+        message: this.apiErrorMessage(
+          error,
+          'Không thể duyệt yêu cầu đặt chỗ.'
+        )
       };
 
     }
 
-    // =====================================
-    // KIỂM TRA YÊU CẦU QUA ĐÊM
-    // =====================================
-
-
-const overnightDate =
-  (input.overnightDate ?? '').trim();
-
-const overnightReason =
-  (input.overnightReason ?? '').trim();
-
-const nightDates: string[] = [];
-
-if (overnightDate || overnightReason) {
-
-  if (!overnightReason) {
-
-    return {
-      ok: false,
-      message:
-        'Vui lòng nhập lý do gửi xe qua đêm.'
-    };
-
   }
 
-  const window = firstOvernightWindow(start);
-
-  if (!window) {
-
-    return {
-      ok: false,
-      message:
-        'Không thể xác định thời gian qua đêm.'
-    };
-
-  }
-
-  // Không chấp nhận ngày qua đêm
-  // khác với đêm đầu tiên của booking.
-
-  if (
-    overnightDate &&
-    overnightDate !== window.nightDate
-  ) {
-
-    return {
-      ok: false,
-      message:
-        'Ngày gửi qua đêm không hợp lệ.'
-    };
-
-  }
-
-  nightDates.push(window.nightDate);
-
-}
-
-
-    // =====================================
-    // KHỞI TẠO BOOKING
-    // =====================================
-
-    const booking: ParkingBookingRequest = {
-
-      id:
-        `REQ-${Date.now()}-` +
-        Math.random().toString(36).slice(2, 9),
-
-      userId,
-      plate,
-
-      floor: input.floor,
-      spot: input.spot,
-
-      startAt: start.toISOString(),
-
-      // Không còn ngày giờ lấy xe dự kiến.
-      endAt: '',
-
-      status: 'pending',
-
-      createdAt: new Date().toISOString()
-
-    };
-
-    // =====================================
-    // CHUẨN BỊ YÊU CẦU QUA ĐÊM
-    // =====================================
-
-    const plan = nightDates.length > 0
-
-      ? this.overnight.prepareForBooking({
-
-          bookingId: booking.id,
-          userId,
-          plate,
-
-          floor: booking.floor,
-          spot: booking.spot,
-
-          nightDates,
-
-          reason: overnightReason
-
-        })
-
-      : {
-          ok: true,
-          message: '',
-          additions: []
-        };
-
-    if (!plan.ok) {
-
-      return {
-        ok: false,
-        message: plan.message
-      };
-
-    }
-
-    // =====================================
-    // LƯU BOOKING VÀ QUA ĐÊM
-    // =====================================
-
-    const before = this.requests();
-
-    const updated = [
-      booking,
-      ...before
-    ];
-
-    if (!this.persist(updated)) {
-
-      return {
-        ok: false,
-        message: 'Không thể lưu booking.'
-      };
-
-    }
-
-    if (!this.overnight.commitForBooking(plan)) {
-
-      this.persist(before);
-
-      return {
-        ok: false,
-        message:
-          'Không thể lưu yêu cầu qua đêm. ' +
-          'Booking chưa được tạo thành công.'
-      };
-
-    }
-
-    this.requests.set(updated);
-
-    return {
-      ok: true,
-
-      message: nightDates.length > 0
-
-        ? 'Đã gửi yêu cầu đặt chỗ và gửi xe qua đêm.'
-
-        : 'Đã gửi yêu cầu đặt chỗ. Vui lòng chờ duyệt.'
-    };
-
-  }
 
   // =====================================
-  // OPERATOR DUYỆT
+  // OPERATOR TỪ CHỐI RESERVATION
   // =====================================
 
-  approveRequest(id: string): BookingResult {
+  async rejectRequest(
+    id: string
+  ): Promise<BookingResult> {
 
     const booking = this.requests().find(
       item => item.id === id
     );
 
-    if (!booking || booking.status !== 'pending') {
+    if (
+      !booking ||
+      booking.status !== 'pending'
+    ) {
 
       return {
         ok: false,
-        message: 'Booking không hợp lệ.'
+        message: 'Booking không hợp lệ hoặc đã được xử lý.'
       };
 
     }
 
-    const before = this.requests();
+    try {
 
-    const updated = before.map(item =>
-      item.id === id
-        ? {
-            ...item,
-            status: 'approved' as BookingStatus
-          }
-        : item
-    );
+      const response = await firstValueFrom(
+        this.api.reject(booking.id)
+      );
 
-    if (!this.persist(updated)) {
+      this.upsertBooking(
+        this.toBooking(response, booking.userId ?? undefined)
+      );
+
+      const overnightClosed =
+        this.overnight.closeForBooking(
+          booking.id,
+          'rejected'
+        );
+
+      return {
+
+        ok: true,
+
+        message: overnightClosed
+
+          ? 'Đã từ chối đặt chỗ và thu hồi yêu cầu qua đêm đi kèm.'
+
+          : 'Đã từ chối đặt chỗ. Tuy nhiên, yêu cầu qua đêm đi kèm chưa đồng bộ được.'
+
+      };
+
+    } catch (error) {
 
       return {
         ok: false,
-        message: 'Không thể lưu kết quả duyệt.'
+        message: this.apiErrorMessage(
+          error,
+          'Không thể từ chối yêu cầu đặt chỗ.'
+        )
       };
 
     }
-
-    const reserved = this.parkingLot.reserveSpot(
-      booking.floor,
-      booking.spot
-    );
-
-    if (!reserved) {
-
-      this.persist(before);
-
-      return {
-        ok: false,
-        message: 'Vị trí không còn trống.'
-      };
-
-    }
-
-    this.requests.set(updated);
-
-    return {
-      ok: true,
-      message: 'Đã duyệt yêu cầu đặt chỗ.'
-    };
 
   }
 
-  // =====================================
-  // OPERATOR TỪ CHỐI
-  // =====================================
-
-  rejectRequest(id: string): BookingResult {
-
-    const booking = this.requests().find(
-      item => item.id === id
-    );
-
-    if (!booking || booking.status !== 'pending') {
-
-      return {
-        ok: false,
-        message: 'Booking không hợp lệ.'
-      };
-
-    }
-
-    return this.finishBooking(
-      booking,
-      'rejected'
-    );
-
-  }
 
   // =====================================
-  // CUSTOMER HỦY BOOKING
+  // CUSTOMER HỦY RESERVATION
   // =====================================
 
-  cancelRequest(id: string): BookingResult {
+  async cancelRequest(
+    id: string
+  ): Promise<BookingResult> {
 
     const booking = this.requests().find(
       item => item.id === id
@@ -512,14 +851,17 @@ if (overnightDate || overnightReason) {
 
     }
 
+    const userCode = this.scope.activeUserId();
+
     if (
       booking.userId === null ||
-      booking.userId !== this.scope.activeUserId()
+      booking.userId !== userCode
     ) {
 
       return {
         ok: false,
-        message: 'Bạn không có quyền hủy booking này.'
+        message:
+          'Bạn không có quyền hủy booking này.'
       };
 
     }
@@ -528,74 +870,205 @@ if (overnightDate || overnightReason) {
 
       return {
         ok: false,
-        message: 'Chỉ được hủy booking chờ duyệt.'
+        message:
+          'Chỉ được hủy booking đang chờ duyệt.'
       };
 
     }
 
-    return this.finishBooking(
-      booking,
-      'cancelled'
-    );
+    try {
+
+      const response = await firstValueFrom(
+        this.api.cancel(
+          booking.id,
+          userCode
+        )
+      );
+
+      this.upsertBooking(
+        this.toBooking(response, userCode)
+      );
+
+      const overnightClosed =
+        this.overnight.closeForBooking(
+          booking.id,
+          'cancelled'
+        );
+
+      return {
+
+        ok: true,
+
+        message: overnightClosed
+
+          ? 'Đã hủy booking và yêu cầu qua đêm đi kèm.'
+
+          : 'Đã hủy booking. Yêu cầu qua đêm đi kèm chưa đồng bộ được.'
+
+      };
+
+    } catch (error) {
+
+      return {
+        ok: false,
+        message: this.apiErrorMessage(
+          error,
+          'Không thể hủy yêu cầu đặt chỗ.'
+        )
+      };
+
+    }
 
   }
 
+
   // =====================================
-  // THU HỒI YÊU CẦU LIÊN QUAN
+  // ÁNH XẠ RESPONSE BACKEND
+  // SANG FRONTEND
   // =====================================
 
-  private finishBooking(
-    booking: ParkingBookingRequest,
-    status: 'cancelled' | 'rejected'
-  ): BookingResult {
-
-    const before = this.requests();
-
-    const updated = before.map(item =>
-      item.id === booking.id
-        ? { ...item, status }
-        : item
-    );
-
-    if (!this.persist(updated)) {
-
-      return {
-        ok: false,
-        message: 'Không thể lưu trạng thái booking.'
-      };
-
-    }
+  private toBooking(
+    response: ReservationApiResponse,
+    fallbackUserId?: DemoUserId
+  ): ParkingBookingRequest {
 
     if (
-      !this.overnight.closeForBooking(
-        booking.id,
-        status
-      )
+      response.floor !== 'B1' &&
+      response.floor !== 'B2'
     ) {
 
-      this.persist(before);
-
-      return {
-        ok: false,
-        message:
-          'Không thể thu hồi yêu cầu qua đêm.'
-      };
+      throw new Error(
+        `Tầng không hợp lệ: ${response.floor}`
+      );
 
     }
 
-    this.requests.set(updated);
+    const owner =
+      this.users.getUserByPlate(
+        response.licensePlate
+      );
 
     return {
-      ok: true,
 
-      message: status === 'cancelled'
+      // Không sử dụng ID giả REQ-...
+      // Dùng reservationCode thực tế.
 
-        ? 'Đã hủy booking và yêu cầu qua đêm đi kèm.'
+      id: response.reservationCode,
 
-        : 'Đã từ chối booking và thu hồi yêu cầu qua đêm.'
+      userId:
+        fallbackUserId ??
+        owner?.id ??
+        null,
+
+      floor: response.floor,
+
+      spot: response.spot,
+
+      plate: response.licensePlate,
+
+      startAt: response.startTime,
+
+      endAt: response.endTime ?? '',
+
+      status: this.mapStatus(response.status),
+
+      createdAt: response.createdAt
+
     };
 
   }
+
+
+  // =====================================
+  // ÁNH XẠ TRẠNG THÁI
+  // =====================================
+
+  private mapStatus(
+    status: ReservationApiStatus
+  ): BookingStatus {
+
+    switch (status) {
+
+      case 'PENDING':
+        return 'pending';
+
+      case 'CONFIRMED':
+        return 'approved';
+
+      case 'REJECTED':
+        return 'rejected';
+
+      case 'CANCELLED':
+        return 'cancelled';
+
+      case 'CHECKED_IN':
+        return 'checked_in';
+
+      case 'COMPLETED':
+        return 'completed';
+
+    }
+
+  }
+
+
+  // =====================================
+  // CẬP NHẬT SIGNAL
+  // =====================================
+
+  private upsertBooking(
+    booking: ParkingBookingRequest
+  ): void {
+
+    this.requests.update(current => {
+
+      const index = current.findIndex(
+        item => item.id === booking.id
+      );
+
+      const updated = [...current];
+
+      if (index === -1) {
+
+        updated.unshift(booking);
+
+      } else {
+
+        updated[index] = booking;
+
+      }
+
+      return updated.sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() -
+          new Date(a.createdAt).getTime()
+      );
+
+    });
+
+  }
+
+
+  // =====================================
+  // ĐỊNH DẠNG LOCALDATETIME
+  // KHÔNG CHUYỂN SANG UTC
+  // =====================================
+
+  private toLocalDateTime(
+    value: string
+  ): string | null {
+
+    const match = /^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2})(?::(\d{2}))?$/
+      .exec(value.trim());
+
+    if (!match) {
+      return null;
+    }
+
+    return `${match[1]}T${match[2]}:${match[3] ?? '00'}`;
+
+  }
+
 
   // =====================================
   // HÀM THỐNG KÊ
@@ -612,147 +1085,64 @@ if (overnightDate || overnightReason) {
 
   }
 
+
   // =====================================
-  // ĐỌC DỮ LIỆU CŨ
+  // ĐỌC LỖI TỪ BACKEND
   // =====================================
 
-  private load(): ParkingBookingRequest[] {
+  private apiErrorMessage(
+    error: unknown,
+    fallback: string
+  ): string {
 
-    try {
+    if (error instanceof HttpErrorResponse) {
 
-      if (typeof localStorage === 'undefined') {
-        return [];
+      if (typeof error.error === 'string'
+          && error.error.trim()) {
+
+        return error.error;
+
       }
 
-      const raw =
-        localStorage.getItem(STORAGE_KEY);
+      if (
+        error.error &&
+        typeof error.error === 'object'
+      ) {
 
-      if (!raw) {
-        return [];
+        const body = error.error as {
+          message?: unknown;
+          detail?: unknown;
+        };
+
+        if (
+          typeof body.message === 'string' &&
+          body.message.trim()
+        ) {
+          return body.message;
+        }
+
+        if (
+          typeof body.detail === 'string' &&
+          body.detail.trim()
+        ) {
+          return body.detail;
+        }
+
       }
 
-      const parsed: unknown = JSON.parse(raw);
+      if (error.status === 0) {
 
-      if (!Array.isArray(parsed)) {
-        return [];
+        return 'Không thể kết nối Backend. Vui lòng kiểm tra Spring Boot.';
+
       }
-
-      return parsed
-
-        .filter(item => {
-
-          if (
-            typeof item !== 'object' ||
-            item === null
-          ) {
-            return false;
-          }
-
-          const x =
-            item as Record<string, unknown>;
-
-          return (
-            typeof x['id'] === 'string' &&
-
-            (
-              x['floor'] === 'B1' ||
-              x['floor'] === 'B2'
-            ) &&
-
-            typeof x['spot'] === 'string' &&
-            typeof x['plate'] === 'string' &&
-            typeof x['startAt'] === 'string' &&
-            typeof x['createdAt'] === 'string' &&
-
-            (
-              x['status'] === 'pending' ||
-              x['status'] === 'approved' ||
-              x['status'] === 'rejected' ||
-              x['status'] === 'cancelled'
-            )
-          );
-
-        })
-
-        .map(item => {
-
-          const x =
-            item as Record<string, unknown>;
-
-          return {
-
-            id: x['id'] as string,
-
-            userId: this.scope.isValidUserId(
-              x['userId']
-            )
-              ? x['userId']
-              : null,
-
-            floor: x['floor'] as FloorId,
-            spot: x['spot'] as string,
-
-            plate: x['plate'] as string,
-
-            startAt: x['startAt'] as string,
-
-            endAt:
-              typeof x['endAt'] === 'string'
-                ? x['endAt']
-                : '',
-
-            status: x['status'] as BookingStatus,
-
-            createdAt: x['createdAt'] as string
-
-          };
-
-        });
-
-    } catch (error) {
-
-      console.error(
-        'Không thể đọc dữ liệu booking:',
-        error
-      );
-
-      return [];
 
     }
 
-  }
-
-  // =====================================
-  // LƯU LOCALSTORAGE
-  // =====================================
-
-  private persist(
-    next: ParkingBookingRequest[]
-  ): boolean {
-
-    try {
-
-      if (typeof localStorage !== 'undefined') {
-
-        localStorage.setItem(
-          STORAGE_KEY,
-          JSON.stringify(next)
-        );
-
-      }
-
-      return true;
-
-    } catch (error) {
-
-      console.error(
-        'Không thể lưu booking:',
-        error
-      );
-
-      return false;
-
+    if (error instanceof Error) {
+      console.error(error);
     }
+
+    return fallback;
 
   }
 

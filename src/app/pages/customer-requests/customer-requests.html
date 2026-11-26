@@ -118,23 +118,31 @@
               [class.cancelled-badge]="request.status === 'cancelled'"
             >
 
-              @if (request.status === 'pending') {
+@if (request.status === 'pending') {
 
-                ● Chờ duyệt
+  ● Chờ duyệt
 
-              } @else if (request.status === 'approved') {
+} @else if (request.status === 'approved') {
 
-                ✓ Đã duyệt
+  ✓ Đã duyệt
 
-              } @else if (request.status === 'rejected') {
+} @else if (request.status === 'rejected') {
 
-                ✕ Từ chối
+  ✕ Từ chối
 
-              } @else {
+} @else if (request.status === 'checked_in') {
 
-                Đã hủy
+  ✓ Xe đã Check-in
 
-              }
+} @else if (request.status === 'completed') {
+
+  ✓ Đã hoàn tất
+
+} @else {
+
+  Đã hủy
+
+}
 
             </span>
 

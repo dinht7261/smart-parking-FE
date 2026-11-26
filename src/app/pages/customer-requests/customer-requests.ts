@@ -1,11 +1,16 @@
-import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { BookingRequestService } from '../../services/booking-request.service';
 
 import {
   BookingOvernightStatus
 } from '../../components/booking-overnight-status/booking-overnight-status';
-
+import {
+  Component,
+  computed,
+  inject,
+  signal,
+  OnInit
+} from '@angular/core';
 @Component({
   selector: 'app-customer-requests',
   standalone: true,
@@ -13,7 +18,7 @@ import {
   templateUrl: './customer-requests.html',
   styleUrl: './customer-requests.scss'
 })
-export class CustomerRequests {
+export class CustomerRequests implements OnInit {
 
   // Service quản lý các yêu cầu
   readonly bookings = inject(BookingRequestService);
@@ -42,16 +47,33 @@ export class CustomerRequests {
 
 
   // Bấm nút Xác nhận hủy
-  confirmCancel(id: string): void {
+async confirmCancel(id: string): Promise<void> {
 
-    const result = this.bookings.cancelRequest(id);
+  const result = await this.bookings.cancelRequest(id);
 
-    this.feedback.set(result.message);
+  this.feedback.set(result.message);
 
-    this.feedbackError.set(!result.ok);
+  this.feedbackError.set(!result.ok);
 
-    this.confirmingCancelId.set(null);
-  }
+  this.confirmingCancelId.set(null);
+
+}
+
+  ngOnInit(): void {
+
+  void this.bookings.refreshMine().then(result => {
+
+    if (!result.ok) {
+
+      this.feedback.set(result.message);
+
+      this.feedbackError.set(true);
+
+    }
+
+  });
+
+}
 
 
   // Hiển thị thời gian theo định dạng Việt Nam

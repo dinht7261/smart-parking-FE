@@ -1,9 +1,16 @@
-import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import {
   BookingRequestService
 } from '../../services/booking-request.service';
+
+import {
+  Component,
+  computed,
+  inject,
+  signal,
+  OnInit
+} from '@angular/core';
 
 @Component({
   selector: 'app-operator-requests',
@@ -12,7 +19,7 @@ import {
   templateUrl: './operator-requests.html',
   styleUrl: './operator-requests.scss'
 })
-export class OperatorRequests {
+export class OperatorRequests implements OnInit {
 
   readonly bookings = inject(BookingRequestService);
 
@@ -21,29 +28,38 @@ export class OperatorRequests {
   readonly feedbackError = signal(false);
 
 
-  // DUYỆT YÊU CẦU
-  approve(id: string): void {
+  ngOnInit(): void {
 
-    const result = this.bookings.approveRequest(id);
+  void this.bookings.refreshAll().then(result => {
 
-    this.feedback.set(result.message);
+    if (!result.ok) {
+      this.feedback.set(result.message);
+      this.feedbackError.set(true);
+    }
 
-    this.feedbackError.set(!result.ok);
+  });
 
-  }
+}
 
+async approve(id: string): Promise<void> {
 
-  // TỪ CHỐI YÊU CẦU
-  reject(id: string): void {
+  const result = await this.bookings.approveRequest(id);
 
-    const result = this.bookings.rejectRequest(id);
+  this.feedback.set(result.message);
 
-    this.feedback.set(result.message);
+  this.feedbackError.set(!result.ok);
 
-    this.feedbackError.set(!result.ok);
+}
 
-  }
+async reject(id: string): Promise<void> {
 
+  const result = await this.bookings.rejectRequest(id);
+
+  this.feedback.set(result.message);
+
+  this.feedbackError.set(!result.ok);
+
+}
 
   // ĐỊNH DẠNG THỜI GIAN
   formatTime(value: string): string {

@@ -289,29 +289,30 @@
 
       <!-- NÚT GỬI YÊU CẦU -->
 
-      <button
-        type="submit"
-        class="submit-button"
-        [disabled]="
-          bookingForm.invalid ||
-          submitted() ||
-          (
-            requestOvernight &&
-            (
-              !overnightWindow ||
-              !overnightReason.trim()
-            )
-          )
-        "
-      >
-
-        {{
-          submitted()
-            ? 'Đã gửi yêu cầu'
-            : 'Gửi yêu cầu đặt chỗ'
-        }}
-
-      </button>
+<button
+  type="submit"
+  class="submit-button"
+  [disabled]="
+    bookingForm.invalid ||
+    submitted() ||
+    submitting() ||
+    (
+      requestOvernight &&
+      (
+        !overnightWindow ||
+        !overnightReason.trim()
+      )
+    )
+  "
+>
+  {{
+    submitting()
+      ? 'Đang gửi yêu cầu...'
+      : submitted()
+        ? 'Đã gửi yêu cầu'
+        : 'Gửi yêu cầu đặt chỗ'
+  }}
+</button>
 
 
       <!-- KẾT QUẢ -->
