@@ -1,25 +1,18 @@
 
 <!-- SIDEBAR -->
-
 <app-sidebar
   role="customer"
   [sections]="sidebarSections"
 />
 
-
 <main class="phone-page customer-page">
 
   <!-- HEADER -->
-
   <header class="customer-header">
 
-    <a
-      routerLink="/"
-      class="back-link"
-    >
+    <a routerLink="/" class="back-link">
       ← Đổi vai trò
     </a>
-
 
     <div class="greeting">
 
@@ -36,7 +29,6 @@
 
       </div>
 
-
       <div class="user-vehicle">
 
         <span class="vehicle-label">
@@ -49,17 +41,13 @@
 
       </div>
 
-
-
-      <!-- NÚT CHUYỂN USER -->
-
+      <!-- CHUYỂN USER -->
       <button
         type="button"
         class="change-user-button"
         [attr.aria-expanded]="showUserChooser()"
         (click)="toggleUserChooser()"
       >
-
         <span>⇄</span>
 
         <span>
@@ -67,24 +55,18 @@
         </span>
 
         <span>⌄</span>
-
       </button>
 
     </div>
 
-
-    <!-- DANH SÁCH 4 USER -->
-
+    <!-- DANH SÁCH USER -->
     @if (showUserChooser()) {
 
       <section class="user-chooser">
 
         <div class="user-chooser-heading">
-
           <strong>Chọn tài khoản</strong>
-
           <span>Chế độ demo</span>
-
         </div>
 
         <div class="user-grid">
@@ -138,8 +120,6 @@
 
   <section class="lot-card">
 
-    <!-- HÌNH MINH HỌA -->
-
     <div
       class="garage-art"
       aria-hidden="true"
@@ -156,7 +136,6 @@
       <div class="car car-two"></div>
 
     </div>
-
 
     <!-- THÔNG TIN CHỖ TRỐNG -->
 
@@ -176,35 +155,33 @@
 
           <div class="availability-count">
 
-<strong>
-  {{ parkingLoading() ? '...' :
-     parkingError() ? '—' : availableSpaces() }}
-</strong>
+            <strong>
+              {{ parkingLoading() ? '...' :
+                 parkingError() ? '—' : availableSpaces() }}
+            </strong>
 
-<span>
-  @if (parkingLoading()) {
-    Đang cập nhật...
-  } @else if (parkingError()) {
-    Không có dữ liệu
-  } @else {
-    / {{ totalSpaces() }} chỗ
-  }
-</span>
+            <span>
+              @if (parkingLoading()) {
+                Đang cập nhật...
+              } @else if (parkingError()) {
+                Không có dữ liệu
+              } @else {
+                / {{ totalSpaces() }} chỗ
+              }
+            </span>
 
           </div>
 
         </div>
 
-
         <div class="availability-percent">
 
           {{ parkingLoading() ? '...' :
-   parkingError() ? '!' : availablePercent() + '%' }}
+             parkingError() ? '!' : availablePercent() + '%' }}
 
         </div>
 
       </div>
-
 
       <!-- THANH TIẾN ĐỘ -->
 
@@ -214,57 +191,393 @@
         aria-label="Tỷ lệ chỗ trống"
         aria-valuemin="0"
         aria-valuemax="100"
-        [style.width.%]="parkingError() ? 0 : availablePercent()"
+        [attr.aria-valuenow]="availablePercent()"
       >
 
         <div
           class="parking-progress-fill"
-          [style.width.%]="parkingError() ? 0 : availablePercent()"
+          [style.width.%]="
+            parkingError() ? 0 : availablePercent()
+          "
         ></div>
 
       </div>
 
+      <!-- CÁC CHỨC NĂNG BÃI XE -->
 
-      <!-- XEM SƠ ĐỒ BÃI XE -->
+      <div class="parking-actions">
 
-<!-- CÁC CHỨC NĂNG BÃI XE -->
+        <!-- MỞ CAMERA QUÉT QR -->
 
-<div class="parking-actions">
+        <button
+          type="button"
+          class="parking-map-link checkin-trigger"
+          [disabled]="isProcessing() || showSpotNotice()"
+          (click)="openCheckInScanner()"
+        >
 
-  <!-- QUÉT QR CỔNG IN -->
+          <span class="map-icon">▣</span>
 
-  <a
-    class="parking-map-link"
-    routerLink="/customer/check-in"
-  >
-    <span class="map-icon">▣</span>
+          <span>
+            Quét QR tại cổng IN
+          </span>
 
-    <span>
-      Quét QR tại cổng IN
-    </span>
+          <span class="map-arrow">›</span>
 
-    <span class="map-arrow">›</span>
-  </a>
+        </button>
 
-  <!-- XEM SƠ ĐỒ -->
+        <!-- XEM SƠ ĐỒ -->
 
-  <a
-    class="parking-map-link"
-    [routerLink]="parkingMapRoute"
-  >
-    <span class="map-icon">▦</span>
+        <a
+          class="parking-map-link"
+          [routerLink]="parkingMapRoute"
+        >
 
-    <span>
-      Xem sơ đồ đỗ xe theo tầng
-    </span>
+          <span class="map-icon">▦</span>
 
-    <span class="map-arrow">›</span>
-  </a>
+          <span>
+            Xem sơ đồ đỗ xe theo tầng
+          </span>
 
-</div>
+          <span class="map-arrow">›</span>
+
+        </a>
+
+      </div>
 
     </div>
 
   </section>
 
 </main>
+
+
+<!-- =====================================
+     MODAL QUÉT QR
+===================================== -->
+
+@if (showCheckInScanner()) {
+
+  <div class="checkin-modal-backdrop">
+
+    <section
+      class="checkin-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="scanner-title"
+    >
+
+      <header class="modal-header">
+
+        <div>
+
+          <span class="modal-eyebrow">
+            SMART PARKING
+          </span>
+
+          <h2 id="scanner-title">
+            Check-in gửi xe
+          </h2>
+
+          <p>
+            Quét mã QR tại cổng vào để xác nhận phiên gửi xe.
+          </p>
+
+        </div>
+
+        <button
+          type="button"
+          class="modal-close-button"
+          [disabled]="isProcessing()"
+          (click)="closeCheckInScanner()"
+          aria-label="Đóng camera"
+        >
+          ✕
+        </button>
+
+      </header>
+
+      <!-- USER ĐANG CHECK-IN -->
+
+      <div class="scanner-user">
+
+        <div class="scanner-user-avatar">
+          {{ demoUsers.selectedUserId() }}
+        </div>
+
+        <div class="scanner-user-info">
+
+          <strong>
+            {{ demoUsers.activeUser().name }}
+          </strong>
+
+          <span>
+            {{ demoUsers.activePlate() }}
+          </span>
+
+        </div>
+
+        <span class="scanner-user-status">
+          Đang chọn
+        </span>
+
+      </div>
+
+      <!-- CAMERA -->
+
+      <div
+        class="modal-video-wrapper"
+        [class.scanning]="isScanning()"
+      >
+
+        <video
+          #cameraVideo
+          autoplay
+          muted
+          playsinline
+        ></video>
+
+        @if (!isScanning()) {
+
+          <div class="modal-video-placeholder">
+
+            <div class="camera-icon">
+              ▣
+            </div>
+
+            <strong>
+              Camera chưa được kích hoạt
+            </strong>
+
+            <span>
+              Nhấn nút bên dưới để bắt đầu quét QR.
+            </span>
+
+          </div>
+
+        }
+
+        @if (isScanning()) {
+
+          <div class="modal-scan-overlay">
+
+            <div class="modal-scan-frame"></div>
+
+            <p>
+              Đang tìm mã QR...
+            </p>
+
+          </div>
+
+        }
+
+      </div>
+
+      <!-- LỖI -->
+
+      @if (checkInError()) {
+
+        <div class="modal-error">
+
+          <strong>
+            Không thể Check-in
+          </strong>
+
+          <p>
+            {{ checkInError() }}
+          </p>
+
+        </div>
+
+      }
+
+      <!-- ĐANG XỬ LÝ -->
+
+      @if (isProcessing()) {
+
+        <div class="modal-processing">
+
+          <span class="processing-spinner"></span>
+
+          <span>
+            Đang xác thực QR và phân bổ vị trí đỗ xe...
+          </span>
+
+        </div>
+
+      }
+
+      <!-- ĐIỀU KHIỂN CAMERA -->
+
+      <div class="modal-scanner-actions">
+
+        @if (isScanning()) {
+
+          <button
+            type="button"
+            class="modal-stop-button"
+            (click)="stopScanner()"
+          >
+            Dừng camera
+          </button>
+
+        } @else {
+
+          <button
+            type="button"
+            class="modal-start-button"
+            [disabled]="isProcessing()"
+            (click)="startScanner()"
+          >
+            {{ isProcessing()
+              ? 'Đang xử lý...'
+              : 'Bắt đầu quét QR'
+            }}
+          </button>
+
+        }
+
+      </div>
+
+    </section>
+
+  </div>
+
+}
+
+
+<!-- =====================================
+     THÔNG BÁO VỊ TRÍ ĐỖ XE
+===================================== -->
+
+@if (showSpotNotice() && checkedInSession(); as session) {
+
+  <div class="spot-notice-backdrop">
+
+    <section
+      class="spot-notice-card"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="spot-notice-title"
+    >
+
+      <!-- ICON THÀNH CÔNG -->
+
+      <div class="spot-success-icon">
+        ✓
+      </div>
+
+      <span class="spot-success-label">
+        CHECK-IN THÀNH CÔNG
+      </span>
+
+      <h2 id="spot-notice-title">
+        Vị trí đỗ xe của bạn
+      </h2>
+
+      <p class="spot-notice-description">
+        Hệ thống đã phân bổ vị trí đỗ xe.
+        Vui lòng di chuyển đến đúng vị trí được chỉ định.
+      </p>
+
+      <!-- VỊ TRÍ ĐƯỢC PHÂN BỔ -->
+
+      <div class="assigned-spot">
+
+        <span class="assigned-spot-label">
+          VỊ TRÍ ĐỖ XE
+        </span>
+
+        <div class="assigned-spot-location">
+
+          <div class="location-icon">
+            <span>⌖</span>
+          </div>
+
+          <div class="location-info">
+
+            <strong>
+              {{ session.floor }} – {{ session.spot }}
+            </strong>
+
+            <span>
+              Tầng {{ session.floor }}
+              · Ô {{ session.spot }}
+            </span>
+
+          </div>
+
+        </div>
+
+        <div class="assigned-spot-divider"></div>
+
+        <div class="assigned-vehicle">
+
+          <span>Biển số xe</span>
+
+          <strong>
+            {{ session.plate }}
+          </strong>
+
+        </div>
+
+        <div class="assigned-vehicle">
+
+          <span>Loại khách</span>
+
+          <strong>
+            {{ customerTypeLabel }}
+          </strong>
+
+        </div>
+
+        <div class="assigned-vehicle">
+
+          <span>Mã phiên</span>
+
+          <strong>
+            {{ session.sessionCode }}
+          </strong>
+
+        </div>
+
+      </div>
+
+      <!-- HƯỚNG DẪN -->
+
+      <div class="spot-instruction">
+
+        <span class="instruction-icon">
+          🚗
+        </span>
+
+        <p>
+          Hãy di chuyển đến tầng
+          <strong>{{ session.floor }}</strong>
+          và đỗ xe tại ô
+          <strong>{{ session.spot }}</strong>.
+        </p>
+
+      </div>
+
+      <!-- XÁC NHẬN -->
+
+      <button
+        type="button"
+        class="spot-confirm-button"
+        (click)="closeSpotNotice()"
+      >
+
+        ✓ ĐÃ HIỂU – BẮT ĐẦU DI CHUYỂN
+
+      </button>
+
+      <span class="spot-footer">
+        SMART PARKING · PARKING GUIDANCE SYSTEM
+      </span>
+
+    </section>
+
+  </div>
+
+}
