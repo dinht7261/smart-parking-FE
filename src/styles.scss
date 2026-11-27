@@ -1,102 +1,279 @@
 :root {
+  /* Industrial Mobility Core Tokens */
+  --font-sans: 'Plus Jakarta Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', Consolas, ui-monospace, monospace;
+
   --signal: #ff7739;
-  --ink: #1c2227;
+  --signal-hover: #f26522;
+  --signal-soft: #fff2eb;
+  --signal-ink: #7c2d12;
+
+  --ink: #141719;
   --muted: #526069;
-  --paper: #fff;
+  --paper: #ffffff;
   --cream: #f5f6f4;
   --sand: #e9edeb;
   --line: #d6dcdb;
-  --forest: #202a30;
+  --forest: #1f272c;
   --pine: #344249;
   --sage: #e5ebed;
   --leaf: #abb9be;
   --focus: #a84009;
+
+  --surface-dark: #141719;
+  --surface-dark-2: #1f2529;
+  --backdrop: rgba(15, 20, 24, 0.72);
+
+  /* Radii */
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(20, 23, 25, 0.05), 0 4px 12px rgba(20, 23, 25, 0.04);
+  --shadow-md: 0 8px 24px rgba(20, 23, 25, 0.09);
+  --shadow-modal: 0 24px 64px rgba(15, 20, 24, 0.34);
+
+  /* Unified 4 Parking Status Palettes + Danger */
+  --status-free: #15803d;
+  --status-free-bg: #ecfdf3;
+  --status-free-border: #bbf7d0;
+  --status-free-dot: #16a34a;
+
+  --status-occupied: #475569;
+  --status-occupied-bg: #f1f5f9;
+  --status-occupied-border: #cbd5e1;
+  --status-occupied-dot: #64748b;
+
+  --status-reserved: #1d4ed8;
+  --status-reserved-bg: #eff6ff;
+  --status-reserved-border: #bfdbfe;
+  --status-reserved-dot: #2563eb;
+
+  --status-maint: #b45309;
+  --status-maint-bg: #fffbeb;
+  --status-maint-border: #fde68a;
+  --status-maint-dot: #f59e0b;
+
+  --status-danger: #be123c;
+  --status-danger-bg: #fff1f2;
+  --status-danger-border: #fecdd3;
+
   --home-width: min(100%, 1140px);
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-family: var(--font-sans);
   color: var(--ink);
   background: var(--cream);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
-*, *::before, *::after { box-sizing: border-box; }
-body { margin: 0; min-width: 320px; min-height: 100dvh; }
-a { color: inherit; text-decoration: none; }
-button { font: inherit; }
-input, select, textarea { color: var(--ink); accent-color: var(--forest); }
-:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
 
-.phone-page, main.config-page {
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100dvh;
+  background: var(--cream);
+  color: var(--ink);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+button {
+  font: inherit;
+  transition: transform 0.14s ease, background-color 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease, opacity 0.16s ease;
+}
+
+button:active:not(:disabled) {
+  transform: scale(0.985);
+}
+
+input,
+select,
+textarea {
+  color: var(--ink);
+  accent-color: var(--forest);
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.phone-page,
+main.config-page {
   min-height: 100dvh;
   width: min(100%, 700px);
   margin-inline: auto;
   background: var(--cream);
+  padding-bottom: max(36px, calc(24px + env(safe-area-inset-bottom)));
 }
+
 .eyebrow {
   color: var(--muted);
-  font-size: .73rem;
+  font-size: 0.75rem;
   font-weight: 750;
-  letter-spacing: .1em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
-.back-link { display: inline-flex; align-items: center; min-height: 44px; color: var(--muted); font-size: .87rem; font-weight: 650; }
-.muted, .demo-note { color: var(--muted); }
-.demo-note { font-size: .76rem; line-height: 1.5; }
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding-inline: 2px;
+  color: var(--muted);
+  font-size: 0.875rem;
+  font-weight: 700;
+  transition: color 0.15s ease;
+}
+
+.back-link:hover {
+  color: var(--ink);
+}
+
+.muted,
+.demo-note {
+  color: var(--muted);
+}
+
+.demo-note {
+  font-size: 0.75rem;
+  line-height: 1.55;
+}
 
 main:is(.phone-page, .config-page) > header:not(.customer-header, .operator-header) {
   padding-bottom: 18px;
-  border-bottom: 1px solid #c6ced0;
+  border-bottom: 1px solid var(--line);
 }
+
+main:is(.phone-page, .config-page) > header:not(.customer-header, .operator-header) .back-link {
+  margin-bottom: 14px;
+}
+
 main:is(.phone-page, .config-page) > header h1 {
   color: var(--ink);
-  font-size: clamp(1.8rem, 4vw, 2.65rem);
-  line-height: 1.12;
-  letter-spacing: -.055em;
+  font-size: clamp(1.65rem, 4vw, 2.45rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.04em;
 }
-.phone-page > header .eyebrow::before {
+
+.phone-page > header .eyebrow::before,
+main.config-page > header .eyebrow::before {
   content: '';
   display: inline-block;
-  width: 15px;
+  width: 16px;
   height: 3px;
   margin-right: 8px;
   vertical-align: middle;
+  border-radius: 2px;
   background: var(--signal);
 }
-main.phone-page :is(.map-card, .op-map, .scanner-card, .booking-form, .settings-card,
+
+/* Unified Cards & Panels */
+main.phone-page :is(
+  .map-card, .op-map, .scanner-card, .booking-form, .settings-card,
   .gate-card, .history-card, .request-card, .invoice-card, .session-card, .violation-card,
-  .overnight-form, .booking-card, .info-card), main.config-page .panel {
-  border-radius: 12px;
-  box-shadow: 0 2px 6px #1c262b0a;
-}
-main.phone-page :is(.stat, .occupied-stat-card, .fee-stat, .summary-card, .stat-card), main.phone-page .op-overview > div {
-  font-variant-numeric: tabular-nums;
-  border-radius: 7px;
-}
-.phone-page :is(.parking-grid, .op-spot-grid) {
-  padding: 13px;
-  border: 1px solid #ccd1d2;
-  border-radius: 9px;
-  background: repeating-linear-gradient(0deg, transparent 0 17px, #808b8f14 17px 18px),
-    repeating-linear-gradient(90deg, transparent 0 17px, #808b8f14 17px 18px), #e9eded;
-}
-.phone-page :is(.parking-spot, .op-spot) { border-radius: 6px; }
-.phone-page :is(.parking-spot .car-icon, .op-spot .op-car) {
-  display: grid; place-items: center; width: 27px; height: 20px;
-  background: transparent; color: inherit; font-size: 0;
-}
-.phone-page :is(.parking-spot .car-icon, .op-spot .op-car)::before {
-  content: ''; width: 23px; height: 15px; border: 2px solid currentColor; border-top: 0; border-radius: 0 0 3px 3px;
-}
-.phone-page :is(.parking-spot.occupied .car-icon, .op-spot.is-occupied .op-car)::before {
-  border: 2px solid #78848b; border-radius: 5px;
-  background: linear-gradient(90deg, #adb6b9 12%, #455760 16% 28%, #d9dfe0 33% 63%, #455760 68% 79%, #b8c0c2 84%);
+  .overnight-form, .booking-card, .info-card, .demo-banner, .iot-simulator,
+  .user-chooser, .op-actions, .recognition-card, .recognition-empty
+),
+main.config-page .panel {
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
 }
 
+/* Unified Stat Cards */
+main.phone-page :is(
+  .stat, .occupied-stat-card, .fee-stat, .summary-card, .stat-card
+),
+main.phone-page .op-overview > div {
+  font-variant-numeric: tabular-nums;
+  border-radius: var(--radius-sm);
+}
+
+/* Unified Form Controls */
+main:is(.phone-page, .config-page) :is(input, select, textarea) {
+  min-height: 46px;
+  border-radius: var(--radius-sm);
+  border-color: var(--line);
+}
+
+@media (max-width: 759px) {
+  main:is(.phone-page, .config-page) :is(input:not([type="checkbox"], [type="radio"]), select, textarea) {
+    font-size: max(16px, 1rem);
+  }
+}
+
+/* Industrial Parking Grid Surface */
+.phone-page :is(.parking-grid, .op-spot-grid) {
+  padding: 14px;
+  border: 1px solid #c9d2d4;
+  border-radius: var(--radius-md);
+  background:
+    repeating-linear-gradient(0deg, transparent 0 19px, rgba(20, 23, 25, 0.045) 19px 20px),
+    repeating-linear-gradient(90deg, transparent 0 19px, rgba(20, 23, 25, 0.045) 19px 20px),
+    #eaeeef;
+}
+
+.phone-page :is(.parking-spot, .op-spot) {
+  border-radius: var(--radius-sm);
+  transition: transform 0.14s ease, border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.phone-page :is(.parking-spot .car-icon, .op-spot .op-car) {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 20px;
+  background: transparent;
+  color: inherit;
+  font-size: 0;
+}
+
+.phone-page :is(.parking-spot .car-icon, .op-spot .op-car)::before {
+  content: '';
+  width: 22px;
+  height: 14px;
+  border: 2px solid currentColor;
+  border-top: 0;
+  border-radius: 0 0 3px 3px;
+}
+
+.phone-page :is(.parking-spot.occupied .car-icon, .op-spot.is-occupied .op-car)::before {
+  border: 2px solid #64748b;
+  border-radius: 5px;
+  background: linear-gradient(90deg, #94a3b8 12%, #334155 16% 28%, #e2e8f0 33% 63%, #334155 68% 79%, #94a3b8 84%);
+}
+
+/* Home Hero & Lot Card */
 main.phone-page:is(.customer-page, .operator-page) {
   width: var(--home-width);
   min-height: auto;
-  padding: clamp(12px, 2vw, 28px) clamp(14px, 3.3vw, 48px) 40px;
+  padding: clamp(14px, 2vw, 28px) clamp(14px, 3.3vw, 48px) max(40px, calc(32px + env(safe-area-inset-bottom)));
 }
-main.phone-page :is(.customer-header, .operator-header) { margin: 0 0 16px; }
+
+main.phone-page :is(.customer-header, .operator-header) {
+  margin: 0 0 18px;
+}
+
 .home-hero {
   position: relative;
   isolation: isolate;
@@ -105,65 +282,251 @@ main.phone-page :is(.customer-header, .operator-header) { margin: 0 0 16px; }
   flex-direction: column;
   justify-content: space-between;
   min-height: clamp(210px, 26vw, 330px);
-  padding: clamp(16px, 2.5vw, 34px);
-  border-radius: 12px;
+  padding: clamp(18px, 2.5vw, 34px);
+  border-radius: var(--radius-lg);
+  border: 1px solid #2b3338;
   color: #fff;
-  background: #181c1e;
+  background: var(--surface-dark);
+  box-shadow: var(--shadow-md);
 }
-.home-photo { position: absolute; z-index: -2; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 65% 50%; }
+
+.home-photo {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 65% 50%;
+}
+
 .home-hero::before {
-  content: ''; position: absolute; z-index: -1; inset: 0;
-  background: linear-gradient(90deg, #111517f0, #111517c9 35%, #11151712 83%);
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(90deg, #111517f2, #111517cc 38%, #1115171c 85%);
 }
-main.phone-page .home-hero .back-link { align-self: start; min-height: 32px; margin: 0; color: #f9faf8; }
-main.phone-page .home-hero .eyebrow { color: #e4e7e4; font: 700 .67rem/1.4 Consolas, monospace; letter-spacing: .1em; }
-main.phone-page .home-hero h1 { margin: 5px 0; color: #fff; font-size: clamp(2rem, 4.2vw, 3.6rem); line-height: 1.1; }
-main.phone-page .operator-greeting { margin: 20px 0 0; }
+
+main.phone-page .home-hero .back-link {
+  align-self: start;
+  min-height: 36px;
+  margin: 0;
+  color: #f4f6f4;
+}
+
+main.phone-page .home-hero .back-link:hover {
+  color: var(--signal);
+}
+
+main.phone-page .home-hero .eyebrow {
+  color: #e4e7e4;
+  font: 700 0.75rem/1.4 var(--font-mono);
+  letter-spacing: 0.1em;
+}
+
+main.phone-page .home-hero h1 {
+  margin: 6px 0;
+  color: #fff;
+  font-size: clamp(1.95rem, 4.2vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+}
+
+main.phone-page .operator-greeting {
+  margin: 20px 0 0;
+}
+
 main.customer-page .greeting {
   display: grid;
   grid-template-columns: minmax(0, auto) auto;
   justify-content: start;
   align-items: end;
-  gap: 8px 16px;
+  gap: 10px 16px;
   margin: 16px 0 0;
 }
-.greeting-copy { grid-column: 1 / -1; }
-main.customer-page .user-vehicle { align-self: center; margin: 0; }
-.home-hero .user-vehicle .vehicle-label { color: #e2e6e7; }
-.home-hero .user-vehicle .vehicle-plate { color: #1c2022; background: #f4f6f4; border: 0; font-family: Consolas, monospace; }
-.home-hero .greeting .change-user-button { align-self: center; background: #20272b; color: #fff; border: 1px solid #8b9295; }
-main.customer-page .user-chooser { margin: 12px 0 0; }
 
-main.phone-page .lot-card { border: 1px solid var(--line); border-radius: 12px; box-shadow: none; }
-.lot-card .parking-merged-info { padding: clamp(16px, 3vw, 32px); }
-.phone-page .lot-card .parking-icon { background: #202629; color: var(--signal); border-radius: 8px; font-weight: 900; }
-.phone-page .lot-card .availability-label { color: var(--muted); font-size: .8rem; font-weight: 650; }
-.phone-page .lot-card .availability-count strong { color: var(--ink); font-size: clamp(2rem, 4.5vw, 3.3rem); line-height: 1.1; font-variant-numeric: tabular-nums; }
-.phone-page .lot-card .parking-progress { background: #e5e9e8; height: 6px; }
-.phone-page .lot-card .parking-progress-fill { background: #32835c; }
-.phone-page .lot-card .parking-map-link { border-radius: 7px; color: #21272b; background: #eff1ef; }
-.phone-page .lot-card .checkin-trigger, .operator-page .lot-card .parking-map-link { background: var(--signal); color: #1b1e20; border-color: transparent; }
-.phone-page .lot-card .parking-map-link:focus-visible { outline-color: var(--focus); }
+.greeting-copy {
+  grid-column: 1 / -1;
+}
+
+main.customer-page .user-vehicle {
+  align-self: center;
+  margin: 0;
+}
+
+.home-hero .user-vehicle .vehicle-label {
+  color: #dce2e4;
+  font-size: 0.75rem;
+}
+
+.home-hero .user-vehicle .vehicle-plate {
+  color: var(--surface-dark);
+  background: #f4f6f4;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  border-radius: var(--radius-xs);
+  font-family: var(--font-mono);
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+
+.home-hero .greeting .change-user-button {
+  align-self: center;
+  min-height: 38px;
+  background: rgba(20, 23, 25, 0.84);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  border-radius: var(--radius-sm);
+  backdrop-filter: blur(6px);
+}
+
+.home-hero .greeting .change-user-button:hover {
+  border-color: var(--signal);
+  background: var(--surface-dark-2);
+}
+
+main.customer-page .user-chooser {
+  margin: 14px 0 0;
+}
+
+main.phone-page .lot-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--paper);
+  box-shadow: var(--shadow-sm);
+}
+
+.lot-card .parking-merged-info {
+  padding: clamp(18px, 3vw, 32px);
+}
+
+.phone-page .lot-card .parking-icon {
+  background: var(--surface-dark);
+  color: var(--signal);
+  border-radius: var(--radius-sm);
+  font-weight: 900;
+}
+
+.phone-page .lot-card .availability-label {
+  color: var(--muted);
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+.phone-page .lot-card .availability-count strong {
+  color: var(--ink);
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.phone-page .lot-card .parking-progress {
+  background: var(--sand);
+  height: 7px;
+  border-radius: var(--radius-pill);
+}
+
+.phone-page .lot-card .parking-progress-fill {
+  background: var(--status-free-dot);
+}
+
+.phone-page .lot-card .parking-map-link {
+  border-radius: var(--radius-sm);
+  color: var(--ink);
+  background: #f1f4f2;
+  border-color: var(--line);
+  min-height: 48px;
+}
+
+.phone-page .lot-card .parking-map-link:hover {
+  background: var(--sand);
+}
+
+.phone-page .lot-card .checkin-trigger,
+.operator-page .lot-card .parking-map-link {
+  background: var(--signal);
+  color: #141719;
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(255, 119, 57, 0.25);
+}
+
+.phone-page .lot-card .checkin-trigger:hover:not(:disabled),
+.operator-page .lot-card .parking-map-link:hover {
+  background: var(--signal-hover);
+}
+
+.phone-page .lot-card .parking-map-link:focus-visible {
+  outline-color: var(--focus);
+}
 
 @media (min-width: 760px) {
-  main.phone-page:not(.customer-page, .operator-page), main.config-page {
+  main.phone-page:not(.customer-page, .operator-page),
+  main.config-page {
     width: min(calc(100% - 64px), 840px);
     margin-block: 24px;
-    padding: clamp(25px, 3.5vw, 54px);
+    padding: clamp(26px, 3.5vw, 48px);
     border: 1px solid var(--line);
-    background: #fafbf9;
-    border-radius: 14px;
+    background: var(--paper);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
   }
+
   .lot-card .parking-merged-info {
-    display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 18px 42px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 18px 42px;
   }
-  .lot-card .merged-top, .lot-card .parking-progress { grid-column: 1; margin: 0; }
-  .lot-card .parking-actions { grid-column: 2; grid-row: 1 / 3; margin: 0; }
-  .lot-card .parking-legend { grid-column: 2; grid-row: 1; margin: 0; padding: 0; border: 0; }
-  .operator-page .lot-card .parking-map-link { grid-column: 2; grid-row: 2; margin: 0; }
+
+  .lot-card .merged-top,
+  .lot-card .parking-progress {
+    grid-column: 1;
+    margin: 0;
+  }
+
+  .lot-card .parking-actions {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    margin: 0;
+  }
+
+  .lot-card .parking-legend {
+    grid-column: 2;
+    grid-row: 1;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .operator-page .lot-card .parking-map-link {
+    grid-column: 2;
+    grid-row: 2;
+    margin: 0;
+  }
 }
+
 @media (max-width: 420px) {
-  .home-hero::before { background: linear-gradient(90deg, #121619e6, #12161994 70%, #1216193d); }
-  main.customer-page .greeting { column-gap: 8px; }
-  .home-hero .user-vehicle .vehicle-label { font-size: .64rem; }
+  .home-hero::before {
+    background: linear-gradient(90deg, #121619eb, #1216199e 70%, #12161942);
+  }
+
+  main.customer-page .greeting {
+    column-gap: 8px;
+  }
+
+  .home-hero .user-vehicle .vehicle-label {
+    font-size: 0.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

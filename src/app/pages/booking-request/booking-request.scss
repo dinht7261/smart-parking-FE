@@ -1,61 +1,70 @@
 .booking-page {
-  padding: 20px;
+  padding: 20px 18px 40px;
   background: var(--cream);
 }
 
 .booking-page header {
-  margin-bottom: 24px;
+  margin-bottom: 22px;
 }
 
 .booking-page .eyebrow {
   display: block;
-  margin-top: 20px;
-  font-size: 11px;
+  margin-top: 8px;
+  font-size: 12px;
 }
 
 .booking-page h1 {
-  margin: 10px 0;
+  margin: 8px 0;
   font-size: 26px;
 }
 
 .subtitle {
+  margin: 0;
   color: var(--muted);
   font-size: 13px;
 }
 
 .booking-location {
   padding: 18px;
-  border-radius: 16px;
-  background: var(--sand);
-  margin-bottom: 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface-dark);
+  color: var(--paper);
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-sm);
 
   span {
     font-size: 12px;
-    color: var(--forest);
+    color: var(--leaf);
+    font-weight: 600;
   }
 
   h2 {
-    margin: 8px 0;
-    color: var(--forest);
+    margin: 6px 0;
+    color: var(--signal);
+    font-family: var(--font-mono);
     font-size: 22px;
+    font-weight: 800;
   }
 
   p {
     margin: 0;
-    font-size: 12px;
-    color: var(--muted);
+    font-size: 13px;
+    color: #cfd6d9;
   }
 }
 
 .booking-form {
   background: var(--paper);
   border: 1px solid var(--line);
-  border-radius: 20px;
+  border-radius: var(--radius-md);
   padding: 20px;
+  box-shadow: var(--shadow-sm);
 
   h2 {
     font-size: 17px;
-    margin: 0 0 20px;
+    font-weight: 800;
+    margin: 0 0 18px;
   }
 
   form {
@@ -65,105 +74,112 @@
   }
 
   label {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
+    color: var(--ink);
   }
 
   input {
     width: 100%;
-    padding: 13px;
+    min-height: 46px;
+    padding: 12px 14px;
     border: 1px solid var(--line);
-    border-radius: 10px;
+    border-radius: var(--radius-sm);
+    background: var(--cream);
     font: inherit;
-    font-size: 14px;
-    margin-bottom: 10px;
+    font-size: 15px;
+    margin-bottom: 8px;
   }
 
   input:focus {
-    outline: 2px solid var(--focus);
+    outline: none;
+    border-color: var(--focus);
+    background: var(--paper);
+    box-shadow: 0 0 0 3px rgba(168, 64, 9, 0.14);
   }
 }
 
 .approval-note {
-  background: #fff5e5;
-  color: #a66b10;
-  padding: 12px;
-  border-radius: 10px;
-  font-size: 12px;
-  line-height: 1.6;
+  background: var(--status-maint-bg);
+  border: 1px solid var(--status-maint-border);
+  color: var(--status-maint);
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  line-height: 1.55;
 }
 
 .submit-button {
   margin-top: 10px;
-  padding: 15px;
+  min-height: 48px;
+  padding: 14px 16px;
   border: none;
-  border-radius: 12px;
-  background: var(--sage);
-  color: var(--paper);
+  border-radius: var(--radius-sm);
+  background: var(--signal);
+  color: var(--surface-dark);
+  font-size: 14px;
   font-weight: 800;
-  cursor: not-allowed;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    background: var(--signal-hover);
+  }
+
+  &:disabled {
+    background: #cbd5d8;
+    color: #526069;
+    cursor: not-allowed;
+  }
 }
 
 .form-note {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--muted);
   text-align: center;
   line-height: 1.5;
 }
-.submit-button {
-  background: var(--forest);
-  cursor: pointer;
-}
-
-.submit-button:disabled {
-  background: #778979;
-  cursor: not-allowed;
-}
 
 .form-status {
-  padding: 12px;
-  border-radius: 10px;
-  background: #fff0eb;
-  color: #ba4c35;
-  font-size: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--status-danger-border);
+  border-radius: var(--radius-sm);
+  background: var(--status-danger-bg);
+  color: var(--status-danger);
+  font-size: 13px;
+  font-weight: 600;
   line-height: 1.5;
 }
 
 .form-status.success {
-  background: #e6f8ee;
-  color: #0e985b;
+  border-color: var(--status-free-border);
+  background: var(--status-free-bg);
+  color: var(--status-free);
 }
 
-
-/* =====================================
-   THÔNG TIN TÀI KHOẢN
-   ===================================== */
-
+/* THÔNG TIN TÀI KHOẢN */
 .booking-user-info {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 13px;
-  margin: 12px 0 20px;
-  border-radius: 12px;
+  padding: 13px 14px;
+  margin: 4px 0 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
   background: var(--cream);
+
+  span {
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  strong {
+    color: var(--ink);
+    font-size: 14px;
+    font-weight: 800;
+  }
 }
 
-.booking-user-info span {
-  color: var(--muted);
-  font-size: 12px;
-}
-
-.booking-user-info strong {
-  color: var(--forest);
-  font-size: 14px;
-}
-
-
-/* =====================================
-   BIỂN SỐ CỐ ĐỊNH
-   ===================================== */
-
+/* BIỂN SỐ CỐ ĐỊNH */
 .fixed-plate-field {
   position: relative;
 }
@@ -171,40 +187,37 @@
 .booking-form .fixed-plate-field input {
   width: 100%;
   box-sizing: border-box;
-  padding-right: 42px;
+  padding-right: 44px;
   background: var(--sand);
-  color: var(--muted);
+  color: var(--ink);
+  font-family: var(--font-mono);
   font-weight: 800;
-  letter-spacing: 1px;
+  letter-spacing: 0.06em;
   cursor: default;
 }
 
 .plate-lock {
   position: absolute;
   right: 14px;
-  top: 50%;
+  top: calc(50% - 4px);
   transform: translateY(-50%);
   font-size: 15px;
   pointer-events: none;
 }
 
 .plate-hint {
-  margin: 6px 0 16px;
+  margin: 0 0 12px;
   color: var(--muted);
-  font-size: 11px;
-  line-height: 1.6;
+  font-size: 12px;
+  line-height: 1.5;
 }
 
-
-/* =====================================
-   CHECKBOX QUA ĐÊM
-   ===================================== */
-
+/* CHECKBOX QUA ĐÊM */
 .overnight-option {
-  padding: 15px;
-  margin-top: 18px;
+  padding: 14px;
+  margin-top: 10px;
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: var(--radius-md);
   background: var(--cream);
 }
 
@@ -219,8 +232,8 @@
 .booking-form .overnight-checkbox input {
   appearance: auto;
   flex-shrink: 0;
-  width: 19px;
-  height: 19px;
+  width: 20px;
+  height: 20px;
   min-height: 0;
   padding: 0;
   margin: 2px 0 0;
@@ -233,79 +246,82 @@
 
 .overnight-checkbox strong {
   display: block;
-  color: var(--forest);
-  font-size: 13px;
+  color: var(--ink);
+  font-size: 14px;
 }
 
 .overnight-checkbox small {
   display: block;
-  margin-top: 6px;
+  margin-top: 4px;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 400;
   line-height: 1.5;
 }
 
-
-/* =====================================
-   FORM GỬI QUA ĐÊM
-   ===================================== */
-
+/* FORM GỬI QUA ĐÊM */
 .overnight-request-box {
   padding: 16px;
-  margin-top: 13px;
+  margin-top: 12px;
   border: 1px solid var(--line);
-  border-radius: 15px;
+  border-radius: var(--radius-md);
   background: var(--cream);
-}
 
-.overnight-request-box h3 {
-  margin: 0 0 12px;
-  color: var(--forest);
-  font-size: 15px;
+  h3 {
+    margin: 0 0 10px;
+    color: var(--ink);
+    font-size: 15px;
+    font-weight: 800;
+  }
+
+  textarea {
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 100px;
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--paper);
+    color: var(--ink);
+    font: inherit;
+    font-size: 14px;
+    resize: vertical;
+  }
 }
 
 .overnight-description {
   color: var(--muted);
-  font-size: 12px;
-  line-height: 1.6;
-}
-
-.overnight-request-box textarea {
-  width: 100%;
-  box-sizing: border-box;
-  min-height: 100px;
-  padding: 12px;
-  border: 1px solid var(--line);
-  border-radius: 11px;
-  background: var(--paper);
-  color: var(--muted);
-  font: inherit;
   font-size: 13px;
-  resize: vertical;
+  line-height: 1.55;
 }
 
 .overnight-warning {
-  padding: 11px;
-  margin: 13px 0 0;
-  border-radius: 9px;
-  background: #fff3df;
-  color: #b5842e;
-  font-size: 11px;
-  line-height: 1.6;
+  padding: 11px 13px;
+  margin: 12px 0 0;
+  border: 1px solid var(--status-maint-border);
+  border-radius: var(--radius-sm);
+  background: var(--status-maint-bg);
+  color: var(--status-maint);
+  font-size: 12px;
+  line-height: 1.55;
 }
 
-
-/* =====================================
-   CHÍNH SÁCH GIÁ
-   ===================================== */
-
+/* CHÍNH SÁCH GIÁ */
 .pricing-info {
   padding: 15px;
-  margin-top: 20px;
-  border: 1px solid #dfebe3;
-  border-radius: 13px;
-  background: #f0faf3;
+  margin-top: 16px;
+  border: 1px solid var(--status-free-border);
+  border-radius: var(--radius-md);
+  background: var(--status-free-bg);
+
+  p {
+    margin: 0;
+    padding-top: 10px;
+    border-top: 1px solid var(--status-free-border);
+    color: var(--status-free);
+    font-size: 12px;
+    line-height: 1.55;
+  }
 }
 
 .pricing-row {
@@ -313,77 +329,60 @@
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  margin-bottom: 12px;
-  font-size: 12px;
-}
-
-.pricing-row span {
-  color: #779585;
-}
-
-.pricing-row strong {
-  color: #29945a;
+  margin-bottom: 10px;
   font-size: 13px;
+
+  span {
+    color: var(--muted);
+  }
+
+  strong {
+    color: var(--status-free);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+  }
 }
 
-.pricing-info p {
-  margin: 0;
-  padding-top: 10px;
-  border-top: 1px solid #dcece0;
-  color: #799486;
-  font-size: 11px;
-  line-height: 1.6;
-}
-
-
-/* =====================================
-   KHUNG GIỜ QUA ĐÊM TỰ ĐỘNG
-   ===================================== */
-
+/* KHUNG GIỜ QUA ĐÊM TỰ ĐỘNG */
 .overnight-time-preview {
   display: flex;
   flex-direction: column;
-  gap: 9px;
-  padding: 15px;
-  margin: 14px 0 18px;
+  gap: 8px;
+  padding: 14px;
+  margin: 12px 0 16px;
   border: 1px solid var(--line);
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
   background: var(--paper);
-}
 
-.overnight-time-preview span {
-  color: var(--forest);
-  font-size: 12px;
-}
+  span {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 600;
+  }
 
-.overnight-time-preview strong {
-  color: var(--forest);
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 1.5;
-}
+  strong {
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.5;
+  }
 
-.overnight-time-preview small {
-  padding-top: 10px;
-  margin-top: 3px;
-  border-top: 1px solid var(--line);
-  color: var(--muted);
-  font-size: 11px;
-  line-height: 1.6;
+  small {
+    padding-top: 10px;
+    margin-top: 2px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.55;
+  }
 }
 
 .overnight-extra-note {
-  margin: 13px 0 0;
+  margin: 12px 0 0;
   color: var(--muted);
-  font-size: 11px;
-  line-height: 1.7;
+  font-size: 12px;
+  line-height: 1.6;
 }
-
-/* =====================================
-   ĐƠN GIÁ GỬI XE
-   ===================================== */
-
-.pricing-info .pricing-row {
-  margin-bottom: 12px;
-}
-

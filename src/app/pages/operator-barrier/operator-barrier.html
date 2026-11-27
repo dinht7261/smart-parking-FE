@@ -1,4 +1,3 @@
-
 <main class="phone-page barrier-page">
 
   <!-- =====================================
@@ -114,7 +113,15 @@
 
       <div class="recognition-empty">
 
-        <span>◉</span>
+        <span aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 7V5a2 2 0 0 1 2-2h2" />
+            <path d="M17 3h2a2 2 0 0 1 2 2v2" />
+            <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
+            <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
+            <circle cx="12" cy="12" r="3" />
+          </svg>
+        </span>
 
         <strong>Đang chờ nhận diện QR</strong>
 
@@ -155,8 +162,12 @@
 
           <div class="gate-title">
 
-            <div class="gate-icon">
-              🚧
+            <div class="gate-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="10" width="4" height="10" rx="1" />
+                <line x1="7" y1="12" x2="21" y2="7" />
+                <line x1="2" y1="20" x2="22" y2="20" />
+              </svg>
             </div>
 
             <div>
@@ -215,7 +226,7 @@
 
           @if (barrier.states()[gate.id] === 'open') {
 
-            <span class="state-icon open-icon">
+            <span class="state-icon open-icon" aria-hidden="true">
               ✓
             </span>
 
@@ -225,7 +236,7 @@
 
           } @else {
 
-            <span class="state-icon closed-icon">
+            <span class="state-icon closed-icon" aria-hidden="true">
               ●
             </span>
 
@@ -251,9 +262,12 @@
             (click)="changeState(gate.id, 'open')"
           >
 
-            <span>↗</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="7" y1="17" x2="17" y2="7" />
+              <polyline points="7 7 17 7 17 17" />
+            </svg>
 
-            Mở barrier
+            <span>Mở barrier</span>
 
           </button>
 
@@ -265,9 +279,11 @@
             (click)="changeState(gate.id, 'closed')"
           >
 
-            <span>■</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="6" y="6" width="12" height="12" rx="2" />
+            </svg>
 
-            Đóng barrier
+            <span>Đóng barrier</span>
 
           </button>
 
@@ -314,7 +330,12 @@
 
       <div class="empty-history">
 
-        <div>🕒</div>
+        <div class="empty-history-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <polyline points="12 6 12 12 16 14" />
+          </svg>
+        </div>
 
         <strong>Chưa có thao tác</strong>
 
@@ -335,12 +356,18 @@
             <div
               class="history-icon"
               [class.history-open]="item.state === 'open'"
+              aria-hidden="true"
             >
 
               @if (item.state === 'open') {
-                ↗
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="7" y1="17" x2="17" y2="7" />
+                  <polyline points="7 7 17 7 17 17" />
+                </svg>
               } @else {
-                ■
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="6" y="6" width="12" height="12" rx="2" />
+                </svg>
               }
 
             </div>
