@@ -1,6 +1,6 @@
 .booking-page {
   padding: 20px;
-  background: #f9fbff;
+  background: var(--cream);
 }
 
 .booking-page header {
@@ -19,37 +19,37 @@
 }
 
 .subtitle {
-  color: #8290a6;
+  color: var(--muted);
   font-size: 13px;
 }
 
 .booking-location {
   padding: 18px;
   border-radius: 16px;
-  background: #eaf3ff;
+  background: var(--sand);
   margin-bottom: 24px;
 
   span {
     font-size: 12px;
-    color: #6681a8;
+    color: var(--forest);
   }
 
   h2 {
     margin: 8px 0;
-    color: #1766db;
+    color: var(--forest);
     font-size: 22px;
   }
 
   p {
     margin: 0;
     font-size: 12px;
-    color: #7285a2;
+    color: var(--muted);
   }
 }
 
 .booking-form {
-  background: white;
-  border: 1px solid #e7edf6;
+  background: var(--paper);
+  border: 1px solid var(--line);
   border-radius: 20px;
   padding: 20px;
 
@@ -72,7 +72,7 @@
   input {
     width: 100%;
     padding: 13px;
-    border: 1px solid #dce4f0;
+    border: 1px solid var(--line);
     border-radius: 10px;
     font: inherit;
     font-size: 14px;
@@ -80,7 +80,7 @@
   }
 
   input:focus {
-    outline: 2px solid #77a9ff;
+    outline: 2px solid var(--focus);
   }
 }
 
@@ -98,25 +98,25 @@
   padding: 15px;
   border: none;
   border-radius: 12px;
-  background: #a5c5ee;
-  color: white;
+  background: var(--sage);
+  color: var(--paper);
   font-weight: 800;
   cursor: not-allowed;
 }
 
 .form-note {
   font-size: 11px;
-  color: #8996aa;
+  color: var(--muted);
   text-align: center;
   line-height: 1.5;
 }
 .submit-button {
-  background: #1976f6;
+  background: var(--forest);
   cursor: pointer;
 }
 
 .submit-button:disabled {
-  background: #a5c5ee;
+  background: #778979;
   cursor: not-allowed;
 }
 
@@ -146,16 +146,16 @@
   padding: 13px;
   margin: 12px 0 20px;
   border-radius: 12px;
-  background: #f4f1ff;
+  background: var(--cream);
 }
 
 .booking-user-info span {
-  color: #9083b0;
+  color: var(--muted);
   font-size: 12px;
 }
 
 .booking-user-info strong {
-  color: #7958d1;
+  color: var(--forest);
   font-size: 14px;
 }
 
@@ -172,8 +172,8 @@
   width: 100%;
   box-sizing: border-box;
   padding-right: 42px;
-  background: #f0f3f8;
-  color: #34415b;
+  background: var(--sand);
+  color: var(--muted);
   font-weight: 800;
   letter-spacing: 1px;
   cursor: default;
@@ -190,7 +190,7 @@
 
 .plate-hint {
   margin: 6px 0 16px;
-  color: #98a6bd;
+  color: var(--muted);
   font-size: 11px;
   line-height: 1.6;
 }
@@ -203,9 +203,9 @@
 .overnight-option {
   padding: 15px;
   margin-top: 18px;
-  border: 1px solid #e4dbfa;
+  border: 1px solid var(--line);
   border-radius: 14px;
-  background: #f8f5ff;
+  background: var(--cream);
 }
 
 .booking-form .overnight-checkbox {
@@ -224,7 +224,7 @@
   min-height: 0;
   padding: 0;
   margin: 2px 0 0;
-  accent-color: #8965dc;
+  accent-color: var(--focus);
 }
 
 .overnight-checkbox span {
@@ -233,14 +233,14 @@
 
 .overnight-checkbox strong {
   display: block;
-  color: #7453c5;
+  color: var(--forest);
   font-size: 13px;
 }
 
 .overnight-checkbox small {
   display: block;
   margin-top: 6px;
-  color: #a092b8;
+  color: var(--muted);
   font-size: 11px;
   font-weight: 400;
   line-height: 1.5;
@@ -254,19 +254,19 @@
 .overnight-request-box {
   padding: 16px;
   margin-top: 13px;
-  border: 1px solid #e4dbf8;
+  border: 1px solid var(--line);
   border-radius: 15px;
-  background: #f9f6ff;
+  background: var(--cream);
 }
 
 .overnight-request-box h3 {
   margin: 0 0 12px;
-  color: #805bce;
+  color: var(--forest);
   font-size: 15px;
 }
 
 .overnight-description {
-  color: #9988b9;
+  color: var(--muted);
   font-size: 12px;
   line-height: 1.6;
 }
@@ -276,10 +276,10 @@
   box-sizing: border-box;
   min-height: 100px;
   padding: 12px;
-  border: 1px solid #e3daf6;
+  border: 1px solid var(--line);
   border-radius: 11px;
-  background: #fff;
-  color: #34415b;
+  background: var(--paper);
+  color: var(--muted);
   font: inherit;
   font-size: 13px;
   resize: vertical;
@@ -346,18 +346,18 @@
   gap: 9px;
   padding: 15px;
   margin: 14px 0 18px;
-  border: 1px solid #e4daf9;
+  border: 1px solid var(--line);
   border-radius: 12px;
-  background: #ffffff;
+  background: var(--paper);
 }
 
 .overnight-time-preview span {
-  color: #9a87bc;
+  color: var(--forest);
   font-size: 12px;
 }
 
 .overnight-time-preview strong {
-  color: #7955c8;
+  color: var(--forest);
   font-size: 14px;
   font-weight: 700;
   line-height: 1.5;
@@ -366,15 +366,15 @@
 .overnight-time-preview small {
   padding-top: 10px;
   margin-top: 3px;
-  border-top: 1px solid #eee7f7;
-  color: #a294bb;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
   font-size: 11px;
   line-height: 1.6;
 }
 
 .overnight-extra-note {
   margin: 13px 0 0;
-  color: #8b7da7;
+  color: var(--muted);
   font-size: 11px;
   line-height: 1.7;
 }

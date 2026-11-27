@@ -4,7 +4,7 @@
 
 :host {
   display: block;
-  color: #21324c;
+  color: var(--ink);
   font-family: inherit;
 }
 
@@ -27,11 +27,13 @@
   gap: 12px;
 
   min-height: 64px;
-  padding: 9px 18px;
+  padding: 9px max(clamp(14px, 3.3vw, 48px), calc((100vw - 1140px) / 2 + 40px));
 
-  background: #ffffff;
-
-  border-bottom: 1px solid #ecedf5;
+  width: 100%;
+  margin-inline: auto;
+  background: #15191b;
+  color: var(--paper);
+  border-bottom: 1px solid var(--pine);
 }
 
 /* NÚT BA GẠCH */
@@ -44,11 +46,11 @@
   height: 42px;
   flex: 0 0 42px;
 
-  border: 1px solid #e7e8f4;
-  border-radius: 12px;
+  border: 1px solid #51595d;
+  border-radius: 7px;
 
-  background: #f7f8fe;
-  color: #273650;
+  background: #292f32;
+  color: var(--paper);
 
   font-size: 23px;
   cursor: pointer;
@@ -70,7 +72,7 @@
   }
 
   span {
-    color: #90a0b5;
+    color: var(--sage);
     font-size: 10px;
   }
 }
@@ -78,7 +80,16 @@
 /* LOGO */
 
 .topbar-symbol {
-  font-size: 22px;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  clip-path: polygon(0 0, 100% 0, 100% 72%, 72% 100%, 0 100%);
+  background: var(--signal);
+  color: #1b1e20;
+  font-style: italic;
+  font-size: 20px;
+  font-weight: 900;
 }
 
 /* =====================================
@@ -96,7 +107,7 @@
 
   border: 0;
 
-  background: rgba(20, 29, 48, 0.55);
+  background: rgba(13, 17, 20, 0.65);
 
   cursor: pointer;
 }
@@ -122,10 +133,10 @@
     14px
     max(18px, env(safe-area-inset-bottom));
 
-  background: #ffffff;
+  background: var(--paper);
 
   box-shadow:
-    8px 0 32px rgba(25, 39, 68, 0.17);
+    8px 0 32px rgba(28, 65, 45, 0.17);
 
   overflow: hidden;
 
@@ -178,7 +189,7 @@
 
     margin-top: 4px;
 
-    color: #9ba6ba;
+    color: var(--muted);
     font-size: 11px;
   }
 }
@@ -192,9 +203,10 @@
   width: 41px;
   height: 41px;
 
-  border-radius: 12px;
-
-  background: #eee9ff;
+  border-radius: 7px;
+  background: var(--signal);
+  color: var(--ink);
+  font-weight: 900;
 
   font-size: 21px;
 }
@@ -209,8 +221,8 @@
   border: 0;
   border-radius: 9px;
 
-  background: #f2f3f8;
-  color: #55637c;
+  background: var(--cream);
+  color: var(--muted);
 
   font-size: 18px;
   cursor: pointer;
@@ -244,20 +256,20 @@
 
   padding: 0 13px;
 
-  border: 1px solid #e6e8f3;
+  border: 1px solid var(--line);
   border-radius: 12px;
 
   outline: none;
 
-  color: #293a56;
-  background: #f8f9fd;
+  color: var(--ink);
+  background: var(--cream);
 
   font-family: inherit;
   font-size: 12px;
 
   &:focus {
-    border-color: #9473e3;
-    background: #ffffff;
+    border-color: var(--focus);
+    background: var(--paper);
   }
 }
 
@@ -284,7 +296,7 @@
   h2 {
     margin: 0 0 9px 13px;
 
-    color: #9eabc0;
+    color: var(--muted);
 
     font-size: 10px;
     font-weight: 800;
@@ -309,20 +321,25 @@
 
   text-decoration: none;
 
-  color: #30415f;
+  color: var(--muted);
 
   font-size: 12px;
   font-weight: 700;
 
   &:hover,
   &:focus-visible {
-    background: #f4f0ff;
+    background: var(--cream);
     outline: none;
   }
 
   &.is-active {
-    background: #efeaff;
-    color: #714dca;
+    background: #ffeadc;
+    color: #742e0c;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: -2px;
   }
 }
 
@@ -348,7 +365,7 @@
   min-width: 0;
 
   small {
-    color: #9eabc0;
+    color: var(--muted);
 
     font-size: 10px;
     font-weight: 400;
@@ -359,7 +376,7 @@
 /* MŨI TÊN */
 
 .link-arrow {
-  color: #adb6c8;
+  color: var(--muted);
 
   font-size: 21px;
   font-weight: 400;
@@ -370,7 +387,7 @@
 .menu-empty {
   padding: 16px 10px;
 
-  color: #8d9bb1;
+  color: var(--muted);
 
   font-size: 12px;
 }
@@ -384,7 +401,7 @@
 
   margin: 10px 5px 0;
 
-  color: #a7b0bf;
+  color: var(--muted);
 
   font-size: 10px;
   text-align: center;

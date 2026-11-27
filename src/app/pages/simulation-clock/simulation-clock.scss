@@ -1,14 +1,14 @@
 :host {
   display: block;
   min-height: 100%;
-  background: #f7f8fd;
+  background: var(--cream);
 }
 
 .clock-page {
   min-height: 100vh;
   padding: 28px 18px 40px;
-  background: #f7f8fd;
-  color: #1d2940;
+  background: var(--cream);
+  color: var(--ink);
   box-sizing: border-box;
 }
 
@@ -22,7 +22,7 @@
   .back-link {
     display: inline-block;
     margin-bottom: 27px;
-    color: #617496;
+    color: var(--forest);
     font-size: 13px;
     font-weight: 600;
     text-decoration: none;
@@ -30,7 +30,7 @@
 
   .eyebrow {
     display: block;
-    color: #8665d3;
+    color: var(--forest);
     font-size: 10px;
     font-weight: 800;
     letter-spacing: 1px;
@@ -44,7 +44,7 @@
 
   p {
     margin: 0;
-    color: #95a2b7;
+    color: var(--muted);
     font-size: 12px;
   }
 }
@@ -53,10 +53,10 @@
   padding: 22px 18px;
   margin-bottom: 18px;
   border-radius: 19px;
-  background: linear-gradient(135deg, #7456d2, #9975e9);
-  color: white;
+  background: linear-gradient(135deg, var(--pine), var(--forest));
+  color: var(--paper);
   text-align: center;
-  box-shadow: 0 10px 24px rgba(116, 86, 210, 0.2);
+  box-shadow: 0 10px 24px rgba(28, 65, 45, 0.2);
 
   .mode-top {
     display: flex;
@@ -107,9 +107,9 @@
 .settings-card {
   padding: 19px;
   margin-bottom: 25px;
-  border: 1px solid #e7eaf3;
+  border: 1px solid var(--line);
   border-radius: 17px;
-  background: white;
+  background: var(--paper);
 
   h2 {
     margin: 0 0 8px;
@@ -118,7 +118,7 @@
 
   p {
     margin: 0 0 20px;
-    color: #96a2b7;
+    color: var(--muted);
     font-size: 12px;
     line-height: 1.5;
   }
@@ -135,10 +135,10 @@
     width: 100%;
     min-height: 48px;
     padding: 10px 12px;
-    border: 1px solid #e2e7f0;
+    border: 1px solid var(--line);
     border-radius: 11px;
-    background: #f7f9fd;
-    color: #22304a;
+    background: var(--cream);
+    color: var(--ink);
     font-size: 14px;
   }
 }
@@ -149,8 +149,8 @@
   margin-top: 15px;
   border: none;
   border-radius: 11px;
-  background: #7957d9;
-  color: white;
+  background: var(--pine);
+  color: var(--paper);
   font-size: 13px;
   font-weight: 800;
   cursor: pointer;
@@ -168,7 +168,7 @@
   }
 
   span {
-    color: #98a5bb;
+    color: var(--muted);
     font-size: 11px;
   }
 }
@@ -185,10 +185,10 @@
   min-height: 74px;
   padding: 13px;
   margin-bottom: 10px;
-  border: 1px solid #e7eaf3;
+  border: 1px solid var(--line);
   border-radius: 14px;
-  background: white;
-  color: #24324b;
+  background: var(--paper);
+  color: var(--ink);
   text-align: left;
   cursor: pointer;
 }
@@ -229,14 +229,14 @@
   }
 
   small {
-    color: #9ba7ba;
+    color: var(--muted);
     font-size: 11px;
   }
 }
 
 .preset-arrow {
   font-size: 18px;
-  color: #9aa6bb;
+  color: var(--muted);
 }
 
 .real-time-card {
@@ -245,9 +245,9 @@
   justify-content: space-between;
   gap: 10px;
   padding: 16px;
-  border: 1px solid #e7eaf3;
+  border: 1px solid var(--line);
   border-radius: 14px;
-  background: white;
+  background: var(--paper);
 
   strong {
     font-size: 12px;
@@ -255,7 +255,7 @@
 
   p {
     margin: 6px 0 0;
-    color: #97a5b9;
+    color: var(--muted);
     font-size: 11px;
   }
 
@@ -264,8 +264,8 @@
     padding: 8px 13px;
     border: 0;
     border-radius: 9px;
-    background: #ece7fb;
-    color: #7756ce;
+    background: var(--sand);
+    color: var(--forest);
     font-size: 11px;
     font-weight: 800;
     cursor: pointer;

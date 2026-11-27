@@ -45,7 +45,7 @@ import {
     .overnight-account-note {
       margin: 8px 0 0;
       font-size: 12px;
-      color: #7963c5;
+      color: var(--forest);
       font-weight: 700;
     }
 
@@ -62,21 +62,21 @@ import {
       padding: 14px 4px;
       text-align: center;
       border-radius: 13px;
-      background: #fff;
-      border: 1px solid #e7ebf4;
+      background: var(--paper);
+      border: 1px solid var(--line);
     }
 
     .overnight-stat span {
       display: block;
       margin-bottom: 8px;
       font-size: 10px;
-      color: #8191a9;
+      color: var(--muted);
     }
 
     .overnight-stat strong {
       display: block;
       font-size: 23px;
-      color: #23344f;
+      color: var(--ink);
     }
 
     .overnight-stat.pending strong {
@@ -92,17 +92,17 @@ import {
     }
 
     .overnight-stat.cancelled strong {
-      color: #8491a5;
+      color: var(--muted);
     }
 
     .overnight-status.cancelled-status {
-      color: #64748b;
-      background: #f1f5f9;
+      color: var(--muted);
+      background: var(--cream);
     }
 
     .history-message.cancelled-message {
-      color: #64748b;
-      background: #f1f5f9;
+      color: var(--muted);
+      background: var(--cream);
     }
 
     .overnight-cancel-button {
@@ -124,9 +124,9 @@ import {
     .vehicle-information {
       padding: 15px;
       margin: 15px 0 20px;
-      border: 1px solid #e3e8f1;
+      border: 1px solid var(--line);
       border-radius: 14px;
-      background: #f5f7fb;
+      background: var(--cream);
     }
 
     .vehicle-detail {
@@ -135,7 +135,7 @@ import {
       align-items: center;
       gap: 12px;
       padding: 12px 0;
-      border-bottom: 1px solid #e5eaf2;
+      border-bottom: 1px solid var(--line);
       font-size: 12px;
     }
 
@@ -149,11 +149,11 @@ import {
     }
 
     .vehicle-detail span {
-      color: #8191aa;
+      color: var(--muted);
     }
 
     .vehicle-detail strong {
-      color: #34435d;
+      color: var(--muted);
       text-align: right;
     }
 
@@ -162,7 +162,7 @@ import {
     }
 
     .vehicle-detail strong.not-parked {
-      color: #8491a5;
+      color: var(--muted);
     }
 
     /* BIỂN SỐ CỐ ĐỊNH */
@@ -199,7 +199,7 @@ import {
     .no-active-vehicle a {
       display: inline-block;
       margin-top: 10px;
-      color: #8a65d4;
+      color: var(--forest);
       font-size: 12px;
       font-weight: 700;
       text-decoration: none;
@@ -213,18 +213,18 @@ import {
       gap: 7px;
       padding: 14px;
       margin: 12px 0 17px;
-      border: 1px solid #e4daf9;
+      border: 1px solid var(--line);
       border-radius: 12px;
-      background: #f7f3ff;
+      background: var(--cream);
     }
 
     .night-window span {
-      color: #a190bd;
+      color: var(--muted);
       font-size: 11px;
     }
 
     .night-window strong {
-      color: #805bcc;
+      color: var(--forest);
       font-size: 13px;
     }
 
@@ -232,12 +232,12 @@ import {
       margin: 14px 0;
       font-size: 12px;
       line-height: 1.6;
-      color: #8391a8;
+      color: var(--muted);
     }
 
     .linked-booking-note {
       margin-top: 10px;
-      color: #8a76b9;
+      color: var(--forest);
       font-size: 11px;
       line-height: 1.6;
     }

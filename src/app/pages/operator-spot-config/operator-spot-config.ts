@@ -306,8 +306,8 @@ import {
     .config-page {
       min-height: 100dvh;
       padding: 25px 18px 80px;
-      background: #f7f9fd;
-      color: #23334f;
+      background: var(--cream);
+      color: var(--ink);
     }
 
     header {
@@ -317,7 +317,7 @@ import {
     .back-link {
       display: inline-block;
       margin-bottom: 27px;
-      color: #7283a0;
+      color: var(--muted);
       font-size: 12px;
       font-weight: 700;
       text-decoration: none;
@@ -325,7 +325,7 @@ import {
 
     .eyebrow {
       display: block;
-      color: #7960c9;
+      color: var(--forest);
       font-size: 10px;
       font-weight: 800;
       letter-spacing: 1px;
@@ -340,7 +340,7 @@ import {
     .description,
     .floor-summary,
     .bottom-note {
-      color: #8999af;
+      color: var(--muted);
       font-size: 12px;
       line-height: 1.6;
     }
@@ -349,17 +349,17 @@ import {
       padding: 15px;
       margin-bottom: 17px;
       border-radius: 13px;
-      background: #eee9ff;
+      background: var(--sand);
     }
 
     .notice strong {
-      color: #7252ca;
+      color: var(--forest);
       font-size: 12px;
     }
 
     .notice p {
       margin: 6px 0 0;
-      color: #8272aa;
+      color: var(--forest);
       font-size: 11px;
       line-height: 1.5;
     }
@@ -373,21 +373,21 @@ import {
 
     .stats article {
       padding: 17px;
-      border: 1px solid #e8edf5;
+      border: 1px solid var(--line);
       border-radius: 14px;
-      background: white;
+      background: var(--paper);
     }
 
     .stats span {
       display: block;
       margin-bottom: 8px;
-      color: #91a1b8;
+      color: var(--muted);
       font-size: 11px;
     }
 
     .stats strong {
       font-size: 26px;
-      color: #7354cf;
+      color: var(--forest);
     }
 
     .stats strong.green {
@@ -401,9 +401,9 @@ import {
     .panel {
       padding: 17px;
       margin-bottom: 17px;
-      border: 1px solid #e7ebf4;
+      border: 1px solid var(--line);
       border-radius: 17px;
-      background: white;
+      background: var(--paper);
     }
 
     .panel h2 {
@@ -421,15 +421,15 @@ import {
       min-height: 43px;
       border: 0;
       border-radius: 10px;
-      background: #eef1f8;
-      color: #7284a1;
+      background: var(--sand);
+      color: var(--muted);
       font-weight: 800;
       cursor: pointer;
     }
 
     .floor-tabs button.active {
-      background: #247af5;
-      color: white;
+      background: var(--pine);
+      color: var(--paper);
     }
 
     label {
@@ -443,10 +443,10 @@ import {
       width: 100%;
       min-height: 45px;
       padding: 12px;
-      border: 1px solid #dfe6f0;
+      border: 1px solid var(--line);
       border-radius: 10px;
-      background: #f8f9fd;
-      color: #24334f;
+      background: var(--cream);
+      color: var(--ink);
       font-size: 13px;
       text-transform: uppercase;
     }
@@ -457,8 +457,8 @@ import {
       margin-top: 13px;
       border: 0;
       border-radius: 11px;
-      background: #7657d8;
-      color: white;
+      background: var(--pine);
+      color: var(--paper);
       font-size: 12px;
       font-weight: 800;
       cursor: pointer;
@@ -487,7 +487,7 @@ import {
     }
 
     .list-heading span {
-      color: #93a1b7;
+      color: var(--muted);
       font-size: 11px;
     }
 
@@ -498,7 +498,7 @@ import {
       flex-wrap: wrap;
       gap: 12px;
       padding: 13px 0;
-      border-top: 1px solid #eef0f5;
+      border-top: 1px solid var(--line);
     }
 
     .spot-main {
@@ -519,8 +519,8 @@ import {
       width: 39px;
       height: 39px;
       border-radius: 10px;
-      background: #f1eff8;
-      color: #775cc1;
+      background: var(--sand);
+      color: var(--forest);
       font-weight: 900;
     }
 
@@ -563,8 +563,8 @@ import {
     }
 
     .maintenance-button {
-      background: #e9f0ff;
-      color: #4876cb;
+      background: var(--sand);
+      color: var(--forest);
     }
 
     .delete-button {
@@ -573,12 +573,12 @@ import {
     }
 
     .cancel-button {
-      background: #eef0f5;
-      color: #63748f;
+      background: var(--sand);
+      color: var(--muted);
     }
 
     .empty {
-      color: #97a4b7;
+      color: var(--muted);
       font-size: 12px;
     }
 

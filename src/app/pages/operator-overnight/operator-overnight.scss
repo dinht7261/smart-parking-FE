@@ -10,8 +10,8 @@
 
   padding: 35px 18px 45px;
 
-  background: #f8f9fe;
-  color: #17233d;
+  background: var(--cream);
+  color: var(--ink);
 }
 
 /* HEADER */
@@ -28,7 +28,7 @@
 
   margin-bottom: 35px;
 
-  color: #607395;
+  color: var(--forest);
   text-decoration: none;
 
   font-size: 13px;
@@ -38,7 +38,7 @@
 .eyebrow {
   margin-bottom: 12px;
 
-  color: #8665da;
+  color: var(--forest);
 
   font-size: 10px;
   font-weight: 800;
@@ -55,7 +55,7 @@
 .page-header p {
   margin: 0;
 
-  color: #94a3b8;
+  color: var(--muted);
   font-size: 12px;
   line-height: 1.5;
 }
@@ -80,8 +80,8 @@
 
   padding: 12px 5px;
 
-  background: white;
-  border: 1px solid #e7ebf3;
+  background: var(--paper);
+  border: 1px solid var(--line);
   border-radius: 15px;
 
   box-sizing: border-box;
@@ -90,7 +90,7 @@
 .stat-card span {
   margin-bottom: 9px;
 
-  color: #8290a6;
+  color: var(--muted);
   font-size: 10px;
 }
 
@@ -130,7 +130,7 @@
 
 .section-heading span {
   font-size: 11px;
-  color: #94a3b8;
+  color: var(--muted);
 }
 
 /* THẺ YÊU CẦU */
@@ -139,12 +139,12 @@
   padding: 16px;
   margin-bottom: 14px;
 
-  background: white;
+  background: var(--paper);
 
-  border: 1px solid #e7ebf3;
+  border: 1px solid var(--line);
   border-radius: 18px;
 
-  box-shadow: 0 5px 20px rgba(28, 45, 85, 0.04);
+  box-shadow: 0 5px 20px rgba(28, 65, 45, 0.04);
 }
 
 .request-top {
@@ -176,7 +176,7 @@
 
   flex-shrink: 0;
 
-  background: #eaf2ff;
+  background: var(--sand);
   border-radius: 12px;
 
   font-size: 19px;
@@ -191,12 +191,12 @@
 }
 
 .vehicle-text small {
-  color: #94a3b8;
+  color: var(--muted);
   font-size: 10px;
 }
 
 .vehicle-text strong {
-  color: #17233d;
+  color: var(--ink);
 
   font-size: 13px;
   font-weight: 800;
@@ -239,7 +239,7 @@
   gap: 13px;
   padding: 14px;
 
-  background: #f7f9fd;
+  background: var(--cream);
   border-radius: 12px;
 }
 
@@ -251,12 +251,12 @@
 }
 
 .detail-row span {
-  color: #8996ab;
+  color: var(--muted);
   font-size: 11px;
 }
 
 .detail-row strong {
-  color: #34435d;
+  color: var(--muted);
 
   font-size: 11px;
   font-weight: 700;
@@ -270,12 +270,12 @@
   margin-top: 14px;
   padding: 13px;
 
-  background: #f1edff;
+  background: var(--cream);
   border-radius: 12px;
 }
 
 .reason-box span {
-  color: #8260db;
+  color: var(--forest);
 
   font-size: 11px;
   font-weight: 800;
@@ -284,7 +284,7 @@
 .reason-box p {
   margin: 8px 0 0;
 
-  color: #685b89;
+  color: var(--muted);
 
   font-size: 12px;
   line-height: 1.6;
@@ -322,7 +322,7 @@
 }
 
 .approve-btn {
-  color: white;
+  color: var(--paper);
 
   background: linear-gradient(
     135deg,
@@ -335,7 +335,7 @@
 
 .reject-btn {
   color: #ef4444;
-  background: white;
+  background: var(--paper);
 
   border: 1.5px solid #fecaca;
 }
@@ -377,8 +377,8 @@
 
   padding: 28px 18px;
 
-  background: white;
-  border: 1px solid #e7ebf3;
+  background: var(--paper);
+  border: 1px solid var(--line);
   border-radius: 18px;
 
   text-align: center;
@@ -395,7 +395,7 @@
 }
 
 .empty-state p {
-  color: #94a3b8;
+  color: var(--muted);
 
   font-size: 11px;
   line-height: 1.6;

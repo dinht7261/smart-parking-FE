@@ -130,8 +130,8 @@ import {
 
   styles: [`
     .oled-section {
-      background: #fff;
-      border: 1px solid #e2e8f0;
+      background: var(--paper);
+      border: 1px solid var(--line);
       border-radius: 20px;
       padding: 18px;
       margin: 20px 0;
@@ -149,13 +149,13 @@ import {
     .oled-heading h2 {
       font-size: 16px;
       font-weight: 750;
-      color: #0f172a;
+      color: var(--ink);
       margin: 0 0 4px;
     }
 
     .oled-heading p {
       font-size: 12px;
-      color: #64748b;
+      color: var(--muted);
       margin: 0;
     }
 
@@ -265,7 +265,7 @@ import {
     }
 
     .oled-note {
-      color: #64748b;
+      color: var(--muted);
       font-size: 11px;
       text-align: center;
       margin: 12px 0 0;

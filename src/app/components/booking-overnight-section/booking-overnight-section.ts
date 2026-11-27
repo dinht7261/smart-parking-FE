@@ -85,7 +85,7 @@ import {
       border: 1px solid #f1d49e;
       border-radius: 15px;
       background: #fff8eb;
-      color: #26334e;
+      color: var(--ink);
     }
 
     .night-title {
@@ -129,8 +129,8 @@ import {
       padding: 12px;
       border: 1px solid #e8d4b0;
       border-radius: 11px;
-      background: #fff;
-      color: #26334e;
+      background: var(--paper);
+      color: var(--ink);
       font: inherit;
       font-size: 13px;
       resize: vertical;

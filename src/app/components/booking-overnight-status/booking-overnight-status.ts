@@ -85,14 +85,14 @@ import {
     .overnight-status-box {
       padding: 14px;
       margin-top: 14px;
-      border: 1px solid #e5dcfa;
+      border: 1px solid var(--line);
       border-radius: 13px;
-      background: #f8f4ff;
+      background: var(--cream);
     }
 
     h3 {
       margin: 0 0 13px;
-      color: #805acb;
+      color: var(--forest);
       font-size: 13px;
       font-weight: 700;
     }
@@ -100,7 +100,7 @@ import {
     .night-record {
       padding-top: 12px;
       margin-top: 12px;
-      border-top: 1px solid #e6dff2;
+      border-top: 1px solid var(--line);
     }
 
     .night-header {
@@ -134,13 +134,13 @@ import {
     }
 
     .cancelled {
-      background: #edf0f5;
-      color: #8390a4;
+      background: var(--sand);
+      color: var(--muted);
     }
 
     .night-reason {
       margin: 10px 0 0;
-      color: #8a809f;
+      color: var(--muted);
       font-size: 11px;
       line-height: 1.6;
       overflow-wrap: anywhere;

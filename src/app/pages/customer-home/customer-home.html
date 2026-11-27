@@ -9,54 +9,57 @@
 
   <!-- HEADER -->
   <header class="customer-header">
+    <div class="home-hero">
+      <img class="home-photo" src="parking-track.jpg" alt="" />
 
-    <a routerLink="/" class="back-link">
-      ← Đổi vai trò
-    </a>
+      <a routerLink="/" class="back-link">
+        ← Đổi vai trò
+      </a>
 
-    <div class="greeting">
+      <div class="greeting">
 
-      <div class="greeting-copy">
+        <div class="greeting-copy">
 
-        <span class="eyebrow">
-          ỨNG DỤNG NGƯỜI DÙNG
-        </span>
+          <span class="eyebrow">
+            ỨNG DỤNG NGƯỜI DÙNG
+          </span>
 
-        <h1>
-          Xin chào,<br />
-          {{ demoUsers.activeUser().name }}
-        </h1>
+          <h1>
+            Xin chào,<br />
+            {{ demoUsers.activeUser().name }}
+          </h1>
+
+        </div>
+
+        <div class="user-vehicle">
+
+          <span class="vehicle-label">
+            Biển số xe
+          </span>
+
+          <strong class="vehicle-plate">
+            {{ demoUsers.activePlate() }}
+          </strong>
+
+        </div>
+
+        <!-- CHUYỂN USER -->
+        <button
+          type="button"
+          class="change-user-button"
+          [attr.aria-expanded]="showUserChooser()"
+          (click)="toggleUserChooser()"
+        >
+          <span>⇄</span>
+
+          <span>
+            User {{ demoUsers.selectedUserId() }}
+          </span>
+
+          <span>⌄</span>
+        </button>
 
       </div>
-
-      <div class="user-vehicle">
-
-        <span class="vehicle-label">
-          Biển số xe
-        </span>
-
-        <strong class="vehicle-plate">
-          {{ demoUsers.activePlate() }}
-        </strong>
-
-      </div>
-
-      <!-- CHUYỂN USER -->
-      <button
-        type="button"
-        class="change-user-button"
-        [attr.aria-expanded]="showUserChooser()"
-        (click)="toggleUserChooser()"
-      >
-        <span>⇄</span>
-
-        <span>
-          User {{ demoUsers.selectedUserId() }}
-        </span>
-
-        <span>⌄</span>
-      </button>
-
     </div>
 
     <!-- DANH SÁCH USER -->
@@ -119,23 +122,6 @@
   ===================================== -->
 
   <section class="lot-card">
-
-    <div
-      class="garage-art"
-      aria-hidden="true"
-    >
-
-      <div class="garage-label">
-        P
-      </div>
-
-      <div class="lane"></div>
-
-      <div class="car car-one"></div>
-
-      <div class="car car-two"></div>
-
-    </div>
 
     <!-- THÔNG TIN CHỖ TRỐNG -->
 

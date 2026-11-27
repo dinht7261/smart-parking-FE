@@ -12,8 +12,8 @@
 
   padding: 35px 18px 45px;
 
-  background: #f8f9fe;
-  color: #17233d;
+  background: var(--cream);
+  color: var(--ink);
 }
 
 
@@ -31,7 +31,7 @@
 
   margin-bottom: 34px;
 
-  color: #607395;
+  color: var(--forest);
   text-decoration: none;
 
   font-size: 13px;
@@ -41,7 +41,7 @@
 .eyebrow {
   margin-bottom: 12px;
 
-  color: #8665da;
+  color: var(--forest);
 
   font-size: 10px;
   font-weight: 800;
@@ -54,14 +54,14 @@
   font-size: 24px;
   font-weight: 800;
 
-  color: #17233d;
+  color: var(--ink);
 }
 
 .overnight-header p {
   margin: 0;
 
   font-size: 12px;
-  color: #94a3b8;
+  color: var(--muted);
 }
 
 
@@ -76,8 +76,8 @@
   padding: 16px;
   margin-bottom: 18px;
 
-  background: #eee9ff;
-  border: 1px solid #e5ddff;
+  background: var(--sand);
+  border: 1px solid var(--line);
   border-radius: 16px;
 }
 
@@ -91,7 +91,7 @@
 
   flex-shrink: 0;
 
-  background: #e0d6ff;
+  background: var(--sage);
   border-radius: 12px;
 
   font-size: 22px;
@@ -100,7 +100,7 @@
 .info-card strong {
   display: block;
 
-  color: #7554d7;
+  color: var(--forest);
 
   font-size: 13px;
   font-weight: 800;
@@ -111,7 +111,7 @@
 .info-card p {
   margin: 0;
 
-  color: #78689d;
+  color: var(--forest);
 
   font-size: 11px;
   line-height: 1.6;
@@ -121,20 +121,20 @@
 /* BIỂU MẪU */
 
 .overnight-form {
-  background: white;
+  background: var(--paper);
 
-  border: 1px solid #e7ebf3;
+  border: 1px solid var(--line);
   border-radius: 18px;
 
   padding: 18px;
 
-  box-shadow: 0 5px 20px rgba(28, 45, 85, 0.04);
+  box-shadow: 0 5px 20px rgba(28, 65, 45, 0.04);
 }
 
 .overnight-form h2 {
   margin: 0 0 22px;
 
-  color: #17233d;
+  color: var(--ink);
 
   font-size: 16px;
   font-weight: 800;
@@ -153,7 +153,7 @@
 }
 
 .form-field label {
-  color: #34435d;
+  color: var(--muted);
 
   font-size: 12px;
   font-weight: 700;
@@ -167,10 +167,10 @@
 
   padding: 13px 14px;
 
-  background: #f8faff;
-  color: #17233d;
+  background: var(--cream);
+  color: var(--ink);
 
-  border: 1px solid #e1e7f0;
+  border: 1px solid var(--line);
   border-radius: 11px;
 
   font-family: inherit;
@@ -192,9 +192,9 @@
 .form-field input:focus,
 .form-field select:focus,
 .form-field textarea:focus {
-  border-color: #9372e5;
+  border-color: var(--focus);
 
-  box-shadow: 0 0 0 3px rgba(147, 114, 229, 0.1);
+  box-shadow: 0 0 0 3px rgba(28, 65, 45, 0.1);
 }
 
 
@@ -247,11 +247,11 @@
 
   background: linear-gradient(
     135deg,
-    #9270e4,
-    #7654d7
+    var(--pine),
+    var(--forest)
   );
 
-  color: white;
+  color: var(--paper);
 
   border: none;
   border-radius: 12px;
@@ -262,11 +262,11 @@
 
   cursor: pointer;
 
-  box-shadow: 0 4px 12px rgba(118, 84, 215, 0.18);
+  box-shadow: 0 4px 12px rgba(28, 65, 45, 0.18);
 }
 
 .submit-button:disabled {
-  background: #cbd5e1;
+  background: #778979;
   box-shadow: none;
   cursor: not-allowed;
 }
@@ -316,28 +316,28 @@
 .history-heading h2 {
   margin: 0;
 
-  color: #17233d;
+  color: var(--ink);
   font-size: 16px;
   font-weight: 800;
 }
 
 .history-heading span {
-  color: #94a3b8;
+  color: var(--muted);
   font-size: 11px;
 }
 
 /* THẺ YÊU CẦU */
 
 .history-card {
-  background: white;
+  background: var(--paper);
 
-  border: 1px solid #e7ebf3;
+  border: 1px solid var(--line);
   border-radius: 17px;
 
   padding: 16px;
   margin-bottom: 14px;
 
-  box-shadow: 0 5px 18px rgba(28, 45, 85, 0.04);
+  box-shadow: 0 5px 18px rgba(28, 65, 45, 0.04);
 }
 
 .history-card-header {
@@ -351,7 +351,7 @@
 
 .history-card-header strong {
   font-size: 13px;
-  color: #17233d;
+  color: var(--ink);
 }
 
 .overnight-status {
@@ -389,7 +389,7 @@
   gap: 12px;
   padding: 13px;
 
-  background: #f7f9fd;
+  background: var(--cream);
   border-radius: 11px;
 }
 
@@ -401,12 +401,12 @@
 }
 
 .history-details span {
-  color: #8996ab;
+  color: var(--muted);
   font-size: 11px;
 }
 
 .history-details strong {
-  color: #34435d;
+  color: var(--muted);
   font-size: 11px;
 }
 
@@ -415,7 +415,7 @@
 }
 
 .history-reason span {
-  color: #8996ab;
+  color: var(--muted);
 
   font-size: 11px;
   font-weight: 700;
@@ -424,7 +424,7 @@
 .history-reason p {
   margin: 7px 0 0;
 
-  color: #34435d;
+  color: var(--muted);
 
   font-size: 12px;
   line-height: 1.6;
@@ -462,9 +462,9 @@
 .history-empty {
   padding: 26px 18px;
 
-  background: white;
+  background: var(--paper);
 
-  border: 1px solid #e7ebf3;
+  border: 1px solid var(--line);
   border-radius: 16px;
 
   text-align: center;
@@ -481,7 +481,7 @@
 }
 
 .history-empty p {
-  color: #94a3b8;
+  color: var(--muted);
   font-size: 11px;
 }
 
@@ -522,8 +522,8 @@
 }
 
 .overnight-form select:disabled {
-  background: #eef1f7;
-  color: #5c6b83;
+  background: #778979;
+  color: var(--muted);
   opacity: 1;
   cursor: not-allowed;
 }

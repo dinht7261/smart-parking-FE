@@ -2,7 +2,7 @@
 .spaces-header { margin-bottom: 22px; }
 .spaces-header .eyebrow { display: block; margin-top: 14px; font-size: .7rem; }
 .spaces-header h1 { margin: 7px 0 6px; font-size: 1.6rem; letter-spacing: -.045em; }
-.spaces-header p { color: #7687a1; font-size: .79rem; margin: 0; }
+.spaces-header p { color: var(--muted); font-size: .79rem; margin: 0; }
 .stats { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 7px; margin-bottom: 26px; }
 .stat { padding: 10px 5px 12px; border-radius: 14px; text-align: center; display: grid; gap: 7px; }
 .stat span { font-size: .62rem; white-space: nowrap; font-weight: 700; }
@@ -12,24 +12,24 @@
 .reserved-stat { background: #eaf2ff; color: #307be9; }
 .maintenance-stat { background: #fff5e2; color: #bc7d0b; }
 .floor-section h2 { font-size: .96rem; margin: 0 0 12px; }
-.floor-tabs { display: grid; grid-template-columns: repeat(2,1fr); gap: 7px; padding: 5px; background: #edf2fa; border-radius: 13px; }
-.floor-tabs button { border: none; border-radius: 10px; background: transparent; padding: 12px 5px; font-size: .78rem; font-weight: 750; color: #75849c; cursor: pointer; }
-.floor-tabs button.active { color: white; background: #1f73ed; box-shadow: 0 4px 10px #2678ee3b; }
-.floor-tabs button:focus-visible { outline: 3px solid #94bbff; outline-offset: 2px; }
-.map-card { margin-top: 23px; padding: 17px 12px 15px; background: #fff; border: 1px solid #e7ecf6; border-radius: 20px; box-shadow: 0 9px 22px #1d3c680c; }
+.floor-tabs { display: grid; grid-template-columns: repeat(2,1fr); gap: 7px; padding: 5px; background: var(--sand); border-radius: 13px; }
+.floor-tabs button { border: none; border-radius: 10px; background: transparent; padding: 12px 5px; font-size: .78rem; font-weight: 750; color: var(--muted); cursor: pointer; }
+.floor-tabs button.active { color: var(--paper); background: var(--forest); box-shadow: 0 4px 10px #234e353b; }
+.floor-tabs button:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.map-card { margin-top: 23px; padding: 17px 12px 15px; background: var(--paper); border: 1px solid var(--line); border-radius: 20px; box-shadow: 0 9px 22px #234e350c; }
 .map-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
 .map-head h2 { margin: 0; font-size: .97rem; }
 .map-head span { color: #13995e; font-size: .72rem; font-weight: 800; }
 .legend { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; margin: 15px 0 19px; }
-.legend span { display: flex; align-items: center; gap: 5px; color: #6d7c94; font-size: .68rem; }
+.legend span { display: flex; align-items: center; gap: 5px; color: var(--muted); font-size: .68rem; }
 .legend i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; }
 .available-dot { background: #10ad6b; }.occupied-dot { background: #aab5c3; }.reserved-dot { background: #2c81f3; }
 .maintenance-dot { background: #f2a522; }
 .parking-grid { display: grid; gap: 13px; }
 .parking-row { display: grid; grid-template-columns: 15px repeat(2,minmax(0,1fr)); align-items: center; gap: 9px; }
-.row-label { font-size: .76rem; color: #52657e; font-weight: 900; }
-.parking-spot { border: 2px solid #e2e7ee; border-radius: 9px; min-width: 0; min-height: 52px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 4px; padding: 5px 0; background: #f2f5f9; color: #8997a9; }
-.parking-spot .car-icon { display: grid; place-items: center; width: 21px; height: 23px; border-radius: 6px; font-size: 1rem; background: #e1e7ee; }
+.row-label { font-size: .76rem; color: var(--muted); font-weight: 900; }
+.parking-spot { border: 2px solid var(--line); border-radius: 9px; min-width: 0; min-height: 52px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 4px; padding: 5px 0; background: var(--cream); color: var(--muted); }
+.parking-spot .car-icon { display: grid; place-items: center; width: 21px; height: 23px; border-radius: 6px; font-size: 1rem; background: var(--sand); }
 .parking-spot small { font-size: .57rem; font-weight: 800; }
 .parking-spot.available { border-color: #c4ebd6; background: #e8f9ef; color: #159f63; cursor: pointer; }
 .parking-spot.available .car-icon { background: #bdebd2; }
@@ -40,13 +40,13 @@
 .parking-spot.occupied { opacity: .78; cursor: not-allowed; }
 .parking-spot.reserved { cursor: not-allowed; }
 .parking-spot.selected { border-color: #087c4b; outline: 2px solid #15af69; outline-offset: 1px; background: #d7f5e5; transform: translateY(-1px); }
-.parking-spot:focus-visible { outline: 3px solid #2176ff; outline-offset: 2px; }
-.map-caption { font-size: .69rem; color: #8391a7; line-height: 1.5; margin: 18px 2px 0; }
+.parking-spot:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.map-caption { font-size: .69rem; color: var(--muted); line-height: 1.5; margin: 18px 2px 0; }
 .confirmation { margin: 15px 0 0; padding: 12px; border-radius: 12px; background: #e5f8ed; color: #0a8451; font-size: .8rem; line-height: 1.5; }
-.selection-panel { position: sticky; bottom: 0; z-index: 2; background: linear-gradient(#f9fbffed, #f9fbff 22%); padding-top: 19px; margin-top: 5px; }
-.select-button { display: block; width: 100%; border: none; border-radius: 12px; padding: 15px 10px; background: #1976f6; color: #fff; font-size: .91rem; font-weight: 800; box-shadow: 0 6px 15px #2075ed30; cursor: pointer; }
-.select-button:disabled { background: #a7c4ed; box-shadow: none; cursor: not-allowed; }
-.selection-panel p { margin: 9px 2px 0; font-size: .66rem; line-height: 1.5; color: #8a98aa; text-align: center; }
+.selection-panel { position: sticky; bottom: 0; z-index: 2; background: linear-gradient(#f7f3e7ed, var(--cream) 22%); padding-top: 19px; margin-top: 5px; }
+.select-button { display: block; width: 100%; border: none; border-radius: 12px; padding: 15px 10px; background: var(--forest); color: var(--paper); font-size: .91rem; font-weight: 800; box-shadow: 0 6px 15px #234e3530; cursor: pointer; }
+.select-button:disabled { background: #778979; box-shadow: none; cursor: not-allowed; }
+.selection-panel p { margin: 9px 2px 0; font-size: .66rem; line-height: 1.5; color: var(--muted); text-align: center; }
 /* TRẠNG THÁI ĐÃ ĐỖ - MÀU XÁM */
 
 .occupied-note {

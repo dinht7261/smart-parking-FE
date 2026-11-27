@@ -15,8 +15,8 @@
 
   padding: 35px 18px 45px;
 
-  background: #f8f9fe;
-  color: #17233d;
+  background: var(--cream);
+  color: var(--ink);
 }
 
 
@@ -37,7 +37,7 @@
 
   margin-bottom: 35px;
 
-  color: #607395;
+  color: var(--forest);
   text-decoration: none;
 
   font-size: 13px;
@@ -49,7 +49,7 @@
 
   margin-bottom: 12px;
 
-  color: #647fac;
+  color: var(--forest);
 
   font-size: 10px;
   font-weight: 800;
@@ -59,7 +59,7 @@
 .page-header h1 {
   margin: 0 0 8px;
 
-  color: #17233d;
+  color: var(--ink);
 
   font-size: 24px;
   font-weight: 800;
@@ -69,7 +69,7 @@
 .page-header p {
   margin: 0;
 
-  color: #94a3b8;
+  color: var(--muted);
 
   font-size: 12px;
   line-height: 1.5;
@@ -98,9 +98,9 @@
 
   padding: 12px 5px;
 
-  background: #ffffff;
+  background: var(--paper);
 
-  border: 1px solid #e7ebf3;
+  border: 1px solid var(--line);
   border-radius: 15px;
 
   box-sizing: border-box;
@@ -109,7 +109,7 @@
 .summary-card span {
   margin-bottom: 9px;
 
-  color: #8290a6;
+  color: var(--muted);
   font-size: 10px;
 
   text-align: center;
@@ -150,14 +150,14 @@
 .section-heading h2 {
   margin: 0;
 
-  color: #17233d;
+  color: var(--ink);
 
   font-size: 16px;
   font-weight: 800;
 }
 
 .section-heading span {
-  color: #94a3b8;
+  color: var(--muted);
   font-size: 11px;
 }
 
@@ -167,15 +167,15 @@
 ===================================== */
 
 .booking-card {
-  background: #ffffff;
+  background: var(--paper);
 
-  border: 1px solid #e7ebf3;
+  border: 1px solid var(--line);
   border-radius: 18px;
 
   padding: 16px;
   margin-bottom: 14px;
 
-  box-shadow: 0 5px 20px rgba(28, 45, 85, 0.04);
+  box-shadow: 0 5px 20px rgba(28, 65, 45, 0.04);
 }
 
 .booking-card-header {
@@ -208,7 +208,7 @@
 
   flex-shrink: 0;
 
-  background: #eaf2ff;
+  background: var(--sand);
   border-radius: 12px;
 
   font-size: 19px;
@@ -223,12 +223,12 @@
 }
 
 .vehicle-text small {
-  color: #94a3b8;
+  color: var(--muted);
   font-size: 10px;
 }
 
 .vehicle-text strong {
-  color: #17233d;
+  color: var(--ink);
 
   font-size: 13px;
   font-weight: 800;
@@ -281,8 +281,8 @@
 /* ĐÃ HỦY */
 
 .cancelled-badge {
-  background: #eef1f5;
-  color: #64748b;
+  background: var(--sand);
+  color: var(--muted);
 }
 
 
@@ -297,7 +297,7 @@
   gap: 13px;
   padding: 14px;
 
-  background: #f7f9fd;
+  background: var(--cream);
   border-radius: 12px;
 }
 
@@ -310,14 +310,14 @@
 }
 
 .detail-row span {
-  color: #8996ab;
+  color: var(--muted);
 
   font-size: 11px;
   flex-shrink: 0;
 }
 
 .detail-row strong {
-  color: #34435d;
+  color: var(--muted);
 
   font-size: 11px;
   font-weight: 700;
@@ -369,8 +369,8 @@
 }
 
 .cancelled-message {
-  background: #f1f5f9;
-  color: #64748b;
+  background: var(--cream);
+  color: var(--muted);
 }
 
 
@@ -459,15 +459,15 @@
 }
 
 .keep-btn {
-  background: #ffffff;
-  color: #475569;
+  background: var(--paper);
+  color: var(--muted);
 
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--line);
 }
 
 .confirm-cancel-btn {
   background: #ef4444;
-  color: #ffffff;
+  color: var(--paper);
 
   border: 1px solid #ef4444;
 }
@@ -514,9 +514,9 @@
 
   padding: 28px 18px;
 
-  background: #ffffff;
+  background: var(--paper);
 
-  border: 1px solid #e7ebf3;
+  border: 1px solid var(--line);
   border-radius: 18px;
 
   text-align: center;
@@ -530,12 +530,12 @@
 .empty-state h3 {
   margin: 0 0 8px;
 
-  color: #17233d;
+  color: var(--ink);
   font-size: 14px;
 }
 
 .empty-state p {
-  color: #94a3b8;
+  color: var(--muted);
 
   font-size: 11px;
   line-height: 1.6;
@@ -547,8 +547,8 @@
   margin-top: 15px;
   padding: 12px 20px;
 
-  background: #2478f2;
-  color: white;
+  background: var(--forest);
+  color: var(--paper);
 
   border-radius: 10px;
 
@@ -571,8 +571,8 @@
   margin-top: 20px;
   padding: 15px 18px;
 
-  background: #ede9ff;
-  color: #7554d7;
+  background: var(--sand);
+  color: var(--forest);
 
   border-radius: 13px;
 

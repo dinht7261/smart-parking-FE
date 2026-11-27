@@ -16,14 +16,14 @@
   .back-link {
     display: inline-block;
     text-decoration: none;
-    color: #64748b;
+    color: var(--muted);
     font-weight: 600;
     margin-bottom: 24px;
   }
 
   .eyebrow {
     display: block;
-    color: #2878ee;
+    color: var(--forest);
     font-size: 12px;
     font-weight: 800;
     letter-spacing: 1px;
@@ -32,11 +32,11 @@
   h1 {
     font-size: 28px;
     margin: 10px 0;
-    color: #172b4d;
+    color: var(--ink);
   }
 
   p {
-    color: #718096;
+    color: var(--muted);
     line-height: 1.6;
     font-size: 14px;
   }
@@ -47,17 +47,17 @@
   align-items: center;
   gap: 12px;
   padding: 16px;
-  background: white;
+  background: var(--paper);
   border-radius: 18px;
   margin-bottom: 22px;
-  box-shadow: 0 5px 20px rgba(30, 60, 100, 0.06);
+  box-shadow: 0 5px 20px rgba(28, 65, 45, 0.06);
 
   .user-avatar {
     width: 46px;
     height: 46px;
     border-radius: 14px;
-    background: #e8f0ff;
-    color: #2878ee;
+    background: var(--sand);
+    color: var(--forest);
     display: grid;
     place-items: center;
     font-weight: 800;
@@ -71,11 +71,11 @@
     flex: 1;
 
     strong {
-      color: #172b4d;
+      color: var(--ink);
     }
 
     span {
-      color: #718096;
+      color: var(--muted);
       font-size: 13px;
     }
   }
@@ -88,10 +88,10 @@
 }
 
 .scanner-card {
-  background: white;
+  background: var(--paper);
   border-radius: 22px;
   padding: 20px;
-  box-shadow: 0 8px 30px rgba(30, 60, 100, 0.07);
+  box-shadow: 0 8px 30px rgba(28, 65, 45, 0.07);
 }
 
 .scanner-heading {
@@ -99,14 +99,14 @@
 
   h2 {
     font-size: 19px;
-    color: #172b4d;
+    color: var(--ink);
     margin: 0 0 8px;
   }
 
   p {
     font-size: 13px;
     line-height: 1.5;
-    color: #718096;
+    color: var(--muted);
   }
 }
 
@@ -116,7 +116,7 @@
   aspect-ratio: 4 / 3;
   overflow: hidden;
   border-radius: 18px;
-  background: #172b4d;
+  background: var(--ink);
 
   video {
     width: 100%;
@@ -137,14 +137,14 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: var(--paper);
   text-align: center;
   padding: 20px;
   gap: 12px;
 
   .camera-icon {
     font-size: 42px;
-    color: #60a5fa;
+    color: var(--leaf);
   }
 
   strong {
@@ -153,7 +153,7 @@
 
   span {
     font-size: 12px;
-    color: #cbd5e1;
+    color: var(--leaf);
   }
 }
 
@@ -167,7 +167,7 @@
   .scan-frame {
     width: 65%;
     aspect-ratio: 1;
-    border: 3px solid #3b82f6;
+    border: 3px solid var(--leaf);
     border-radius: 18px;
     box-shadow: 0 0 0 999px rgba(0, 0, 0, 0.25);
   }
@@ -175,7 +175,7 @@
   p {
     position: absolute;
     bottom: 15px;
-    color: white;
+    color: var(--paper);
     font-size: 13px;
     font-weight: 700;
   }
@@ -196,8 +196,8 @@
 }
 
 .start-button {
-  background: #2878ee;
-  color: white;
+  background: var(--forest);
+  color: var(--paper);
 }
 
 .stop-button {
@@ -226,8 +226,8 @@ button:disabled {
 .processing-message {
   margin-top: 16px;
   padding: 14px;
-  background: #eff6ff;
-  color: #2563eb;
+  background: var(--cream);
+  color: var(--forest);
   border-radius: 12px;
   font-size: 13px;
   text-align: center;
@@ -258,8 +258,8 @@ button:disabled {
   .customer-type {
     display: inline-block;
     padding: 7px 13px;
-    background: #e8f0ff;
-    color: #2878ee;
+    background: var(--sand);
+    color: var(--forest);
     border-radius: 20px;
     font-size: 12px;
     font-weight: 700;
@@ -269,7 +269,7 @@ button:disabled {
 .session-details {
   margin-top: 20px;
   padding: 15px;
-  background: #f8fafc;
+  background: var(--cream);
   border-radius: 14px;
   text-align: left;
 
@@ -278,19 +278,19 @@ button:disabled {
     justify-content: space-between;
     gap: 12px;
     padding: 10px 0;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid var(--line);
 
     &:last-child {
       border-bottom: none;
     }
 
     span {
-      color: #718096;
+      color: var(--muted);
       font-size: 13px;
     }
 
     strong {
-      color: #172b4d;
+      color: var(--ink);
       font-size: 13px;
       text-align: right;
       overflow-wrap: anywhere;
@@ -301,14 +301,14 @@ button:disabled {
 .success-note {
   font-size: 13px;
   line-height: 1.6;
-  color: #718096;
+  color: var(--muted);
 }
 
 .home-button {
   display: block;
   text-decoration: none;
-  background: #2878ee;
-  color: white;
+  background: var(--forest);
+  color: var(--paper);
   padding: 14px;
   border-radius: 13px;
   font-weight: 700;

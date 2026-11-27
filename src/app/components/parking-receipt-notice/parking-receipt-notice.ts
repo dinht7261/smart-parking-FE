@@ -230,8 +230,8 @@ import {
       padding: 17px 20px calc(22px + env(safe-area-inset-bottom));
       box-sizing: border-box;
       border-radius: 24px 24px 0 0;
-      background: #fff;
-      box-shadow: 0 -8px 35px #121a3525;
+      background: var(--paper);
+      box-shadow: 0 -8px 35px #234e3525;
     }
 
     .receipt-handle {
@@ -239,7 +239,7 @@ import {
       height: 4px;
       margin: 0 auto 18px;
       border-radius: 4px;
-      background: #d9deea;
+      background: var(--sand);
     }
 
     /* HEADER */
@@ -263,13 +263,13 @@ import {
 
     .receipt-heading h2 {
       margin: 8px 0 5px;
-      color: #26334c;
+      color: var(--ink);
       font-size: 22px;
     }
 
     .receipt-heading p {
       margin: 0;
-      color: #8e9bb0;
+      color: var(--muted);
       font-size: 12px;
     }
 
@@ -282,22 +282,22 @@ import {
       margin: 19px 0;
       padding: 16px;
       border-radius: 13px;
-      background: #f3eeff;
+      background: var(--cream);
       text-align: center;
     }
 
     .receipt-vehicle span {
-      color: #8f7bbd;
+      color: var(--forest);
       font-size: 11px;
     }
 
     .receipt-vehicle strong {
-      color: #6b4ac8;
+      color: var(--forest);
       font-size: 19px;
     }
 
     .receipt-vehicle small {
-      color: #8c7bb9;
+      color: var(--forest);
       font-size: 12px;
     }
 
@@ -309,7 +309,7 @@ import {
       flex-direction: column;
       gap: 14px;
       padding: 15px 0;
-      border-bottom: 1px solid #ecedf3;
+      border-bottom: 1px solid var(--line);
     }
 
     .receipt-details > div,
@@ -322,13 +322,13 @@ import {
 
     .receipt-details span,
     .receipt-pricing span {
-      color: #8490a6;
+      color: var(--muted);
       font-size: 12px;
     }
 
     .receipt-details strong,
     .receipt-pricing strong {
-      color: #2d3a51;
+      color: var(--ink);
       font-size: 12px;
       text-align: right;
     }
@@ -336,7 +336,7 @@ import {
     .receipt-pricing small {
       display: block;
       margin-top: 4px;
-      color: #a5aec0;
+      color: var(--muted);
       font-size: 10px;
     }
 
@@ -354,17 +354,17 @@ import {
       margin-top: 16px;
       padding: 17px;
       border-radius: 13px;
-      background: #f0eaff;
+      background: var(--sand);
     }
 
     .receipt-total span {
-      color: #7259a8;
+      color: var(--forest);
       font-size: 12px;
       font-weight: 800;
     }
 
     .receipt-total strong {
-      color: #6948c5;
+      color: var(--forest);
       font-size: 20px;
     }
 
@@ -386,8 +386,8 @@ import {
       margin-top: 16px;
       border: 0;
       border-radius: 12px;
-      background: #7857d8;
-      color: white;
+      background: var(--pine);
+      color: var(--paper);
       font-size: 13px;
       font-weight: 800;
       cursor: pointer;

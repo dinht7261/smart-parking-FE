@@ -1,21 +1,34 @@
-<main class="phone-page chooser">
-  <div class="brand"><span class="brand-symbol">P<span>✦</span></span><span>SMART PARKING</span></div>
+<main class="chooser">
+  <header class="masthead">
+    <div class="masthead-inner">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">P</span>
+        <span>Smart<span class="brand-light">Parking</span></span>
+      </div>
+      <span class="lane-stripes" aria-hidden="true"></span>
+    </div>
+  </header>
 
-  <div class="intro">
-    <span class="eyebrow">Bãi đỗ xe thông minh</span>
-    <h1>Gửi xe tiện lợi<br /><em>Quản lý dễ dàng</em></h1>
-  </div>
+  <section class="hero" aria-labelledby="welcome-title">
+    <img class="hero-photo" src="parking-track.jpg" alt="" fetchpriority="high" />
+    <div class="hero-inner">
+      <h1 id="welcome-title">Gửi xe<br /><em>thông minh.</em></h1>
+    </div>
+  </section>
 
-  <section aria-label="Chọn vai trò" class="role-list">
-    <a class="role-card customer" routerLink="/customer">
-      <span class="role-icon" aria-hidden="true">♙</span>
-      <span class="role-copy"><strong>Người dùng</strong></span>
-      <span class="arrow" aria-hidden="true">→</span>
-    </a>
-    <a class="role-card operator" routerLink="/operator">
-      <span class="role-icon" aria-hidden="true">⚙</span>
-      <span class="role-copy"><strong>Người điều hành</strong></span>
-      <span class="arrow" aria-hidden="true">→</span>
-    </a>
+  <section class="role-section" aria-labelledby="role-title">
+    <h2 id="role-title">Chọn vai trò</h2>
+    <div class="role-list">
+      <a class="role-card customer" routerLink="/customer">
+        <span class="role-icon" aria-hidden="true"><i class="wheel"></i></span>
+        <span class="role-copy"><strong>Người dùng</strong><small>Tìm chỗ, đặt chỗ và gửi xe.</small></span>
+        <span class="arrow" aria-hidden="true">↗</span>
+      </a>
+      <a class="role-card operator" routerLink="/operator">
+        <span class="role-icon" aria-hidden="true"><i class="gate"></i></span>
+        <span class="role-copy"><strong>Người điều hành</strong><small>Quản lý bãi, duyệt yêu cầu.</small></span>
+        <span class="arrow" aria-hidden="true">↗</span>
+      </a>
+    </div>
   </section>
 </main>

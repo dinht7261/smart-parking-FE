@@ -8,8 +8,8 @@
   box-sizing: border-box;
   min-height: 100vh;
   padding: 36px 20px 40px;
-  background: #f5f7fc;
-  color: #202d46;
+  background: var(--cream);
+  color: var(--ink);
 }
 
 .review-header {
@@ -19,7 +19,7 @@
 .back-link {
   display: inline-block;
   margin-bottom: 48px;
-  color: #677c9f;
+  color: var(--forest);
   font-size: 13px;
   font-weight: 700;
   text-decoration: none;
@@ -28,7 +28,7 @@
 .eyebrow {
   display: block;
   margin-bottom: 12px;
-  color: #9675ea;
+  color: var(--forest);
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 1.5px;
@@ -43,7 +43,7 @@
 
 .review-header p {
   margin: 0;
-  color: #91a0b9;
+  color: var(--muted);
   font-size: 13px;
   line-height: 1.6;
 }
@@ -61,16 +61,16 @@
 
 .stat-card {
   padding: 19px 6px;
-  border: 1px solid #e4e9f3;
+  border: 1px solid var(--line);
   border-radius: 17px;
-  background: #ffffff;
+  background: var(--paper);
   text-align: center;
 }
 
 .stat-card span {
   display: block;
   margin-bottom: 10px;
-  color: #8998b1;
+  color: var(--muted);
   font-size: 11px;
 }
 
@@ -102,9 +102,9 @@
   gap: 12px;
   padding: 16px;
   margin-bottom: 28px;
-  border: 1px solid #e9e0fc;
+  border: 1px solid var(--line);
   border-radius: 15px;
-  background: #f0ebff;
+  background: var(--cream);
 }
 
 .moon-icon {
@@ -116,13 +116,13 @@
 }
 
 .overnight-overview strong {
-  color: #8058d4;
+  color: var(--forest);
   font-size: 13px;
 }
 
 .overnight-overview p {
   margin: 5px 0 0;
-  color: #9987bd;
+  color: var(--forest);
   font-size: 11px;
 }
 
@@ -151,17 +151,17 @@
 
 .section-heading > span {
   flex-shrink: 0;
-  color: #97a5bd;
+  color: var(--muted);
   font-size: 12px;
 }
 
 .request-card {
   padding: 17px;
   margin-bottom: 17px;
-  border: 1px solid #e4e9f3;
+  border: 1px solid var(--line);
   border-radius: 21px;
-  background: #fff;
-  box-shadow: 0 6px 20px rgba(39, 58, 94, 0.035);
+  background: var(--paper);
+  box-shadow: 0 6px 20px rgba(28, 65, 45, 0.035);
 }
 
 .request-header {
@@ -179,7 +179,7 @@
   width: 45px;
   height: 45px;
   border-radius: 14px;
-  background: #eaf1ff;
+  background: var(--sand);
   font-size: 23px;
 }
 
@@ -191,7 +191,7 @@
 .vehicle-info span {
   display: block;
   margin-bottom: 4px;
-  color: #92a1b9;
+  color: var(--muted);
   font-size: 11px;
 }
 
@@ -224,8 +224,8 @@
 }
 
 .status-chip.cancelled {
-  background: #edf1f6;
-  color: #77859a;
+  background: var(--sand);
+  color: var(--muted);
 }
 
 /* ==============================
@@ -235,7 +235,7 @@
 .request-details {
   padding: 14px;
   border-radius: 14px;
-  background: #f4f6fa;
+  background: var(--cream);
 }
 
 .detail-row {
@@ -252,11 +252,11 @@
 }
 
 .detail-row span {
-  color: #8999b2;
+  color: var(--muted);
 }
 
 .detail-row strong {
-  color: #35445f;
+  color: var(--muted);
   text-align: right;
   font-size: 12px;
 }
@@ -268,30 +268,30 @@
 .night-section {
   padding: 13px;
   margin-top: 15px;
-  border: 1px solid #eae0fc;
+  border: 1px solid var(--line);
   border-radius: 15px;
-  background: #f8f4ff;
+  background: var(--cream);
 }
 
 .night-heading {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #8059ce;
+  color: var(--forest);
   font-size: 13px;
 }
 
 .night-heading > span {
   padding: 5px 9px;
   border-radius: 8px;
-  background: #e9dfff;
+  background: var(--sage);
   font-weight: 700;
 }
 
 .night-item {
   margin-top: 13px;
   padding-top: 13px;
-  border-top: 1px solid #e6dcf7;
+  border-top: 1px solid var(--line);
 }
 
 .night-item-header {
@@ -307,13 +307,13 @@
 }
 
 .night-reason span {
-  color: #8c98af;
+  color: var(--muted);
   font-size: 11px;
 }
 
 .night-reason p {
   margin: 6px 0;
-  color: #495775;
+  color: var(--muted);
   font-size: 12px;
   line-height: 1.6;
   overflow-wrap: anywhere;
@@ -371,7 +371,7 @@
   border: 0;
   border-radius: 13px;
   background: #18a35d;
-  color: #fff;
+  color: var(--paper);
   font-family: inherit;
   font-size: 13px;
   font-weight: 800;
@@ -403,8 +403,8 @@
 }
 
 .cancelled-info {
-  background: #f0f3f7;
-  color: #758399;
+  background: var(--sand);
+  color: var(--muted);
 }
 
 .result-note {
@@ -432,9 +432,9 @@
 
 .empty-state {
   padding: 32px 16px;
-  border: 1px solid #e4e9f3;
+  border: 1px solid var(--line);
   border-radius: 20px;
-  background: #fff;
+  background: var(--paper);
   text-align: center;
 }
 
@@ -449,7 +449,7 @@
 
 .empty-state p {
   margin: 15px 0 0;
-  color: #98a7c1;
+  color: var(--muted);
   font-size: 12px;
 }
 
