@@ -25,12 +25,15 @@ import {
   BarrierService
 } from '../../services/barrier.service';
 
+import { AppIcon } from '../../components/app-icon/app-icon';
+
 @Component({
   selector: 'app-customer-check-in',
   standalone: true,
 
   imports: [
-    RouterLink
+    RouterLink,
+    AppIcon
   ],
 
   templateUrl: './customer-check-in.html',

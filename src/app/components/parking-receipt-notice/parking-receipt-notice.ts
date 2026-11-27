@@ -1,6 +1,7 @@
 
 import {
   Component,
+  HostListener,
   computed,
   inject,
   signal
@@ -25,9 +26,12 @@ import {
   DemoUserService
 } from '../../services/demo-user.service';
 
+import { AppIcon } from '../app-icon/app-icon';
+
 @Component({
   selector: 'app-parking-receipt-notice',
   standalone: true,
+  imports: [AppIcon],
 
   template: `
 
@@ -61,7 +65,8 @@ import {
             </div>
 
             <span class="receipt-success">
-              ✓ ĐÃ GHI NHẬN XE RA BÃI
+              <app-icon name="check" [size]="14" />
+              <span>ĐÃ GHI NHẬN XE RA BÃI</span>
             </span>
 
             <h2 id="receipt-title">
@@ -267,7 +272,10 @@ import {
     }
 
     .receipt-success {
-      display: block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
       margin-top: 10px;
       color: var(--status-free);
       font-size: 12px;
@@ -550,6 +558,14 @@ export class ParkingReceiptNotice {
   // =====================================
   // ĐÓNG HÓA ĐƠN
   // =====================================
+
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    const receipt = this.currentReceipt();
+    if (receipt) {
+      this.closeReceipt(receipt);
+    }
+  }
 
   closeReceipt(receipt: ParkingReceipt): void {
 

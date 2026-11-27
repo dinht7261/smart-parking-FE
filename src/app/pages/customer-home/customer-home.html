@@ -156,7 +156,7 @@
               @if (parkingLoading()) {
                 Đang cập nhật...
               } @else if (parkingError()) {
-                Không có dữ liệu
+                <span role="alert">Không có dữ liệu</span>
               } @else {
                 / {{ totalSpaces() }} chỗ
               }
@@ -403,7 +403,7 @@
 
       @if (checkInError()) {
 
-        <div class="modal-error">
+        <div class="modal-error" role="alert">
 
           <strong>
             Không thể Check-in

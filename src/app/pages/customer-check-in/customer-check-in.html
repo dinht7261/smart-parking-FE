@@ -90,8 +90,8 @@
 
         <div class="video-placeholder">
 
-          <div class="camera-icon">
-            ▣
+          <div class="camera-icon" aria-hidden="true">
+            <app-icon name="qr" [size]="36" />
           </div>
 
           <strong>
@@ -128,7 +128,7 @@
 
     @if (errorMessage()) {
 
-      <div class="error-message">
+      <div class="error-message" role="alert">
 
         <strong>
           Không thể Check-in
@@ -147,7 +147,7 @@
 
     @if (isProcessing()) {
 
-      <div class="processing-message">
+      <div class="processing-message" role="status">
 
         Đang xác thực QR và kiểm tra lịch đặt chỗ...
 
@@ -162,8 +162,8 @@
 
       <section class="success-panel">
 
-        <div class="success-icon">
-          ✓
+        <div class="success-icon" aria-hidden="true">
+          <app-icon name="check" [size]="28" />
         </div>
 
         <h2>

@@ -73,16 +73,17 @@
           id="licensePlate"
           type="text"
           [value]="licensePlate"
+          aria-describedby="plate-hint"
           readonly
         />
 
-        <span class="plate-lock">
-          🔒
+        <span class="plate-lock" aria-hidden="true">
+          <app-icon name="lock" [size]="16" />
         </span>
 
       </div>
 
-      <p class="plate-hint">
+      <p id="plate-hint" class="plate-hint">
         Biển số được liên kết với tài khoản của bạn.
       </p>
 
@@ -161,8 +162,9 @@
 
         <section class="overnight-request-box">
 
-          <h3>
-            🌙 Yêu cầu gửi xe qua đêm
+          <h3 class="inline-icon-text">
+            <app-icon name="moon" [size]="17" />
+            <span>Yêu cầu gửi xe qua đêm</span>
           </h3>
 
 
@@ -279,11 +281,12 @@
 
       <!-- THÔNG BÁO DUYỆT -->
 
-      <div class="approval-note">
-
-        ⏳ Sau khi gửi, yêu cầu sẽ có
-        trạng thái <strong>Chờ duyệt</strong>.
-
+      <div class="approval-note inline-icon-text">
+        <app-icon name="hourglass" [size]="16" />
+        <span>
+          Sau khi gửi, yêu cầu sẽ có
+          trạng thái <strong>Chờ duyệt</strong>.
+        </span>
       </div>
 
 

@@ -11,10 +11,12 @@ import {
   ViolationService
 } from '../../services/violation.service';
 
+import { AppIcon } from '../../components/app-icon/app-icon';
+
 @Component({
   selector: 'app-operator-violations',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, AppIcon],
   templateUrl: './operator-violations.html',
   styleUrl: './operator-violations.scss'
 })

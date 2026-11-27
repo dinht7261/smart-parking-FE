@@ -28,7 +28,8 @@
       [disabled]="loading()"
       (click)="loadPayments()"
     >
-      {{ loading() ? 'Đang tải...' : '↻ Làm mới dữ liệu' }}
+      <app-icon name="refresh" [size]="16" />
+      <span>{{ loading() ? 'Đang tải...' : 'Làm mới dữ liệu' }}</span>
     </button>
 
   </header>
@@ -109,6 +110,7 @@
 
       <input
         type="search"
+        aria-label="Tìm kiếm hóa đơn theo biển số hoặc mã giao dịch"
         placeholder="Tìm theo biển số hoặc mã giao dịch..."
         [value]="search()"
         (input)="search.set($any($event.target).value)"
@@ -151,7 +153,7 @@
 
       <div class="empty-state">
 
-        <span>⏳</span>
+        <span aria-hidden="true"><app-icon name="hourglass" [size]="30" /></span>
 
         <strong>Đang tải hóa đơn</strong>
 
@@ -165,7 +167,7 @@
 
       <div class="empty-state">
 
-        <span>🧾</span>
+        <span aria-hidden="true"><app-icon name="receipt" [size]="30" /></span>
 
         <strong>Chưa có hóa đơn</strong>
 
@@ -193,7 +195,7 @@
 
             <div class="vehicle">
 
-              <span>🚗</span>
+              <span aria-hidden="true"><app-icon name="car" [size]="20" /></span>
 
               <div>
 
@@ -377,8 +379,9 @@
 
             <div class="payment-success">
 
-              <strong>
-                ✓ Đã thanh toán thành công
+              <strong class="inline-icon-text">
+                <app-icon name="check" [size]="15" />
+                <span>Đã thanh toán thành công</span>
               </strong>
 
               <span>
@@ -403,15 +406,15 @@
               [disabled]="confirmingPayment() !== null"
               (click)="confirmPayment(payment)"
             >
-
-              {{
-                confirmingPayment() === payment.paymentCode
-                  ? 'Đang xử lý thanh toán...'
-                  : isOperator
-                    ? '✓ Xác nhận đã thu tiền'
-                    : '💳 Thanh toán hóa đơn'
-              }}
-
+              @if (confirmingPayment() === payment.paymentCode) {
+                <span>Đang xử lý thanh toán...</span>
+              } @else if (isOperator) {
+                <app-icon name="check" [size]="16" />
+                <span>Xác nhận đã thu tiền</span>
+              } @else {
+                <app-icon name="credit-card" [size]="16" />
+                <span>Thanh toán hóa đơn</span>
+              }
             </button>
 
           }

@@ -315,10 +315,8 @@
   font-weight: 600;
   transition: background-color 0.15s ease, color 0.15s ease;
 
-  &:hover,
-  &:focus-visible {
+  &:hover {
     background: var(--cream);
-    outline: none;
   }
 
   &.is-active {
@@ -333,6 +331,7 @@
   }
 
   &:focus-visible {
+    background: var(--cream);
     outline: 2px solid var(--focus);
     outline-offset: -2px;
   }

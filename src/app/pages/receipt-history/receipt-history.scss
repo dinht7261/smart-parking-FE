@@ -136,6 +136,13 @@
     border-radius: var(--radius-sm);
     background: var(--paper);
     font-size: 14px;
+    transition: border-color 0.16s ease, box-shadow 0.16s ease;
+
+    &:focus {
+      outline: none;
+      border-color: var(--focus);
+      box-shadow: 0 0 0 3px rgba(168, 64, 9, 0.14);
+    }
   }
 }
 
@@ -338,6 +345,10 @@
 
 .pay-button,
 .confirm-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   width: 100%;
   min-height: 46px;
   margin-top: 12px;

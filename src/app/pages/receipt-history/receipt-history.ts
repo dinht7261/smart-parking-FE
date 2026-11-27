@@ -31,6 +31,8 @@ import {
   DemoUserService
 } from '../../services/demo-user.service';
 
+import { AppIcon } from '../../components/app-icon/app-icon';
+
 // =====================================
 // RECEIPT HISTORY COMPONENT
 // =====================================
@@ -38,7 +40,7 @@ import {
 @Component({
   selector: 'app-receipt-history',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, AppIcon],
   templateUrl: './receipt-history.html',
   styleUrl: './receipt-history.scss'
 })

@@ -4,6 +4,7 @@ import { BookingRequestService } from '../../services/booking-request.service';
 import {
   BookingOvernightStatus
 } from '../../components/booking-overnight-status/booking-overnight-status';
+import { AppIcon } from '../../components/app-icon/app-icon';
 import {
   Component,
   computed,
@@ -14,7 +15,7 @@ import {
 @Component({
   selector: 'app-customer-requests',
   standalone: true,
-  imports: [RouterLink, BookingOvernightStatus],
+  imports: [RouterLink, BookingOvernightStatus, AppIcon],
   templateUrl: './customer-requests.html',
   styleUrl: './customer-requests.scss'
 })

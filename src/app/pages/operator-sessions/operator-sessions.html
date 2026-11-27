@@ -17,11 +17,12 @@
 
     <button
       type="button"
-      class="sensor-entry-button"
+      class="sensor-entry-button inline-icon-text"
       [disabled]="loading()"
       (click)="loadSessions()"
     >
-      {{ loading() ? 'Đang tải...' : '↻ Làm mới dữ liệu' }}
+      <app-icon name="refresh" [size]="16" />
+      <span>{{ loading() ? 'Đang tải...' : 'Làm mới dữ liệu' }}</span>
     </button>
 
   </header>
@@ -92,10 +93,11 @@
     <!-- TÌM KIẾM -->
     <div class="search-box">
 
-      <span>⌕</span>
+      <span aria-hidden="true"><app-icon name="search" [size]="17" /></span>
 
       <input
         type="search"
+        aria-label="Tìm kiếm theo biển số hoặc mã phiên"
         placeholder="Tìm theo biển số hoặc mã phiên..."
         [value]="search()"
         (input)="search.set($any($event.target).value)"
@@ -145,7 +147,7 @@
 
       <div class="empty-state">
 
-        <div>⏳</div>
+        <div aria-hidden="true"><app-icon name="hourglass" [size]="32" /></div>
 
         <strong>Đang tải dữ liệu...</strong>
 
@@ -159,7 +161,7 @@
 
       <div class="empty-state">
 
-        <div>🚘</div>
+        <div aria-hidden="true"><app-icon name="car" [size]="32" /></div>
 
         <strong>Không tìm thấy phiên gửi xe</strong>
 
@@ -185,8 +187,8 @@
 
             <div class="vehicle-info">
 
-              <div class="vehicle-icon">
-                🚗
+              <div class="vehicle-icon" aria-hidden="true">
+                <app-icon name="car" [size]="20" />
               </div>
 
               <div>

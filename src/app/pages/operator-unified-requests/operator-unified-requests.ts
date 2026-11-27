@@ -17,6 +17,8 @@ import {
   overnightDatesInRange
 } from '../../services/overnight-window.util';
 
+import { AppIcon } from '../../components/app-icon/app-icon';
+
 import {
   Component,
   computed,
@@ -37,7 +39,8 @@ interface BookingReviewRow {
 
   imports: [
     RouterLink,
-    DatePipe
+    DatePipe,
+    AppIcon
   ],
 
   templateUrl: './operator-unified-requests.html',

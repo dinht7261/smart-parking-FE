@@ -149,6 +149,10 @@
 }
 
 .apply-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   width: 100%;
   min-height: 48px;
   margin-top: 14px;

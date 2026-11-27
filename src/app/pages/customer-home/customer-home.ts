@@ -3,6 +3,7 @@ import {
   Component,
   DestroyRef,
   ElementRef,
+  HostListener,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -524,6 +525,18 @@ export class CustomerHome implements OnInit, OnDestroy {
   // =====================================
   // ĐÓNG THẺ THÔNG BÁO VỊ TRÍ
   // =====================================
+
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    if (this.showSpotNotice()) {
+      this.closeSpotNotice();
+      return;
+    }
+
+    if (this.showCheckInScanner()) {
+      this.closeCheckInScanner();
+    }
+  }
 
   closeSpotNotice(): void {
 

@@ -24,7 +24,8 @@
       [disabled]="loading()"
       (click)="loadPayments()"
     >
-      {{ loading() ? 'Đang tải...' : '↻ Làm mới dữ liệu' }}
+      <app-icon name="refresh" [size]="16" />
+      <span>{{ loading() ? 'Đang tải...' : 'Làm mới dữ liệu' }}</span>
     </button>
 
   </header>
@@ -134,10 +135,11 @@
     <!-- TÌM KIẾM -->
     <div class="fee-search">
 
-      <span>⌕</span>
+      <span aria-hidden="true"><app-icon name="search" [size]="17" /></span>
 
       <input
         type="search"
+        aria-label="Tìm kiếm theo biển số hoặc mã giao dịch"
         placeholder="Tìm biển số, mã giao dịch..."
         [value]="search()"
         (input)="search.set($any($event.target).value)"
@@ -197,7 +199,7 @@
 
       <div class="fees-empty">
 
-        <div>⏳</div>
+        <div aria-hidden="true"><app-icon name="hourglass" [size]="32" /></div>
 
         <h3>Đang tải dữ liệu</h3>
 
@@ -211,7 +213,7 @@
 
       <div class="fees-empty">
 
-        <div>🧾</div>
+        <div aria-hidden="true"><app-icon name="receipt" [size]="32" /></div>
 
         <h3>Không có giao dịch</h3>
 
@@ -236,8 +238,8 @@
 
             <div class="vehicle">
 
-              <div class="vehicle-icon">
-                🚗
+              <div class="vehicle-icon" aria-hidden="true">
+                <app-icon name="car" [size]="20" />
               </div>
 
               <div>
@@ -458,11 +460,14 @@
               [disabled]="confirmingPayment() === payment.paymentCode"
               (click)="confirmPayment(payment.paymentCode)"
             >
-              {{
-                confirmingPayment() === payment.paymentCode
-                  ? 'Đang xử lý...'
-                  : '💳 Xác nhận thanh toán'
-              }}
+              <app-icon name="credit-card" [size]="16" />
+              <span>
+                {{
+                  confirmingPayment() === payment.paymentCode
+                    ? 'Đang xử lý...'
+                    : 'Xác nhận thanh toán'
+                }}
+              </span>
             </button>
 
           }
@@ -481,7 +486,9 @@
     routerLink="/operator/sessions"
     class="sessions-link"
   >
-    🚗 Xem lịch sử xe vào/ra →
+    <app-icon name="car" [size]="17" />
+    <span>Xem lịch sử xe vào/ra</span>
+    <app-icon name="arrow-right" [size]="16" />
   </a>
 
 </main>
