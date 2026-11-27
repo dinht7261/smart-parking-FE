@@ -18,6 +18,11 @@ import {
   OperatorParkingSpot
 } from '../../services/operator-parking-state.service';
 
+import { HttpErrorResponse } from '@angular/common/http';
+
+import { ParkingSpotsApiService } 
+  from '../../services/parking-spots-api.service';
+
 @Component({
   selector: 'app-operator-spaces',
   standalone: true,
@@ -35,6 +40,10 @@ export class OperatorSpaces {
     OperatorParkingStateService
   );
 
+  readonly parkingApi = inject(
+    ParkingSpotsApiService
+  );
+
   // Giữ tên lot để tương thích với HTML hiện tại.
   // Dữ liệu bên trong đã chuyển sang Backend.
 
@@ -43,6 +52,7 @@ export class OperatorSpaces {
   // =====================================
   // TRẠNG THÁI GIAO DIỆN
   // =====================================
+  readonly updating = signal(false);
 
   readonly activeFloor = signal<FloorId>('B1');
 
@@ -130,7 +140,7 @@ export class OperatorSpaces {
         return 'Đã đặt';
 
       case 'maintenance':
-        return 'Tạm ngưng bảo trì';
+        return 'Đang bảo trì';
 
       default:
         return 'Không xác định';
@@ -143,22 +153,71 @@ export class OperatorSpaces {
   // BẢO TRÌ
   // =====================================
 
+
+  // =====================================
+  // BẬT / TẮT BẢO TRÌ
+  // =====================================
+
   toggleMaintenance(): void {
 
     const spot = this.selectedSpot();
 
-    if (!spot) {
+    if (!spot || this.updating()) {
       return;
     }
 
-    // Chưa thực hiện cập nhật tại đây.
-    // Backend hiện chưa có API bảo trì.
+    // Chỉ thao tác với vị trí trống
+    // hoặc đang bảo trì.
 
-    this.notice.set(
-      `Vị trí ${spot.floor} - ${spot.id}: ` +
-      'Chức năng bảo trì đang chờ kết nối API Backend.'
-    );
+    if (
+      spot.status !== 'available' &&
+      spot.status !== 'maintenance'
+    ) {
+      this.notice.set(
+        'Không thể bảo trì vị trí đã đặt hoặc đang có xe.'
+      );
+      return;
+    }
+
+    this.updating.set(true);
+    this.notice.set(null);
+
+    const isStarting =
+      spot.status === 'available';
+
+    const request = isStarting
+      ? this.parkingApi.startMaintenance(spot.backendId)
+      : this.parkingApi.endMaintenance(spot.backendId);
+
+    request.subscribe({
+
+      next: () => {
+
+        this.updating.set(false);
+
+        this.notice.set(
+          isStarting
+            ? `Đã chuyển vị trí ${spot.floor} - ${spot.id} sang bảo trì.`
+            : `Đã kích hoạt lại vị trí ${spot.floor} - ${spot.id}.`
+        );
+
+      },
+
+      error: (error: HttpErrorResponse) => {
+
+        this.updating.set(false);
+
+        const message =
+          error.error?.message ||
+          'Không thể cập nhật trạng thái vị trí.';
+
+        this.notice.set(message);
+
+      }
+
+    });
 
   }
+
 
 }

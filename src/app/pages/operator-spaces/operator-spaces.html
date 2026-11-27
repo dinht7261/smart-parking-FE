@@ -248,24 +248,45 @@
       </div>
 
 
-      @if (
-        spot.status === 'available' ||
-        spot.status === 'maintenance'
-      ) {
 
-        <p class="op-disabled-note">
-          Chức năng bảo trì đang chờ kết nối API Backend.
-          Trạng thái hiện tại được quản lý bởi Backend.
-        </p>
+@if (spot.status === 'available') {
 
-      } @else {
+  <button
+    type="button"
+    class="op-action-button"
+    [disabled]="updating()"
+    (click)="toggleMaintenance()"
+  >
+    {{ updating() ? 'Đang cập nhật...' : 'Bảo trì vị trí này' }}
+  </button>
 
-        <p class="op-disabled-note">
-          Vị trí đang có xe hoặc đã được đặt.
-          Cần giải phóng chỗ trước khi chuyển sang bảo trì.
-        </p>
+  <p class="op-disabled-note">
+    Vị trí đang trống. Bạn có thể chuyển sang trạng thái bảo trì.
+  </p>
 
-      }
+} @else if (spot.status === 'maintenance') {
+
+  <button
+    type="button"
+    class="op-action-button reopen"
+    [disabled]="updating()"
+    (click)="toggleMaintenance()"
+  >
+    {{ updating() ? 'Đang cập nhật...' : 'Kích hoạt lại vị trí' }}
+  </button>
+
+  <p class="op-disabled-note">
+    Vị trí đang bảo trì và không thể được khách hàng đặt chỗ.
+  </p>
+
+} @else {
+
+  <p class="op-disabled-note">
+    Vị trí đã được đặt hoặc đang có xe.
+    Không thể chuyển sang trạng thái bảo trì.
+  </p>
+
+}
 
     </section>
 
