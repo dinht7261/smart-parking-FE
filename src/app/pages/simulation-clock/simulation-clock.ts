@@ -10,10 +10,12 @@ import {
   SimulationClockService
 } from '../../services/simulation-clock.service';
 
+import { AppIcon } from '../../components/app-icon/app-icon';
+
 @Component({
   selector: 'app-simulation-clock',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, AppIcon],
   templateUrl: './simulation-clock.html',
   styleUrl: './simulation-clock.scss'
 })

@@ -1,6 +1,7 @@
 
 import {
   Component,
+  HostListener,
   computed,
   inject,
   signal
@@ -25,9 +26,12 @@ import {
   DemoUserService
 } from '../../services/demo-user.service';
 
+import { AppIcon } from '../app-icon/app-icon';
+
 @Component({
   selector: 'app-parking-receipt-notice',
   standalone: true,
+  imports: [AppIcon],
 
   template: `
 
@@ -51,12 +55,18 @@ import {
 
           <div class="receipt-heading">
 
-            <div class="receipt-icon">
-              🧾
+            <div class="receipt-icon" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 3v18l3-2 3 2 2-2 2 2 3-2 3 2V3z" />
+                <line x1="8" y1="8" x2="16" y2="8" />
+                <line x1="8" y1="12" x2="16" y2="12" />
+                <line x1="8" y1="16" x2="12" y2="16" />
+              </svg>
             </div>
 
             <span class="receipt-success">
-              ✓ ĐÃ GHI NHẬN XE RA BÃI
+              <app-icon name="check" [size]="14" />
+              <span>ĐÃ GHI NHẬN XE RA BÃI</span>
             </span>
 
             <h2 id="receipt-title">
@@ -176,7 +186,7 @@ import {
           <!-- GHI CHÚ -->
 
           <div class="receipt-note">
-            ✅ Hóa đơn đã được chốt tại thời điểm
+            Hóa đơn đã được chốt tại thời điểm
             xe ra bãi. Thay đổi đồng hồ mô phỏng
             sẽ không làm thay đổi hóa đơn này.
           </div>
@@ -217,7 +227,9 @@ import {
       justify-content: center;
       padding: 12px 12px 0;
       box-sizing: border-box;
-      background: #152039a8;
+      background: var(--backdrop);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
     }
 
     /* KHUNG HÓA ĐƠN */
@@ -227,19 +239,20 @@ import {
       max-width: 430px;
       max-height: calc(100dvh - 20px);
       overflow-y: auto;
-      padding: 17px 20px calc(22px + env(safe-area-inset-bottom));
+      padding: 16px 20px calc(22px + env(safe-area-inset-bottom));
       box-sizing: border-box;
-      border-radius: 24px 24px 0 0;
+      border-top: 3px solid var(--signal);
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
       background: var(--paper);
-      box-shadow: 0 -8px 35px #234e3525;
+      box-shadow: var(--shadow-modal);
     }
 
     .receipt-handle {
-      width: 38px;
+      width: 40px;
       height: 4px;
-      margin: 0 auto 18px;
-      border-radius: 4px;
-      background: var(--sand);
+      margin: 0 auto 16px;
+      border-radius: var(--radius-pill);
+      background: var(--line);
     }
 
     /* HEADER */
@@ -249,28 +262,39 @@ import {
     }
 
     .receipt-icon {
-      font-size: 36px;
+      display: inline-grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      background: var(--surface-dark);
+      color: var(--signal);
     }
 
     .receipt-success {
-      display: block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
       margin-top: 10px;
-      color: #159b66;
-      font-size: 10px;
-      font-weight: 900;
-      letter-spacing: 1px;
+      color: var(--status-free);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
     }
 
     .receipt-heading h2 {
-      margin: 8px 0 5px;
+      margin: 8px 0 4px;
       color: var(--ink);
       font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
     }
 
     .receipt-heading p {
       margin: 0;
       color: var(--muted);
-      font-size: 12px;
+      font-size: 13px;
     }
 
     /* THÔNG TIN XE */
@@ -278,27 +302,34 @@ import {
     .receipt-vehicle {
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      margin: 19px 0;
-      padding: 16px;
-      border-radius: 13px;
+      gap: 5px;
+      margin: 18px 0;
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
       background: var(--cream);
       text-align: center;
     }
 
     .receipt-vehicle span {
-      color: var(--forest);
-      font-size: 11px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
     }
 
     .receipt-vehicle strong {
-      color: var(--forest);
-      font-size: 19px;
+      color: var(--ink);
+      font-family: var(--font-mono);
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
     }
 
     .receipt-vehicle small {
       color: var(--forest);
+      font-family: var(--font-mono);
       font-size: 12px;
+      font-weight: 700;
     }
 
     /* CHI TIẾT */
@@ -307,9 +338,9 @@ import {
     .receipt-pricing {
       display: flex;
       flex-direction: column;
-      gap: 14px;
-      padding: 15px 0;
-      border-bottom: 1px solid var(--line);
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px dashed var(--line);
     }
 
     .receipt-details > div,
@@ -323,25 +354,31 @@ import {
     .receipt-details span,
     .receipt-pricing span {
       color: var(--muted);
-      font-size: 12px;
+      font-size: 13px;
     }
 
     .receipt-details strong,
     .receipt-pricing strong {
       color: var(--ink);
-      font-size: 12px;
+      font-size: 13px;
+      font-weight: 750;
+      font-variant-numeric: tabular-nums;
       text-align: right;
+    }
+
+    .receipt-pricing strong {
+      font-family: var(--font-mono);
     }
 
     .receipt-pricing small {
       display: block;
-      margin-top: 4px;
+      margin-top: 3px;
       color: var(--muted);
-      font-size: 10px;
+      font-size: 12px;
     }
 
     .receipt-pricing .penalty {
-      color: #e16a54;
+      color: var(--status-danger);
     }
 
     /* TỔNG TIỀN */
@@ -352,29 +389,36 @@ import {
       justify-content: space-between;
       gap: 10px;
       margin-top: 16px;
-      padding: 17px;
-      border-radius: 13px;
-      background: var(--sand);
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: var(--surface-dark);
     }
 
     .receipt-total span {
-      color: var(--forest);
-      font-size: 12px;
-      font-weight: 800;
+      color: #cfd6d9;
+      font-size: 13px;
+      font-weight: 700;
     }
 
     .receipt-total strong {
-      color: var(--forest);
-      font-size: 20px;
+      color: var(--signal);
+      font-family: var(--font-mono);
+      font-size: 21px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
     }
 
     /* GHI CHÚ */
 
     .receipt-note {
-      margin-top: 15px;
-      color: #3c9571;
-      font-size: 11px;
-      line-height: 1.6;
+      margin-top: 14px;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      background: var(--status-free-bg);
+      color: var(--status-free);
+      font-size: 12px;
+      line-height: 1.5;
       text-align: center;
     }
 
@@ -385,16 +429,20 @@ import {
       min-height: 48px;
       margin-top: 16px;
       border: 0;
-      border-radius: 12px;
-      background: var(--pine);
+      border-radius: var(--radius-sm);
+      background: var(--surface-dark);
       color: var(--paper);
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 800;
       cursor: pointer;
     }
 
+    .receipt-close:hover {
+      background: var(--surface-dark-2);
+    }
+
     .receipt-close:active {
-      transform: scale(0.98);
+      transform: scale(0.985);
     }
 
   `]
@@ -510,6 +558,14 @@ export class ParkingReceiptNotice {
   // =====================================
   // ĐÓNG HÓA ĐƠN
   // =====================================
+
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    const receipt = this.currentReceipt();
+    if (receipt) {
+      this.closeReceipt(receipt);
+    }
+  }
 
   closeReceipt(receipt: ParkingReceipt): void {
 

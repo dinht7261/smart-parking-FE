@@ -1,4 +1,3 @@
-
 /* =====================================
    SMART PARKING - CUSTOMER HOME
 ===================================== */
@@ -14,26 +13,20 @@
   box-sizing: border-box;
 }
 
-/* TRANG CHỦ */
-
 .customer-page {
   min-height: calc(100dvh - 64px);
-  padding: 22px 22px 38px;
+  padding: 20px 18px 36px;
   background: var(--cream);
   color: var(--ink);
 }
 
-/* =====================================
-   HEADER
-===================================== */
-
 .customer-header {
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
 
 .back-link {
-  display: inline-block;
-  margin-bottom: 25px;
+  display: inline-flex;
+  align-items: center;
   color: var(--muted);
   font-size: 13px;
   font-weight: 700;
@@ -45,7 +38,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin: 14px 0 30px;
+  margin: 14px 0 24px;
 }
 
 .greeting-copy {
@@ -55,17 +48,17 @@
 
 .eyebrow {
   color: var(--forest);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 800;
-  letter-spacing: 1px;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 .greeting h1 {
-  margin: 13px 0 0;
-  font-size: 30px;
-  font-weight: 850;
-  line-height: 1.2;
+  margin: 10px 0 0;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.18;
   letter-spacing: -0.04em;
 }
 
@@ -79,23 +72,15 @@
   justify-content: center;
   gap: 6px;
   flex-shrink: 0;
-
-  padding: 11px 12px;
-
+  padding: 9px 12px;
   border: 1px solid var(--line);
-  border-radius: 12px;
-
+  border-radius: var(--radius-sm);
   background: var(--sand);
   color: var(--forest);
-
   font-family: inherit;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 800;
   cursor: pointer;
-}
-
-.change-user-button:active {
-  background: var(--sage);
 }
 
 /* =====================================
@@ -103,12 +88,12 @@
 ===================================== */
 
 .user-chooser {
-  padding: 15px;
-  margin: -12px 0 22px;
+  padding: 16px;
+  margin: 14px 0 20px;
   border: 1px solid var(--line);
-  border-radius: 16px;
+  border-radius: var(--radius-md);
   background: var(--paper);
-  box-shadow: 0 8px 24px #234e350f;
+  box-shadow: var(--shadow-sm);
 }
 
 .user-chooser-heading {
@@ -116,16 +101,17 @@
   justify-content: space-between;
   align-items: center;
   gap: 10px;
-  margin-bottom: 13px;
+  margin-bottom: 12px;
 
   strong {
-    font-size: 13px;
+    font-size: 14px;
     color: var(--ink);
   }
 
   span {
     color: var(--muted);
-    font-size: 10px;
+    font-size: 12px;
+    font-weight: 600;
   }
 }
 
@@ -135,39 +121,48 @@
   gap: 10px;
 }
 
+@media (min-width: 700px) {
+  .user-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
 .user-option {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 7px;
-
-  min-height: 106px;
+  gap: 6px;
+  min-height: 104px;
   padding: 12px;
-
   border: 1px solid var(--line);
-  border-radius: 13px;
-
+  border-radius: var(--radius-sm);
   background: var(--cream);
-  color: var(--muted);
+  color: var(--ink);
   font-family: inherit;
   cursor: pointer;
 
+  &:hover {
+    border-color: var(--leaf);
+    background: var(--paper);
+  }
+
   strong {
-    font-size: 12px;
+    font-size: 13px;
+    font-weight: 700;
   }
 
   small {
     color: var(--muted);
-    font-size: 10px;
+    font-size: 12px;
   }
 
   &.selected {
-    border-color: var(--leaf);
-    background: var(--cream);
+    border-color: var(--signal);
+    background: var(--signal-soft);
 
     small {
-      color: var(--forest);
+      color: var(--signal-ink);
       font-weight: 800;
     }
   }
@@ -176,18 +171,18 @@
 .user-letter {
   display: grid;
   place-items: center;
-  width: 39px;
-  height: 39px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   background: var(--sage);
   color: var(--forest);
-  font-size: 17px;
-  font-weight: 900;
+  font-size: 16px;
+  font-weight: 800;
 }
 
 .user-option.selected .user-letter {
-  background: var(--pine);
-  color: var(--paper);
+  background: var(--signal);
+  color: var(--surface-dark);
 }
 
 /* =====================================
@@ -197,17 +192,11 @@
 .lot-card {
   width: 100%;
   overflow: hidden;
-
   background: var(--paper);
   border: 1px solid var(--line);
-  border-radius: 22px;
-
-  box-shadow: 0 8px 24px #234e350f;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
 }
-
-/* =====================================
-   THỐNG KÊ CHỖ TRỐNG
-===================================== */
 
 .parking-merged-info {
   padding: 20px;
@@ -217,22 +206,19 @@
 .merged-top {
   display: flex;
   align-items: center;
-  gap: 13px;
+  gap: 14px;
 }
 
 .parking-icon {
   display: grid;
   place-items: center;
-
-  width: 56px;
-  height: 56px;
+  width: 54px;
+  height: 54px;
   flex-shrink: 0;
-
-  border-radius: 15px;
-  background: var(--sand);
-  color: var(--forest);
-
-  font-size: 29px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-dark);
+  color: var(--signal);
+  font-size: 28px;
   font-weight: 900;
 }
 
@@ -243,9 +229,9 @@
 
 .availability-label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 4px;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .availability-count {
@@ -254,9 +240,10 @@
   gap: 7px;
 
   strong {
-    color: #18a765;
+    color: var(--ink);
     font-size: 30px;
-    font-weight: 850;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
   }
 
   span {
@@ -267,126 +254,75 @@
 
 .availability-percent {
   flex-shrink: 0;
-  padding: 9px 11px;
-  border-radius: 22px;
-
-  background: #e9f8ef;
-  color: #0e9c59;
-
-  font-size: 12px;
+  padding: 8px 12px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--status-free-border);
+  background: var(--status-free-bg);
+  color: var(--status-free);
+  font-size: 13px;
   font-weight: 800;
+  font-variant-numeric: tabular-nums;
 }
-
-/* THANH TIẾN ĐỘ */
 
 .parking-progress {
   height: 7px;
   margin-top: 18px;
-
-  border-radius: 20px;
+  border-radius: var(--radius-pill);
   background: var(--sand);
   overflow: hidden;
 }
 
 .parking-progress-fill {
   height: 100%;
-  border-radius: 20px;
-  background: #20b86d;
-  transition: width .25s ease;
+  border-radius: var(--radius-pill);
+  background: var(--status-free-dot);
+  transition: width 0.25s ease;
 }
-
-/* =====================================
-   NÚT XEM SƠ ĐỒ ĐỖ XE
-===================================== */
 
 .parking-map-link {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 9px;
-
-  margin-top: 17px;
-  padding: 13px 12px;
-
+  gap: 8px;
+  min-height: 48px;
+  padding: 12px;
   border: 1px solid var(--line);
-  border-radius: 12px;
-
+  border-radius: var(--radius-sm);
   background: var(--cream);
-  color: var(--forest);
-
-  font-size: 12px;
-  font-weight: 800;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 750;
   text-decoration: none;
-}
+  cursor: pointer;
 
-.parking-map-link:active {
-  background: var(--sand);
-}
+  &:active:not(:disabled) {
+    transform: scale(0.985);
+  }
 
-.parking-map-link:focus-visible {
-  outline: 3px solid var(--focus);
-  outline-offset: 3px;
+  &:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 3px;
+  }
 }
 
 .map-icon {
-  font-size: 18px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
 }
 
 .map-arrow {
-  font-size: 22px;
-  line-height: 1;
+  display: grid;
+  place-items: center;
+  margin-left: auto;
+  flex-shrink: 0;
 }
-
-/* =====================================
-   RESPONSIVE MOBILE
-===================================== */
-
-@media (max-width: 360px) {
-
-  .customer-page {
-    padding: 18px 14px 30px;
-  }
-
-  .greeting h1 {
-    font-size: 26px;
-  }
-
-  .change-user-button {
-    padding: 9px 8px;
-    font-size: 10px;
-  }
-
-  .parking-merged-info {
-    padding: 16px 13px;
-  }
-
-  .merged-top {
-    gap: 9px;
-  }
-
-  .parking-icon {
-    width: 48px;
-    height: 48px;
-    font-size: 25px;
-  }
-
-  .availability-count strong {
-    font-size: 25px;
-  }
-
-  .availability-percent {
-    padding: 7px 8px;
-    font-size: 11px;
-  }
-}
-
 
 .user-vehicle {
   display: inline-flex;
   align-items: center;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 8px;
 }
 
 .vehicle-label {
@@ -398,31 +334,44 @@
   display: inline-block;
   padding: 5px 10px;
   border: 1.5px solid var(--line);
-  border-radius: 6px;
+  border-radius: var(--radius-xs);
   background: var(--paper);
   color: var(--ink);
+  font-family: var(--font-mono);
   font-size: 13px;
   font-weight: 800;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.05em;
 }
 
 .parking-actions {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
-  margin-top: 17px;
+  margin-top: 18px;
 }
 
-.parking-actions .parking-map-link {
-  min-width: 0;
-  margin-top: 0;
-  padding: 13px 8px;
-  gap: 6px;
+@media (max-width: 520px) {
+  .parking-actions {
+    grid-template-columns: 1fr;
+  }
 }
 
+.parking-actions .checkin-trigger {
+  background: var(--signal);
+  color: var(--surface-dark);
+  border-color: transparent;
+  width: 100%;
+  font-family: inherit;
+  text-align: left;
+}
+
+.parking-actions .checkin-trigger:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
 
 /* =====================================
-   SMART PARKING - CHECK-IN MODAL
+   MODAL QUÉT QR & VỊ TRÍ ĐỖ XE
 ===================================== */
 
 .checkin-modal-backdrop,
@@ -430,167 +379,141 @@
   position: fixed;
   inset: 0;
   z-index: 1000;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   padding: 18px;
-
-  background: rgba(28, 65, 45, 0.66);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: var(--backdrop);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
-
-/* =====================================
-   MODAL QUÉT QR
-===================================== */
 
 .checkin-modal {
   width: 100%;
   max-width: 460px;
   max-height: calc(100dvh - 36px);
-
   overflow-y: auto;
-
-  padding: 23px;
-
+  padding: 22px;
   border: 1px solid var(--line);
-  border-radius: 25px;
-
+  border-radius: var(--radius-lg);
   background: var(--paper);
-
-  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.25);
-
-  animation: modal-enter 0.25s ease;
+  box-shadow: var(--shadow-modal);
+  animation: modal-enter 0.22s ease;
 }
 
 .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 15px;
-
-  margin-bottom: 20px;
+  gap: 14px;
+  margin-bottom: 18px;
 
   h2 {
-    margin: 8px 0;
+    margin: 6px 0;
     color: var(--ink);
-    font-size: 23px;
-    font-weight: 850;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
   }
 
   p {
     margin: 0;
     color: var(--muted);
-    font-size: 12px;
-    line-height: 1.6;
+    font-size: 13px;
+    line-height: 1.5;
   }
 }
 
 .modal-eyebrow {
-  color: var(--forest);
-  font-size: 10px;
-  font-weight: 850;
-  letter-spacing: 1.2px;
+  color: var(--focus);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
 }
 
 .modal-close-button {
   display: grid;
   place-items: center;
-
   flex-shrink: 0;
-
-  width: 36px;
-  height: 36px;
-
-  border: none;
-  border-radius: 50%;
-
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
   background: var(--cream);
   color: var(--muted);
-
-  font-size: 17px;
   cursor: pointer;
-}
 
-.modal-close-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
+  &:hover:not(:disabled) {
+    background: var(--sand);
+    color: var(--ink);
+  }
 
-/* USER ĐANG CHECK-IN */
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
 
 .scanner-user {
   display: flex;
   align-items: center;
-  gap: 11px;
-
-  padding: 12px;
-
-  margin-bottom: 17px;
-
+  gap: 12px;
+  padding: 12px 14px;
+  margin-bottom: 16px;
   border: 1px solid var(--line);
-  border-radius: 14px;
-
+  border-radius: var(--radius-md);
   background: var(--cream);
 }
 
 .scanner-user-avatar {
   display: grid;
   place-items: center;
-
   width: 42px;
   height: 42px;
-
   flex-shrink: 0;
-
-  border-radius: 12px;
-
-  background: var(--sand);
-  color: var(--forest);
-
-  font-size: 18px;
-  font-weight: 900;
+  border-radius: var(--radius-sm);
+  background: var(--surface-dark);
+  color: var(--signal);
+  font-size: 17px;
+  font-weight: 800;
 }
 
 .scanner-user-info {
   display: flex;
   flex-direction: column;
-  gap: 5px;
-
+  gap: 3px;
   flex: 1;
 
   strong {
     color: var(--ink);
-    font-size: 13px;
+    font-size: 14px;
   }
 
   span {
     color: var(--muted);
+    font-family: var(--font-mono);
     font-size: 12px;
+    font-weight: 700;
   }
 }
 
 .scanner-user-status {
-  color: #16a36a;
-  font-size: 10px;
-  font-weight: 800;
+  padding: 4px 9px;
+  border-radius: var(--radius-pill);
+  background: var(--status-free-bg);
+  color: var(--status-free);
+  font-size: 12px;
+  font-weight: 700;
 }
-
-/* CAMERA */
 
 .modal-video-wrapper {
   position: relative;
-
   width: 100%;
   aspect-ratio: 4 / 3;
-
   overflow: hidden;
-
-  border-radius: 17px;
-
-  background: var(--ink);
+  border-radius: var(--radius-md);
+  border: 1px solid #2b3237;
+  background: var(--surface-dark);
 
   video {
     width: 100%;
@@ -607,79 +530,90 @@
 .modal-video-placeholder {
   position: absolute;
   inset: 0;
-
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  gap: 11px;
-
+  gap: 10px;
   padding: 20px;
-
   color: var(--paper);
   text-align: center;
 
   .camera-icon {
-    color: var(--leaf);
-    font-size: 42px;
+    color: var(--signal);
   }
 
   strong {
-    font-size: 13px;
+    font-size: 14px;
   }
 
   span {
     color: var(--leaf);
-    font-size: 11px;
+    font-size: 12px;
   }
 }
 
 .modal-scan-overlay {
   position: absolute;
   inset: 0;
-
   display: flex;
   align-items: center;
   justify-content: center;
 
   .modal-scan-frame {
-    width: 65%;
+    position: relative;
+    width: 66%;
     aspect-ratio: 1;
+    border-radius: var(--radius-md);
+    box-shadow: 0 0 0 999px rgba(15, 20, 24, 0.55);
+    background:
+      linear-gradient(var(--signal), var(--signal)) left top / 22px 3px no-repeat,
+      linear-gradient(var(--signal), var(--signal)) left top / 3px 22px no-repeat,
+      linear-gradient(var(--signal), var(--signal)) right top / 22px 3px no-repeat,
+      linear-gradient(var(--signal), var(--signal)) right top / 3px 22px no-repeat,
+      linear-gradient(var(--signal), var(--signal)) left bottom / 22px 3px no-repeat,
+      linear-gradient(var(--signal), var(--signal)) left bottom / 3px 22px no-repeat,
+      linear-gradient(var(--signal), var(--signal)) right bottom / 22px 3px no-repeat,
+      linear-gradient(var(--signal), var(--signal)) right bottom / 3px 22px no-repeat;
+  }
 
-    border: 3px solid var(--leaf);
-    border-radius: 18px;
-
-    box-shadow: 0 0 0 999px rgba(0, 0, 0, 0.25);
+  .scan-beam {
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--signal), transparent);
+    box-shadow: 0 0 8px var(--signal);
+    animation: scan-beam 2s ease-in-out infinite;
   }
 
   p {
     position: absolute;
-    bottom: 13px;
-
+    bottom: 12px;
+    margin: 0;
+    padding: 4px 12px;
+    border-radius: var(--radius-pill);
+    background: rgba(20, 23, 25, 0.8);
     color: var(--paper);
     font-size: 12px;
-    font-weight: 800;
+    font-weight: 700;
   }
 }
-
-/* TRẠNG THÁI CHECK-IN */
 
 .modal-error {
   margin-top: 14px;
   padding: 13px;
-
-  border-radius: 12px;
-
-  background: #fff1f2;
-  color: #be123c;
+  border: 1px solid var(--status-danger-border);
+  border-radius: var(--radius-sm);
+  background: var(--status-danger-bg);
+  color: var(--status-danger);
 
   strong {
     font-size: 13px;
   }
 
   p {
-    margin: 6px 0 0;
+    margin: 5px 0 0;
     font-size: 12px;
     line-height: 1.5;
   }
@@ -690,48 +624,38 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-
-  margin-top: 15px;
+  margin-top: 14px;
   padding: 13px;
-
-  border-radius: 12px;
-
+  border-radius: var(--radius-sm);
   background: var(--cream);
   color: var(--forest);
-
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   text-align: center;
 }
 
 .processing-spinner {
-  width: 17px;
-  height: 17px;
-
+  width: 18px;
+  height: 18px;
   flex-shrink: 0;
-
   border: 2px solid var(--line);
-  border-top-color: var(--pine);
-
+  border-top-color: var(--signal);
   border-radius: 50%;
-
   animation: parking-spin 0.8s linear infinite;
 }
 
 .modal-scanner-actions {
-  margin-top: 17px;
+  margin-top: 16px;
 
   button {
     width: 100%;
-    padding: 14px;
-
+    min-height: 48px;
+    padding: 13px 16px;
     border: none;
-    border-radius: 13px;
-
+    border-radius: var(--radius-sm);
     font-family: inherit;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 800;
-
     cursor: pointer;
   }
 
@@ -742,18 +666,22 @@
 }
 
 .modal-start-button {
-  background: var(--forest);
-  color: var(--paper);
+  background: var(--signal);
+  color: var(--surface-dark);
+
+  &:hover:not(:disabled) {
+    background: var(--signal-hover);
+  }
 }
 
 .modal-stop-button {
-  background: #fee2e2;
-  color: #dc2626;
+  background: var(--status-danger-bg);
+  color: var(--status-danger);
+  border: 1px solid var(--status-danger-border);
 }
 
-
 /* =====================================
-   FULL SCREEN VỊ TRÍ ĐỖ XE
+   THÔNG BÁO VỊ TRÍ ĐỖ XE
 ===================================== */
 
 .spot-notice-backdrop {
@@ -763,101 +691,69 @@
 .spot-notice-card {
   width: 100%;
   max-width: 430px;
-
   max-height: calc(100dvh - 36px);
   overflow-y: auto;
-
-  padding: 28px 23px 22px;
-
+  padding: 26px 22px 22px;
   border: 1px solid var(--line);
-  border-radius: 27px;
-
+  border-radius: var(--radius-lg);
   background: var(--paper);
-
-  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.3);
-
+  box-shadow: var(--shadow-modal);
   text-align: center;
-
-  animation: spot-card-enter 0.3s ease;
+  animation: spot-card-enter 0.28s ease;
 }
-
-/* ICON CHECK-IN */
 
 .spot-success-icon {
   display: grid;
   place-items: center;
-
-  width: 62px;
-  height: 62px;
-
-  margin: 0 auto 13px;
-
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 12px;
   border-radius: 50%;
-
-  background: #dcfce7;
-  color: #16a34a;
-
-  font-size: 32px;
-  font-weight: 900;
-
-  box-shadow: 0 0 0 8px #f0fdf4;
+  background: var(--status-free-bg);
+  color: var(--status-free);
+  border: 1px solid var(--status-free-border);
 }
 
 .spot-success-label {
   display: inline-block;
-
-  margin-top: 5px;
-
-  color: #16a36a;
-
-  font-size: 10px;
-  font-weight: 900;
-  letter-spacing: 1.3px;
+  margin-top: 4px;
+  color: var(--status-free);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
 }
 
 .spot-notice-card h2 {
-  margin: 12px 0 8px;
-
+  margin: 10px 0 8px;
   color: var(--ink);
-
   font-size: 23px;
-  font-weight: 900;
-  letter-spacing: -0.5px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
 }
 
 .spot-notice-description {
-  margin: 0 auto 20px;
-
-  max-width: 310px;
-
+  margin: 0 auto 18px;
+  max-width: 320px;
   color: var(--muted);
-
-  font-size: 12px;
-  line-height: 1.7;
+  font-size: 13px;
+  line-height: 1.6;
 }
 
-/* THẺ VỊ TRÍ */
-
 .assigned-spot {
-  padding: 18px;
-
+  padding: 16px;
   border: 1px solid var(--line);
-  border-radius: 19px;
-
+  border-radius: var(--radius-md);
   background: var(--cream);
-
   text-align: left;
 }
 
 .assigned-spot-label {
   display: block;
-  margin-bottom: 14px;
-
-  color: var(--forest);
-
-  font-size: 10px;
-  font-weight: 900;
-  letter-spacing: 1.2px;
+  margin-bottom: 12px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
 }
 
 .assigned-spot-location {
@@ -869,56 +765,46 @@
 .location-icon {
   display: grid;
   place-items: center;
-
-  width: 58px;
-  height: 58px;
-
+  width: 56px;
+  height: 56px;
   flex-shrink: 0;
-
-  border-radius: 16px;
-
-  background: var(--forest);
-  color: var(--paper);
-
-  font-size: 34px;
-  font-weight: 900;
+  border-radius: var(--radius-md);
+  background: var(--surface-dark);
+  color: var(--signal);
 }
 
 .location-info {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
 
   strong {
-    color: var(--forest);
-    font-size: 27px;
-    font-weight: 950;
-    letter-spacing: -0.5px;
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
   }
 
   span {
-    color: var(--forest);
-    font-size: 11px;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 600;
   }
 }
 
 .assigned-spot-divider {
   height: 1px;
-  margin: 17px 0;
-
-  background: var(--sage);
+  margin: 15px 0;
+  background: var(--line);
 }
-
-/* THÔNG TIN XE */
 
 .assigned-vehicle {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 12px;
-
-  padding: 9px 0;
-
+  padding: 8px 0;
   border-bottom: 1px solid var(--line);
 
   &:last-child {
@@ -928,127 +814,77 @@
 
   span {
     color: var(--muted);
-    font-size: 11px;
+    font-size: 13px;
   }
 
   strong {
     color: var(--ink);
-    font-size: 11px;
-    font-weight: 800;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700;
     text-align: right;
     overflow-wrap: anywhere;
   }
 }
 
-/* HƯỚNG DẪN */
-
 .spot-instruction {
   display: flex;
   align-items: center;
-  gap: 11px;
-
+  gap: 12px;
   margin-top: 16px;
-  padding: 13px;
-
-  border-radius: 13px;
-
-  background: #f0fdf4;
-
+  padding: 13px 14px;
+  border: 1px solid var(--status-free-border);
+  border-radius: var(--radius-sm);
+  background: var(--status-free-bg);
   text-align: left;
 
   .instruction-icon {
+    display: grid;
+    place-items: center;
     flex-shrink: 0;
-    font-size: 23px;
+    color: var(--status-free);
   }
 
   p {
     margin: 0;
-
-    color: #537563;
-
-    font-size: 11px;
-    line-height: 1.6;
+    color: var(--ink);
+    font-size: 13px;
+    line-height: 1.5;
   }
 
   strong {
-    color: #15803d;
+    color: var(--status-free);
   }
 }
 
-/* NÚT XÁC NHẬN */
-
 .spot-confirm-button {
   width: 100%;
-
-  margin-top: 19px;
-  padding: 16px 12px;
-
+  min-height: 48px;
+  margin-top: 18px;
+  padding: 14px 12px;
   border: none;
-  border-radius: 14px;
-
-  background: linear-gradient(
-    135deg,
-    #16a36a,
-    #0e9560
-  );
-
+  border-radius: var(--radius-sm);
+  background: var(--surface-dark);
   color: var(--paper);
-
   font-family: inherit;
-  font-size: 12px;
-  font-weight: 900;
-
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
   cursor: pointer;
 
-  box-shadow: 0 7px 18px rgba(22, 163, 106, 0.2);
-
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-
-  &:active {
-    transform: scale(0.98);
+  &:hover {
+    background: var(--surface-dark-2);
   }
 }
 
 .spot-footer {
   display: block;
-
-  margin-top: 17px;
-
+  margin-top: 14px;
   color: var(--muted);
-
-  font-size: 9px;
-  font-weight: 800;
-  letter-spacing: 1px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
 }
-
-
-/* =====================================
-   BUTTON RESET
-===================================== */
-
-.parking-actions .checkin-trigger {
-  background: var(--signal);
-  color: #1b1e20;
-  border-color: transparent;
-  width: 100%;
-
-  font-family: inherit;
-  text-align: left;
-
-  cursor: pointer;
-}
-
-.parking-actions .checkin-trigger:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
-}
-
-
-/* =====================================
-   ANIMATION
-===================================== */
 
 @keyframes parking-spin {
   to {
@@ -1056,10 +892,19 @@
   }
 }
 
+@keyframes scan-beam {
+  0%, 100% {
+    top: 12%;
+  }
+  50% {
+    top: 86%;
+  }
+}
+
 @keyframes modal-enter {
   from {
     opacity: 0;
-    transform: translateY(12px) scale(0.98);
+    transform: translateY(10px) scale(0.98);
   }
 
   to {
@@ -1071,7 +916,7 @@
 @keyframes spot-card-enter {
   from {
     opacity: 0;
-    transform: translateY(22px) scale(0.96);
+    transform: translateY(18px) scale(0.97);
   }
 
   to {
@@ -1080,38 +925,21 @@
   }
 }
 
-
-/* =====================================
-   RESPONSIVE
-===================================== */
-
 @media (max-width: 380px) {
-
   .checkin-modal {
-    padding: 17px;
-    border-radius: 20px;
+    padding: 18px;
   }
 
   .spot-notice-card {
-    padding: 23px 17px 18px;
-    border-radius: 22px;
-  }
-
-  .spot-notice-card h2 {
-    font-size: 21px;
+    padding: 22px 16px 18px;
   }
 
   .location-icon {
-    width: 51px;
-    height: 51px;
+    width: 50px;
+    height: 50px;
   }
 
   .location-info strong {
-    font-size: 24px;
+    font-size: 23px;
   }
-
-  .spot-confirm-button {
-    font-size: 11px;
-  }
-
 }

@@ -1,4 +1,3 @@
-
 import {
   Component,
   EventEmitter,
@@ -10,9 +9,12 @@ import {
   overnightDatesInRange
 } from '../../services/overnight-window.util';
 
+import { AppIcon } from '../app-icon/app-icon';
+
 @Component({
   selector: 'app-booking-overnight-section',
   standalone: true,
+  imports: [AppIcon],
 
   template: `
 
@@ -21,7 +23,8 @@ import {
       <section class="night-request">
 
         <div class="night-title">
-          🌙 Yêu cầu gửi xe qua đêm
+          <app-icon name="moon" [size]="16" />
+          <span>Yêu cầu gửi xe qua đêm</span>
         </div>
 
         <p>
@@ -53,13 +56,19 @@ import {
           rows="3"
           maxlength="500"
           [value]="reason"
+          [attr.aria-invalid]="!reason.trim()"
+          [attr.aria-describedby]="!reason.trim() ? 'bookingOvernightReasonError' : null"
           (input)="updateReason($event)"
           placeholder="Nhập lý do gửi xe qua đêm..."
         ></textarea>
 
         @if (!reason.trim()) {
 
-          <div class="validation">
+          <div
+            id="bookingOvernightReasonError"
+            class="validation"
+            role="alert"
+          >
             Vui lòng nhập lý do gửi xe qua đêm.
           </div>
 
@@ -82,44 +91,48 @@ import {
       box-sizing: border-box;
       padding: 16px;
       margin: 18px 0;
-      border: 1px solid #f1d49e;
-      border-radius: 15px;
-      background: #fff8eb;
+      border: 1px solid var(--status-maint-border);
+      border-radius: var(--radius-md);
+      background: var(--status-maint-bg);
       color: var(--ink);
     }
 
     .night-title {
-      color: #b87910;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--status-maint);
       font-size: 15px;
       font-weight: 800;
     }
 
     .night-request p {
       margin: 10px 0;
-      font-size: 12px;
-      line-height: 1.6;
+      font-size: 13px;
+      line-height: 1.55;
     }
 
     .night-list {
       display: flex;
       flex-wrap: wrap;
-      gap: 7px;
+      gap: 8px;
       margin: 12px 0 16px;
     }
 
     .night-chip {
-      padding: 7px 9px;
-      border-radius: 9px;
-      background: #ffedce;
-      color: #9a6812;
-      font-size: 11px;
-      font-weight: 700;
+      padding: 6px 10px;
+      border: 1px solid var(--status-maint-border);
+      border-radius: var(--radius-sm);
+      background: var(--paper);
+      color: var(--status-maint);
+      font-size: 12px;
+      font-weight: 750;
     }
 
     label {
       display: block;
       margin-bottom: 8px;
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 700;
     }
 
@@ -127,23 +140,31 @@ import {
       width: 100%;
       box-sizing: border-box;
       padding: 12px;
-      border: 1px solid #e8d4b0;
-      border-radius: 11px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
       background: var(--paper);
       color: var(--ink);
       font: inherit;
-      font-size: 13px;
+      font-size: 14px;
       resize: vertical;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: var(--focus);
+      box-shadow: 0 0 0 3px rgba(168, 64, 9, 0.14);
     }
 
     .validation {
       margin-top: 8px;
-      color: #cf4545;
-      font-size: 11px;
+      color: var(--status-danger);
+      font-size: 12px;
+      font-weight: 600;
     }
 
     .night-footer {
-      color: #936a26;
+      color: var(--muted);
+      font-size: 12px;
     }
 
   `]

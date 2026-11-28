@@ -1,4 +1,3 @@
-
 <!-- SIDEBAR -->
 <app-sidebar
   role="customer"
@@ -50,13 +49,20 @@
           [attr.aria-expanded]="showUserChooser()"
           (click)="toggleUserChooser()"
         >
-          <span>⇄</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="17 1 21 5 17 9" />
+            <path d="M3 11V9a4 4 0 0 1 4-4h14" />
+            <polyline points="7 23 3 19 7 15" />
+            <path d="M21 13v2a4 4 0 0 1-4 4H3" />
+          </svg>
 
           <span>
             User {{ demoUsers.selectedUserId() }}
           </span>
 
-          <span>⌄</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
         </button>
 
       </div>
@@ -150,7 +156,7 @@
               @if (parkingLoading()) {
                 Đang cập nhật...
               } @else if (parkingError()) {
-                Không có dữ liệu
+                <span role="alert">Không có dữ liệu</span>
               } @else {
                 / {{ totalSpaces() }} chỗ
               }
@@ -202,13 +208,28 @@
           (click)="openCheckInScanner()"
         >
 
-          <span class="map-icon">▣</span>
+          <span class="map-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 7V5a2 2 0 0 1 2-2h2" />
+              <path d="M17 3h2a2 2 0 0 1 2 2v2" />
+              <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
+              <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
+              <rect x="7" y="7" width="4" height="4" />
+              <rect x="13" y="7" width="4" height="4" />
+              <rect x="7" y="13" width="4" height="4" />
+              <path d="M13 13h4v4h-4" />
+            </svg>
+          </span>
 
           <span>
             Quét QR tại cổng IN
           </span>
 
-          <span class="map-arrow">›</span>
+          <span class="map-arrow" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </span>
 
         </button>
 
@@ -219,13 +240,24 @@
           [routerLink]="parkingMapRoute"
         >
 
-          <span class="map-icon">▦</span>
+          <span class="map-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7" rx="1" />
+              <rect x="14" y="3" width="7" height="7" rx="1" />
+              <rect x="3" y="14" width="7" height="7" rx="1" />
+              <rect x="14" y="14" width="7" height="7" rx="1" />
+            </svg>
+          </span>
 
           <span>
             Xem sơ đồ đỗ xe theo tầng
           </span>
 
-          <span class="map-arrow">›</span>
+          <span class="map-arrow" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </span>
 
         </a>
 
@@ -278,7 +310,10 @@
           (click)="closeCheckInScanner()"
           aria-label="Đóng camera"
         >
-          ✕
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
         </button>
 
       </header>
@@ -327,8 +362,11 @@
 
           <div class="modal-video-placeholder">
 
-            <div class="camera-icon">
-              ▣
+            <div class="camera-icon" aria-hidden="true">
+              <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                <circle cx="12" cy="13" r="4" />
+              </svg>
             </div>
 
             <strong>
@@ -347,7 +385,9 @@
 
           <div class="modal-scan-overlay">
 
-            <div class="modal-scan-frame"></div>
+            <div class="modal-scan-frame">
+              <span class="scan-beam" aria-hidden="true"></span>
+            </div>
 
             <p>
               Đang tìm mã QR...
@@ -363,7 +403,7 @@
 
       @if (checkInError()) {
 
-        <div class="modal-error">
+        <div class="modal-error" role="alert">
 
           <strong>
             Không thể Check-in
@@ -449,8 +489,10 @@
 
       <!-- ICON THÀNH CÔNG -->
 
-      <div class="spot-success-icon">
-        ✓
+      <div class="spot-success-icon" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12" />
+        </svg>
       </div>
 
       <span class="spot-success-label">
@@ -476,8 +518,11 @@
 
         <div class="assigned-spot-location">
 
-          <div class="location-icon">
-            <span>⌖</span>
+          <div class="location-icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
           </div>
 
           <div class="location-info">
@@ -533,8 +578,12 @@
 
       <div class="spot-instruction">
 
-        <span class="instruction-icon">
-          🚗
+        <span class="instruction-icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2" />
+            <circle cx="6.5" cy="16.5" r="2.5" />
+            <circle cx="16.5" cy="16.5" r="2.5" />
+          </svg>
         </span>
 
         <p>
@@ -553,9 +602,7 @@
         class="spot-confirm-button"
         (click)="closeSpotNotice()"
       >
-
-        ✓ ĐÃ HIỂU – BẮT ĐẦU DI CHUYỂN
-
+        ĐÃ HIỂU – BẮT ĐẦU DI CHUYỂN
       </button>
 
       <span class="spot-footer">

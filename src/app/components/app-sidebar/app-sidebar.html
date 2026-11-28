@@ -15,9 +15,11 @@
     (click)="openMenu()"
   >
 
-    <span aria-hidden="true">
-      ☰
-    </span>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="4" y1="12" x2="20" y2="12" />
+      <line x1="4" y1="18" x2="20" y2="18" />
+    </svg>
 
   </button>
 
@@ -111,7 +113,10 @@
         aria-label="Đóng menu"
         (click)="closeMenu()"
       >
-        ✕
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
       </button>
 
     </div>
@@ -126,14 +131,21 @@
       Tìm chức năng
     </label>
 
-    <input
-      id="sidebar-search"
-      type="search"
-      class="drawer-search"
-      placeholder="⌕ Tìm chức năng..."
-      [value]="query()"
-      (input)="query.set($any($event.target).value)"
-    />
+    <div class="drawer-search-wrap">
+      <svg class="drawer-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="8" />
+        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+      </svg>
+
+      <input
+        id="sidebar-search"
+        type="search"
+        class="drawer-search"
+        placeholder="Tìm chức năng..."
+        [value]="query()"
+        (input)="query.set($any($event.target).value)"
+      />
+    </div>
 
 
     <!-- DANH SÁCH ĐIỀU HƯỚNG -->
@@ -157,11 +169,14 @@
           class="link-icon"
           aria-hidden="true"
         >
-          🏠
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 10.5L12 3l9 7.5" />
+            <path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5" />
+          </svg>
         </span>
 
-        <span>
-          Trang chủ
+        <span class="link-copy">
+          <span>Trang chủ</span>
         </span>
 
       </a>
@@ -176,9 +191,13 @@
 
         <section class="drawer-section">
 
-          <h2>
-            {{ section.title }}
-          </h2>
+          @if (!section.title.startsWith('___')) {
+            <h2>
+              {{ section.title }}
+            </h2>
+          } @else {
+            <hr class="drawer-divider" aria-hidden="true" />
+          }
 
 
           <!-- TỪNG CHỨC NĂNG -->
@@ -199,7 +218,66 @@
                 class="link-icon"
                 aria-hidden="true"
               >
-                {{ item.icon }}
+                @switch (item.path) {
+                  @case ('/customer/overnight') {
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                    </svg>
+                  }
+                  @case ('/customer/requests') {
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="8" y="2" width="8" height="4" rx="1" />
+                      <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+                      <line x1="9" y1="12" x2="15" y2="12" />
+                      <line x1="9" y1="16" x2="13" y2="16" />
+                    </svg>
+                  }
+                  @case ('/customer/receipts') {
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="2" y="5" width="20" height="14" rx="2" />
+                      <line x1="2" y1="10" x2="22" y2="10" />
+                    </svg>
+                  }
+                  @case ('/operator/barrier') {
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="3" y="10" width="4" height="10" rx="1" />
+                      <line x1="7" y1="12" x2="21" y2="7" />
+                      <line x1="2" y1="20" x2="22" y2="20" />
+                    </svg>
+                  }
+                  @case ('/operator/requests') {
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="8" y="2" width="8" height="4" rx="1" />
+                      <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+                      <path d="M9 14l2 2 4-4" />
+                    </svg>
+                  }
+                  @case ('/operator/violations') {
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                      <line x1="12" y1="9" x2="12" y2="13" />
+                      <line x1="12" y1="17" x2="12.01" y2="17" />
+                    </svg>
+                  }
+                  @case ('/operator/fees') {
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="2" y="5" width="20" height="14" rx="2" />
+                      <line x1="2" y1="10" x2="22" y2="10" />
+                      <circle cx="16.5" cy="14.5" r="1.25" />
+                    </svg>
+                  }
+                  @case ('/operator/receipts') {
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M4 3v18l3-2 3 2 2-2 2 2 3-2 3 2V3z" />
+                      <line x1="8" y1="8" x2="16" y2="8" />
+                      <line x1="8" y1="12" x2="16" y2="12" />
+                      <line x1="8" y1="16" x2="12" y2="16" />
+                    </svg>
+                  }
+                  @default {
+                    {{ item.icon }}
+                  }
+                }
               </span>
 
 
@@ -224,7 +302,9 @@
                 class="link-arrow"
                 aria-hidden="true"
               >
-                ›
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
               </span>
 
             </a>

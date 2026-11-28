@@ -20,6 +20,8 @@ import {
 import {
   BarrierService
 } from '../../services/barrier.service';
+
+import { AppIcon } from '../../components/app-icon/app-icon';
 // =====================================
 // BỘ LỌC THANH TOÁN
 // =====================================
@@ -38,7 +40,7 @@ type PaymentFilter =
 @Component({
   selector: 'app-operator-fees',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, AppIcon],
   templateUrl: './operator-fees.html',
   styleUrl: './operator-fees.scss'
 })

@@ -1,4 +1,3 @@
-
 import {
   Component,
   Input,
@@ -14,10 +13,12 @@ import {
   type OvernightStatus
 } from '../../services/overnight-request.service';
 
+import { AppIcon } from '../app-icon/app-icon';
+
 @Component({
   selector: 'app-booking-overnight-status',
-
   standalone: true,
+  imports: [AppIcon],
 
   template: `
 
@@ -26,7 +27,8 @@ import {
       <section class="overnight-status-box">
 
         <h3>
-          🌙 Yêu cầu gửi xe qua đêm
+          <app-icon name="moon" [size]="15" />
+          <span>Yêu cầu gửi xe qua đêm</span>
         </h3>
 
         @for (request of requests; track request.id) {
@@ -86,15 +88,18 @@ import {
       padding: 14px;
       margin-top: 14px;
       border: 1px solid var(--line);
-      border-radius: 13px;
+      border-radius: var(--radius-md);
       background: var(--cream);
     }
 
     h3 {
-      margin: 0 0 13px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin: 0 0 12px;
       color: var(--forest);
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 800;
     }
 
     .night-record {
@@ -108,41 +113,46 @@ import {
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      font-size: 12px;
+      font-size: 13px;
     }
 
     .night-status {
-      padding: 6px 9px;
-      border-radius: 20px;
-      font-size: 10px;
-      font-weight: 700;
+      padding: 5px 10px;
+      border: 1px solid transparent;
+      border-radius: var(--radius-pill);
+      font-size: 12px;
+      font-weight: 750;
     }
 
     .pending {
-      background: #fff2da;
-      color: #d59a22;
+      background: var(--status-maint-bg);
+      border-color: var(--status-maint-border);
+      color: var(--status-maint);
     }
 
     .approved {
-      background: #dff5e7;
-      color: #219e59;
+      background: var(--status-free-bg);
+      border-color: var(--status-free-border);
+      color: var(--status-free);
     }
 
     .rejected {
-      background: #ffeaed;
-      color: #de535e;
+      background: var(--status-danger-bg);
+      border-color: var(--status-danger-border);
+      color: var(--status-danger);
     }
 
     .cancelled {
       background: var(--sand);
+      border-color: var(--line);
       color: var(--muted);
     }
 
     .night-reason {
-      margin: 10px 0 0;
+      margin: 8px 0 0;
       color: var(--muted);
-      font-size: 11px;
-      line-height: 1.6;
+      font-size: 12px;
+      line-height: 1.55;
       overflow-wrap: anywhere;
     }
 

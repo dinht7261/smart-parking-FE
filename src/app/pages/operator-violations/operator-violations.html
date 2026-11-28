@@ -24,7 +24,9 @@
   <!-- THÔNG TIN -->
   <section class="demo-banner">
 
-    <span class="demo-icon">⚠️</span>
+    <span class="demo-icon" aria-hidden="true">
+      <app-icon name="alert-triangle" [size]="22" />
+    </span>
 
     <div>
 
@@ -95,7 +97,7 @@
 
       <div class="empty-state">
 
-        <div>✓</div>
+        <div aria-hidden="true"><app-icon name="check" [size]="30" /></div>
 
         <strong>Hiện không có trường hợp vi phạm</strong>
 
@@ -124,8 +126,8 @@
 
             <div class="vehicle-info">
 
-              <div class="vehicle-icon">
-                🚗
+              <div class="vehicle-icon" aria-hidden="true">
+                <app-icon name="car" [size]="20" />
               </div>
 
               <div>
@@ -141,8 +143,9 @@
             </div>
 
 
-            <span class="status-badge danger">
-              ⚠ VI PHẠM
+            <span class="status-badge danger inline-icon-text">
+              <app-icon name="alert-triangle" [size]="14" />
+              <span>VI PHẠM</span>
             </span>
 
           </div>
@@ -248,7 +251,7 @@
 
             <div class="result-title">
 
-              <span>⚠</span>
+              <span aria-hidden="true"><app-icon name="alert-triangle" [size]="16" /></span>
 
               <strong>
                 Chi tiết vi phạm

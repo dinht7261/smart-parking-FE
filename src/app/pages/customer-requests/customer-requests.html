@@ -62,7 +62,9 @@
 
       <div class="empty-state">
 
-        <div class="empty-icon">📋</div>
+        <div class="empty-icon" aria-hidden="true">
+          <app-icon name="clipboard" [size]="32" />
+        </div>
 
         <h3>Bạn chưa có yêu cầu</h3>
 
@@ -89,7 +91,9 @@
 
             <div class="vehicle-info">
 
-              <div class="vehicle-icon">🚗</div>
+              <div class="vehicle-icon" aria-hidden="true">
+                <app-icon name="car" [size]="20" />
+              </div>
 
               <div class="vehicle-text">
 
@@ -120,23 +124,23 @@
 
 @if (request.status === 'pending') {
 
-  ● Chờ duyệt
+  <span class="inline-icon-text"><app-icon name="hourglass" [size]="13" /><span>Chờ duyệt</span></span>
 
 } @else if (request.status === 'approved') {
 
-  ✓ Đã duyệt
+  <span class="inline-icon-text"><app-icon name="check" [size]="13" /><span>Đã duyệt</span></span>
 
 } @else if (request.status === 'rejected') {
 
-  ✕ Từ chối
+  <span class="inline-icon-text"><app-icon name="x" [size]="13" /><span>Từ chối</span></span>
 
 } @else if (request.status === 'checked_in') {
 
-  ✓ Xe đã Check-in
+  <span class="inline-icon-text"><app-icon name="check" [size]="13" /><span>Xe đã Check-in</span></span>
 
 } @else if (request.status === 'completed') {
 
-  ✓ Đã hoàn tất
+  <span class="inline-icon-text"><app-icon name="check" [size]="13" /><span>Đã hoàn tất</span></span>
 
 } @else {
 
@@ -183,7 +187,7 @@
 
             <div class="request-message pending-message">
 
-              <span>⏳</span>
+              <span aria-hidden="true"><app-icon name="hourglass" [size]="16" /></span>
 
               <p>
                 Yêu cầu đang chờ người điều hành phê duyệt.
@@ -235,7 +239,8 @@
                 class="cancel-request-btn"
                 (click)="askCancel(request.id)"
               >
-                ✕ Hủy yêu cầu
+                <app-icon name="x" [size]="15" />
+                <span>Hủy yêu cầu</span>
               </button>
 
             }
@@ -249,7 +254,7 @@
 
             <div class="request-message approved-message">
 
-              <span>✓</span>
+              <span aria-hidden="true"><app-icon name="check" [size]="16" /></span>
 
               <p>
                 Yêu cầu đã được chấp nhận.
@@ -267,7 +272,7 @@
 
             <div class="request-message rejected-message">
 
-              <span>✕</span>
+              <span aria-hidden="true"><app-icon name="x" [size]="16" /></span>
 
               <p>
                 Yêu cầu không được chấp nhận.
@@ -285,7 +290,7 @@
 
             <div class="request-message cancelled-message">
 
-              <span>○</span>
+              <span aria-hidden="true"><app-icon name="circle" [size]="15" /></span>
 
               <p>
                 Bạn đã hủy yêu cầu này.
@@ -324,9 +329,9 @@
 
   <a routerLink="/customer/spaces" class="parking-link">
 
-    Xem sơ đồ chỗ đỗ
+    <span>Xem sơ đồ chỗ đỗ</span>
 
-    <span>→</span>
+    <span aria-hidden="true"><app-icon name="arrow-right" [size]="18" /></span>
 
   </a>
 

@@ -31,6 +31,8 @@ import {
   firstOvernightWindow
 } from '../../services/overnight-window.util';
 
+import { AppIcon } from '../../components/app-icon/app-icon';
+
 @Component({
   selector: 'app-booking-request',
   standalone: true,
@@ -38,7 +40,8 @@ import {
   imports: [
     RouterLink,
     FormsModule,
-    DatePipe
+    DatePipe,
+    AppIcon
   ],
 
   templateUrl: './booking-request.html',

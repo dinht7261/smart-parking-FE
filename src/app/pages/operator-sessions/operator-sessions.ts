@@ -14,6 +14,8 @@ import {
   type ParkingSessionApiResponse
 } from '../../services/parking-session-api.service';
 
+import { AppIcon } from '../../components/app-icon/app-icon';
+
 // =====================================
 // BỘ LỌC PHIÊN GỬI XE
 // =====================================
@@ -61,7 +63,7 @@ interface OperatorSession {
 @Component({
   selector: 'app-operator-sessions',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, AppIcon],
   templateUrl: './operator-sessions.html',
   styleUrl: './operator-sessions.scss'
 })

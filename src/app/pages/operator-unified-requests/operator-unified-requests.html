@@ -67,8 +67,8 @@
 
   <section class="overnight-overview">
 
-    <span class="moon-icon">
-      🌙
+    <span class="moon-icon" aria-hidden="true">
+      <app-icon name="moon" [size]="22" />
     </span>
 
     <div>
@@ -127,8 +127,8 @@
 
       <div class="empty-state">
 
-        <div class="empty-icon">
-          📋
+        <div class="empty-icon" aria-hidden="true">
+          <app-icon name="clipboard" [size]="34" />
         </div>
 
         <strong>
@@ -155,8 +155,8 @@
 
         <div class="request-header">
 
-          <div class="vehicle-icon">
-            🚗
+          <div class="vehicle-icon" aria-hidden="true">
+            <app-icon name="car" [size]="20" />
           </div>
 
           <div class="vehicle-info">
@@ -230,8 +230,9 @@
 
             <div class="night-heading">
 
-              <strong>
-                🌙 Yêu cầu gửi xe qua đêm
+              <strong class="inline-icon-text">
+                <app-icon name="moon" [size]="15" />
+                <span>Yêu cầu gửi xe qua đêm</span>
               </strong>
 
               <span>
@@ -330,16 +331,17 @@
 
         @if (row.missingDates.length > 0) {
 
-          <div class="warning-note">
+          <div class="warning-note inline-icon-text">
+            <app-icon name="alert-triangle" [size]="16" />
+            <span>
+              Chưa có yêu cầu xin phép qua đêm
+              cho ngày:
 
-            ⚠ Chưa có yêu cầu xin phép qua đêm
-            cho ngày:
+              {{ row.missingDates.join(', ') }}.
 
-            {{ row.missingDates.join(', ') }}.
-
-            Booking này chưa được xác nhận
-            quyền gửi qua đêm cho các ngày trên.
-
+              Booking này chưa được xác nhận
+              quyền gửi qua đêm cho các ngày trên.
+            </span>
           </div>
 
         }
@@ -497,8 +499,8 @@
 
           <div class="request-header">
 
-            <div class="vehicle-icon">
-              🌙
+            <div class="vehicle-icon" aria-hidden="true">
+              <app-icon name="moon" [size]="20" />
             </div>
 
             <div class="vehicle-info">

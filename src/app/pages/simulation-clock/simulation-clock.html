@@ -43,7 +43,9 @@
     </div>
 
 
-    <div class="time-icon">🕒</div>
+    <div class="time-icon" aria-hidden="true">
+      <app-icon name="clock" [size]="30" />
+    </div>
 
     <strong class="current-time">
       {{ formatTime(clock.now()) }}
@@ -84,10 +86,11 @@
 
     <button
       type="button"
-      class="apply-button"
+      class="apply-button inline-icon-text"
       (click)="applyTime()"
     >
-      ✓ Áp dụng thời gian
+      <app-icon name="check" [size]="16" />
+      <span>Áp dụng thời gian</span>
     </button>
 
   </section>
@@ -111,7 +114,7 @@
       (click)="choosePreset(21, 45)"
     >
 
-      <span class="preset-icon green">✓</span>
+      <span class="preset-icon green" aria-hidden="true"><app-icon name="check" [size]="20" /></span>
 
       <span class="preset-text">
 
@@ -121,7 +124,7 @@
 
       </span>
 
-      <span class="preset-arrow">→</span>
+      <span class="preset-arrow" aria-hidden="true"><app-icon name="arrow-right" [size]="18" /></span>
 
     </button>
 
@@ -132,7 +135,7 @@
       (click)="choosePreset(22, 20)"
     >
 
-      <span class="preset-icon orange">⏱</span>
+      <span class="preset-icon orange" aria-hidden="true"><app-icon name="hourglass" [size]="20" /></span>
 
       <span class="preset-text">
 
@@ -142,7 +145,7 @@
 
       </span>
 
-      <span class="preset-arrow">→</span>
+      <span class="preset-arrow" aria-hidden="true"><app-icon name="arrow-right" [size]="18" /></span>
 
     </button>
 
@@ -153,7 +156,7 @@
       (click)="choosePreset(23, 30)"
     >
 
-      <span class="preset-icon red">🌙</span>
+      <span class="preset-icon red" aria-hidden="true"><app-icon name="moon" [size]="20" /></span>
 
       <span class="preset-text">
 
@@ -163,7 +166,7 @@
 
       </span>
 
-      <span class="preset-arrow">→</span>
+      <span class="preset-arrow" aria-hidden="true"><app-icon name="arrow-right" [size]="18" /></span>
 
     </button>
 
@@ -185,10 +188,12 @@
 
     <button
       type="button"
+      class="inline-icon-text"
       (click)="useRealTime()"
       [disabled]="!clock.isDemo()"
     >
-      ↺ Đặt lại
+      <app-icon name="rotate-ccw" [size]="14" />
+      <span>Đặt lại</span>
     </button>
 
   </section>
@@ -207,7 +212,10 @@
   <!-- LƯU Ý -->
   <div class="demo-note">
 
-    <strong>⚠️ Chỉ dành cho mô phỏng</strong>
+    <strong class="inline-icon-text">
+      <app-icon name="alert-triangle" [size]="15" />
+      <span>Chỉ dành cho mô phỏng</span>
+    </strong>
 
     <p>
       Đồng hồ này không thay đổi thời gian của điện thoại,
